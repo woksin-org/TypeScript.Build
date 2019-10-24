@@ -1,0 +1,14 @@
+
+[Javascript Modules]
+    [Primer]
+    https://www.jvandemo.com/a-10-minute-primer-to-javascript-modules-module-formats-module-loaders-and-module-bundlers/
+    
+https://stackoverflow.com/questions/51233240/how-are-umd-and-commonjs-cjs-package-folders-different-and-which-should-i-use
+https://www.freecodecamp.org/news/anatomy-of-js-module-systems-and-building-libraries-fadcd8dbd0e/
+https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/
+https://dev.to/iggredible/what-the-heck-are-cjs-amd-umd-and-esm-ikm
+
+Maybe transpile CJS for Node-only apps, ESM and UMD for Client and Client-Node apps ?
+
+[tsconfig]
+https://www.typescriptlang.org/docs/handbook/tsconfig-json.html

@@ -1,0 +1,56 @@
+{
+    "name": "@dolittle/typescript.build",
+    "version": "2.0.0",
+    "description": "Base build pipeline for Dolittle TypeScript projects",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dolittle-tools/TypeScript.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "publishConfig": {
+        "access": "public"
+    },
+    "files": [
+        "mocha.opts.js",
+        "lib",
+        "Source/**/*.d.ts",
+        "package.json",
+        "TSConfig/**"
+    ],
+    "scripts": {
+        "ts:cjs": "tsc -p tsconfig.json --declaration false",
+        "ts:typedefs": "tsc -p tsconfig.json --outDir ./Source --emitDeclarationOnly",
+        "ts:all": "yarn ts:cjs && yarn ts:typedefs",
+        "ts:clean": "rimraf ./Source/*.d.ts Source/**/*.d.ts lib",
+        "build": "yarn clean && yarn ts:all",
+        "clean": "rimraf dist && yarn ts:clean",
+        "prepublishOnly": "yarn build"
+    },
+    "dependencies": {
+        "@types/chai": "^4.1.7",
+        "@types/chai-as-promised": "^7.1.2",
+        "@types/mocha": "^5.2.6",
+        "@types/sinon": "^7.5.0",
+        "@types/sinon-chai": "^3.2.3",
+        "chai": "^4.2.0",
+        "chai-as-promised": "^7.1.1",
+        "glob": "^7.1.5",
+        "gulp": "^4.0.2",
+        "gulp-cli": "^2.2.0",
+        "gulp-notify": "^3.2.0",
+        "is-glob": "^4.0.1",
+        "mocha": "^6.1.4",
+        "module-alias": "^2.2.0",
+        "rimraf": "^3.0.0",
+        "sinon": "^7.3.2",
+        "sinon-chai": "^3.3.0",
+        "typescript": "^3.6.4"
+    },
+    "devDependencies": {
+        "@types/is-glob": "^4.0.1",
+        "@types/node": "^12.11.6",
+        "@types/rimraf": "^2.0.2",
+        "@types/yargs": "^13.0.3"
+    }
+}
