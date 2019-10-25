@@ -25,6 +25,8 @@ export class Project {
     private _workspacePackages: Package[] = []
 
     private _sourceFileGlobs: string[] = []
+    private _testFileGlobs: string[] = []
+    private _testSetupFileGlobs: string[] = []
 
     /**
      * Instantiates an instance of {Project}.
@@ -38,6 +40,8 @@ export class Project {
             this.createWorkspacePackages();
         }
         this.createSourceFileGlobs();
+        this.createTestFileGlobs();
+        this.createTestSetupFileGlobs();
     }
 
     get root() {
@@ -90,9 +94,22 @@ export class Project {
     }
 
     private createSourceFileGlobs() {
-        this._sourceFileGlobs = []
+        this.createGlobs(this._sourceFileGlobs, '**/*.ts');
+    }
+    private createTestFileGlobs() {
+        this.createGlobs(this._testFileGlobs, '**/for_*/**/!(given)/*.ts', '**/for_*/*.ts')
+    }
+    private createTestSetupFileGlobs() {
+        this.createGlobs(this._testSetupFileGlobs, '**/for_*/**/given/**/*.ts')
+    }
+
+    private createGlobs(globs: string[], ...globPatterns: string[]) {
+        globPatterns.forEach(globPattern => {
+            if (!isGlob(globPattern)) throw new Error(`'${globPattern}' is not a valid glob pattern`);
+        });
+        globs = []
         if (this.isWorkspace()) {
-            this._sourceFileGlobs.push("**/*.ts");
+            globs.push(...globPatterns);
         } 
         else {
             let sourceFolder: string | undefined;
@@ -104,17 +121,25 @@ export class Project {
                     break;
                 }
             }
-            if (sourceFolder === undefined) throw new Error(`No source folder matching any of: [${sourceFileFolderNames.join(', ')}] was found in under folder '${rootAbsolutePath}'`)
             
             if (this.hasWorkspaces()) {
+                if (sourceFolder === undefined) 
+                    throw new Error(`No source folder matching any of: [${sourceFileFolderNames.join(', ')}] was found in under folder '${rootAbsolutePath}'`)
                 this._workspacePackages.forEach(workspacePackage => {
-                    this._sourceFileGlobs.push(`${sourceFolder}/${path.basename(path.dirname(workspacePackage.path))}/**/*.ts`);
+                    globPatterns.forEach(globPattern => {
+                        globs.push(`${sourceFolder}/${path.basename(path.dirname(workspacePackage.path))}/${globPattern}`);
+
+                    })
                 });
             }
             else {
-               this._sourceFileGlobs.push(`${sourceFolder}/**/*.ts`)
+                if (sourceFolder === undefined) globs.push(...globPatterns);
+                else {
+                    globPatterns.forEach(globPattern => {
+                        globs.push(`${sourceFolder}/${globPattern}`);
+                    });
+                }
             } 
         } 
     }
-
 }
