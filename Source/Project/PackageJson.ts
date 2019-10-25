@@ -45,8 +45,9 @@ export class Package {
     /**
      * Instantiates an instance of {Package}.
      * @param {string} _packagePath Path to the package.json file absolute or relative from 
+     * @param {Package} [_rootPackage] The root {Package} if this {Package} is a yarn workspace
      */
-    constructor(private _packagePath: string) {
+    constructor(private _packagePath: string, private _rootPackage?: Package) {
         if (!fs.existsSync(this._packagePath)) throw new Error(`There is no package.json at path '${this._packagePath}'`);
         this._packageObject = JSON.parse(fs.readFileSync(this._packagePath) as any);
     }
@@ -66,7 +67,14 @@ export class Package {
     get packageObject() {
         return this._packageObject;
     }
-
+    /**
+     * Gets the root package for this yarn workspace
+     *
+     * @readonly
+     */
+    get rootPackage() {
+        return this._rootPackage;
+    }
     /**
      * Whether or not this is a private package
      *
@@ -81,8 +89,15 @@ export class Package {
      *
      * @returns
      */
-    isWorkspaces() {
+    hasWorkspaces() {
         return this._packageObject.workspaces !== undefined
     }
-
+    /**
+     * Whether or not this is a yarn workspace
+     *
+     * @returns
+     */
+    isWorkspace() {
+        return this._rootPackage !== undefined;
+    }
 }
