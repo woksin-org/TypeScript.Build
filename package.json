@@ -15,8 +15,7 @@
         "mocha.opts.js",
         "lib",
         "Source/**/*.d.ts",
-        "package.json",
-        "TSConfig/**"
+        "package.json"
     ],
     "scripts": {
         "ts:cjs": "tsc -p tsconfig.json --declaration false",
