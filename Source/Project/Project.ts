@@ -20,7 +20,7 @@ export const sourceFileFolderNames = [
  */
 export class Project {
     
-    private _root: string;
+    private _root: string
     private _rootPackage: Package
     private _workspacePackages: Package[] = []
 
@@ -30,10 +30,11 @@ export class Project {
 
     /**
      * Instantiates an instance of {Project}.
-     * @param {string} [root]
+     * @param {string} [root] The root folder of the project
      */
-    constructor() {
-        this._root = process.env.PWD || process.cwd();
+    constructor(root?: string) {
+        this._root = root !== undefined? path.resolve(root) 
+                        : process.env.PWD || process.cwd();
         this._rootPackage = new Package(this._root);
 
         if (this._rootPackage.hasWorkspaces) {
