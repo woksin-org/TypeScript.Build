@@ -11,6 +11,8 @@
     "publishConfig": {
         "access": "public"
     },
+    "main": "lib/index.js",
+    "types": "Source/index.d.ts",
     "files": [
         "mocha.opts.js",
         "lib",
