@@ -4,5 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
  // Project
-export * from './Project/PackageJson';
+export * from './Project/Package';
+export * from './Project/ProjectSources'
+export * from './Project/YarnWorkspace';
 export * from './Project/Project';
