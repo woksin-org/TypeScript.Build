@@ -16,7 +16,8 @@ import { Package } from "../internal";
  * @class Project
  */
 export class ProjectSources {
-    static get sourceFileFolderNames() { return ['Source','Features']; }
+    
+    static get sourceFileFolderNames() { return ['Source', 'Features']; }
     static get outputFolderName() { return 'Distribution'; }
 
     private _allSourceFilesGlobs: string[] = []
@@ -27,10 +28,12 @@ export class ProjectSources {
 
     private _compiledTestsGlob?: string
     private _outputFolder?: string
+    private _declarationsOutputFolder?: string
     private _tsConfig?: string
 
     constructor(private _rootFolder: string, private _workspacePackages: Package[] = []) {
         this.setOutputFolder();
+        this.setDeclarationsOutputFolder();
         this.setTsConfig();
         this.setCompiledTestsGlob();
         this.createAllSourceFileGlobs();
@@ -114,6 +117,15 @@ export class ProjectSources {
     }
 
     /**
+     * Gets the absolute path to the output folder for declaration files for this project. If this project has workspaces thi field is undefined.
+     *
+     * @readonly
+     */
+    get declarationsOutputFolder() {
+        return this._declarationsOutputFolder;
+    }
+
+    /**
      * Gets the absolute path to the tsconfig of this project. If this project has workspaces this field is undefined
      *
      * @readonly
@@ -125,6 +137,18 @@ export class ProjectSources {
     private setOutputFolder() {
         this._outputFolder = this._workspacePackages.length > 0?
                                 undefined : path.join(this._rootFolder, ProjectSources.outputFolderName);
+    }
+    setDeclarationsOutputFolder() {
+        let sourceFolder: string | undefined;
+        for (let folderName of ProjectSources.sourceFileFolderNames) {
+            let folderPath = path.join(this._rootFolder, folderName);
+            if (fs.existsSync(folderPath) && fs.statSync(folderPath).isDirectory()) {
+                sourceFolder = folderName;
+            }
+        }
+        let sourceFilesRoot = sourceFolder === undefined? this._rootFolder : path.join(this._rootFolder, sourceFolder);
+        this._declarationsOutputFolder = this._workspacePackages.length > 0?
+                                undefined : sourceFilesRoot;
     }
     private setCompiledTestsGlob() {
         this._compiledTestsGlob = this._workspacePackages.length > 0?
@@ -161,7 +185,6 @@ export class ProjectSources {
         globPatterns.forEach(globPattern => {
             if (!isGlob(globPattern)) throw new Error(`'${globPattern}' is not a valid glob pattern`);
         });
-        // Hsa workspacePackages => Do something, or else check Has Source, Features... => 
         if (this._workspacePackages.length > 0) {
             this._workspacePackages.forEach(workspacePackage => this.pushGlobs(workspacePackage.rootFolder, globs, globPatterns));
         }
