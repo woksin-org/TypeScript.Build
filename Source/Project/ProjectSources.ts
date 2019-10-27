@@ -27,9 +27,11 @@ export class ProjectSources {
 
     private _compiledTestsGlob?: string
     private _outputFolder?: string
+    private _tsConfig?: string
 
     constructor(private _rootFolder: string, private _workspacePackages: Package[] = []) {
         this.setOutputFolder();
+        this.setTsConfig();
         this.setCompiledTestsGlob();
         this.createAllSourceFileGlobs();
         this.createDeclarationFilesGlobs();
@@ -111,6 +113,15 @@ export class ProjectSources {
         return this._outputFolder;
     }
 
+    /**
+     * Gets the absolute path to the tsconfig of this project. If this project has workspaces this field is undefined
+     *
+     * @readonly
+     */
+    get tsConfig() {
+        return this._tsConfig;
+    }
+
     private setOutputFolder() {
         this._outputFolder = this._workspacePackages.length > 0?
                                 undefined : path.join(this._rootFolder, ProjectSources.outputFolderName);
@@ -119,7 +130,10 @@ export class ProjectSources {
         this._compiledTestsGlob = this._workspacePackages.length > 0?
                                 undefined : toUnixPath(`${path.join(this._rootFolder, ProjectSources.outputFolderName)}/**/for_*`);
     }
-
+    private setTsConfig() {
+        this._tsConfig = this._workspacePackages.length > 0?
+                                undefined : path.join(this._rootFolder, 'tsconfig.json');
+    }
     private createAllSourceFileGlobs() {
         this.createSourceFileGlobs(this._allSourceFilesGlobs, '**/*.ts');
     }
