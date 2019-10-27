@@ -54,10 +54,9 @@ export class Package {
         if (!fs.existsSync(this._path)) 
             throw new Error(`There is no package.json at path '${this._path}'`);
         
-        console.info(`Creating Package with rootPath: '${this._rootFolder}'`);
         this._packageObject = JSON.parse(fs.readFileSync(this._path) as any);
     }
-    
+
     /**
      * Gets the absolute path to the package.json
      *
