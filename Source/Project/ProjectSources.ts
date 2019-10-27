@@ -39,6 +39,15 @@ export class ProjectSources {
     }
 
     /**
+     * Gets the root folder
+     *
+     * @readonly
+     */
+    get rootFolder() {
+        return this._rootFolder;
+    }
+
+    /**
      * Gets the globs for all the source files in the project
      *
      * @readonly
