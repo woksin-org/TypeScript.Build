@@ -24,7 +24,7 @@ export class ProjectSources {
     private _testFileGlobs: string[] = []
     private _testSetupFileGlobs: string[] = []
     private _compiledFilesGlobs: string[] = []
-    
+
     private _compiledTestsGlob?: string
     private _outputFolder?: string
 
@@ -138,7 +138,6 @@ export class ProjectSources {
         globPatterns.forEach(globPattern => {
             if (!isGlob(globPattern)) throw new Error(`'${globPattern}' is not a valid glob pattern`);
         });
-        globs = [];
         // Hsa workspacePackages => Do something, or else check Has Source, Features... => 
         if (this._workspacePackages.length > 0) {
             this._workspacePackages.forEach(workspacePackage => this.pushGlobs(workspacePackage.rootFolder, globs, globPatterns));
