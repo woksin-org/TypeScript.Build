@@ -12,7 +12,7 @@
         "access": "public"
     },
     "main": "Distribution/index.js",
-    "types": "Source/index.d.ts",
+    "types": "Distribution/index.d.ts",
     "files": [
         "mocha.opts.js",
         "Distribution",
@@ -20,12 +20,9 @@
         "package.json"
     ],
     "scripts": {
-        "ts:cjs": "tsc -p tsconfig.json --declaration false",
-        "ts:typedefs": "tsc -p tsconfig.json --outDir ./Source --emitDeclarationOnly",
-        "ts:all": "yarn ts:cjs && yarn ts:typedefs",
-        "ts:clean": "rimraf ./Source/*.d.ts Source/**/*.d.ts lib",
-        "build": "yarn clean && yarn ts:all",
-        "clean": "rimraf dist && yarn ts:clean",
+        "ts:build": "tsc -p tsconfig.json",
+        "build": "yarn clean && yarn ts:build",
+        "clean": "rimraf Distribution",
         "prepublishOnly": "yarn build"
     },
     "dependencies": {
