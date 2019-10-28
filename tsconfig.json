@@ -6,8 +6,8 @@
       "@dolittle/typescript.build": ["Source/index.ts"]
     },
     "sourceRoot": "./Source",
-    "outDir": "Distribution",
-    "declarationDir": "Distribution",
+    "outDir": "./Distribution",
+    "declarationDir": "./Distribution",
     "lib": ["es2017"],
     "module": "commonjs",
     "target": "es2015",

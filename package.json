@@ -1,10 +1,10 @@
 {
     "name": "@dolittle/typescript.build",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "Base build pipeline for Dolittle TypeScript projects",
     "repository": {
         "type": "git",
-        "url": "https://github.com/dolittle-tools/TypeScript.git"
+        "url": "https://github.com/dolittle-tools/TypeScript.Build.git"
     },
     "author": "",
     "license": "ISC",

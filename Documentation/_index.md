@@ -9,7 +9,6 @@ repository: https://github.com/dolittle-tools/TypeScript.Build
 
 We have a common [Typescript Build Pipeline](https://www.github.com/dolittle-tools/TypeScript.Build) that bundles all the tools that we use for setting up our TypeScripts projects.
 
-Essentially all this package does is provide the dependencies you'd need for a typescript project using Mocha + Sinon + Chai for testing 
-as well as a pre-configured configuration for [Wallaby](https://wallabyjs.com/) and for running tests with [Mocha](https://mochajs.org/)
+Essentially all this package does is provide the building blocks you'd need for a typescript project using Mocha + Sinon + Chai for testing.
 
-Learn how to setup and use this [here](./setup)
+This package is just a building block in order for us to provide pre-configured build packages for building TypeScript libraries using gulp and node, and client applications using webpack.
