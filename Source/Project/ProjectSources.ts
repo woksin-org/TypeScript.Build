@@ -17,7 +17,7 @@ import { Package } from "../internal";
  */
 export class ProjectSources {
     
-    static get sourceFileFolderNames() { return ['Source', 'Features']; }
+    static get sourceFileFolderNames() { return ['Source']; }
     static get outputFolderName() { return 'Distribution'; }
 
     private _allSourceFilesGlobs: string[] = []
