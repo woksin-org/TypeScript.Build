@@ -4,12 +4,15 @@
 *--------------------------------------------------------------------------------------------*/
 import { Package, ProjectSources } from "../internal";
 
+/**
+ * Represents a yarn workspace 
+ *
+ * @export
+ * @class YarnWorkspace
+ */
 export class YarnWorkspace {
-    private _sources: ProjectSources
 
-    constructor(private _workspacePackage: Package) {
-        this._sources = new ProjectSources(_workspacePackage.rootFolder);
-    }
+    constructor(private _workspacePackage: Package, private _sources: ProjectSources) {}
 
     /**
      * Gets the {ProjectSources} for this yarn workspace

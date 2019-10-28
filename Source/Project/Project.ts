@@ -83,7 +83,9 @@ export class Project {
             if (isGlob(workspace)) {
                 glob.sync(workspace, {absolute: true, }).forEach(workspacePath => {
                     try {
-                        this._workspaces.push(new YarnWorkspace(new Package(workspacePath, this._rootPackage)));
+                        let workspacePackage = new Package(workspacePath, this._rootPackage);
+                        let workspaceSources = new ProjectSources(workspacePackage.rootFolder);
+                        this._workspaces.push(new YarnWorkspace(workspacePackage, workspaceSources));
                     } catch (error) {
                         throw Error(`Could not create YarnWorkspace for workspace at path '${workspacePath}'`);
                     }
@@ -91,7 +93,9 @@ export class Project {
             }
             else {
                 try {
-                    this._workspaces.push(new YarnWorkspace(new Package(workspace, this._rootPackage)));
+                    let workspacePackage = new Package(workspace, this._rootPackage);
+                    let workspaceSources = new ProjectSources(workspacePackage.rootFolder);
+                    this._workspaces.push(new YarnWorkspace(workspacePackage, workspaceSources));
                 } catch (error) {
                     throw Error(`Could not create YarnWorkspace for workspace at path '${workspace}'`);
                 }
