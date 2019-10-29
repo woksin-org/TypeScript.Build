@@ -5,6 +5,7 @@
 import path from 'path';
 import glob from 'glob';
 import isGlob from 'is-glob';
+import fs from 'fs';
 import { Package, ProjectSources, YarnWorkspace } from "../internal";
 
 /**
@@ -83,9 +84,11 @@ export class Project {
             if (isGlob(workspace)) {
                 glob.sync(workspace, {absolute: true, }).forEach(workspacePath => {
                     try {
-                        let workspacePackage = new Package(workspacePath, this._rootPackage);
-                        let workspaceSources = new ProjectSources(workspacePackage.rootFolder);
-                        this._workspaces.push(new YarnWorkspace(workspacePackage, workspaceSources));
+                        if (fs.statSync(workspacePath).isDirectory()) {
+                            let workspacePackage = new Package(workspacePath, this._rootPackage);
+                            let workspaceSources = new ProjectSources(workspacePackage.rootFolder);
+                            this._workspaces.push(new YarnWorkspace(workspacePackage, workspaceSources));
+                        }
                     } catch (error) {
                         throw Error(`Could not create YarnWorkspace for workspace at path '${workspacePath}'`);
                     }
@@ -93,9 +96,11 @@ export class Project {
             }
             else {
                 try {
-                    let workspacePackage = new Package(workspace, this._rootPackage);
-                    let workspaceSources = new ProjectSources(workspacePackage.rootFolder);
-                    this._workspaces.push(new YarnWorkspace(workspacePackage, workspaceSources));
+                    if (fs.statSync(workspace).isDirectory()) {
+                        let workspacePackage = new Package(workspace, this._rootPackage);
+                        let workspaceSources = new ProjectSources(workspacePackage.rootFolder);
+                        this._workspaces.push(new YarnWorkspace(workspacePackage, workspaceSources));
+                    }
                 } catch (error) {
                     throw Error(`Could not create YarnWorkspace for workspace at path '${workspace}'`);
                 }
