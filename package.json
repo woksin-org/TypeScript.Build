@@ -6,6 +6,7 @@
         "type": "git",
         "url": "https://github.com/dolittle-tools/TypeScript.Build.git"
     },
+    "homepage": "https://dolittle.io",
     "author": "",
     "license": "ISC",
     "publishConfig": {
