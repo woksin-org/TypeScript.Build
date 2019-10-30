@@ -152,7 +152,7 @@ export class ProjectSources {
     }
     private setCompiledTestsGlob() {
         this._compiledTestsGlob = this._workspacePackages.length > 0?
-                                undefined : toUnixPath(`${path.join(this._rootFolder, ProjectSources.outputFolderName)}/**/for_*`);
+                                undefined : toUnixPath(`${path.join(this._rootFolder, ProjectSources.outputFolderName)}/**/for_*/**/*.ts`);
     }
     private setTsConfig() {
         this._tsConfig = this._workspacePackages.length > 0?
