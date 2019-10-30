@@ -20,6 +20,7 @@ export class ProjectSources {
     static get sourceFileFolderNames() { return ['Source']; }
     static get outputFolderName() { return 'Distribution'; }
 
+    private _sourceFilesRoot!: string
     private _allSourceFilesGlobs: string[] = []
     private _declarationFilesGlobs: string[] = []
     private _testFileGlobs: string[] = []
@@ -32,6 +33,7 @@ export class ProjectSources {
     private _tsConfig?: string
 
     constructor(private _rootFolder: string, private _workspacePackages: Package[] = []) {
+        this.setSourceFilesRoot();
         this.setOutputFolder();
         this.setDeclarationsOutputFolder();
         this.setTsConfig();
@@ -50,6 +52,14 @@ export class ProjectSources {
      */
     get rootFolder() {
         return this._rootFolder;
+    }
+    /**
+     * Gets the root folder for the source files
+     *
+     * @readonly
+     */
+    get sourceFilesRoot() {
+        return this._sourceFilesRoot;
     }
 
     /**
@@ -133,12 +143,7 @@ export class ProjectSources {
     get tsConfig() {
         return this._tsConfig;
     }
-
-    private setOutputFolder() {
-        this._outputFolder = this._workspacePackages.length > 0?
-                                undefined : path.join(this._rootFolder, ProjectSources.outputFolderName);
-    }
-    setDeclarationsOutputFolder() {
+    private setSourceFilesRoot() {
         let sourceFolder: string | undefined;
         for (let folderName of ProjectSources.sourceFileFolderNames) {
             let folderPath = path.join(this._rootFolder, folderName);
@@ -146,9 +151,16 @@ export class ProjectSources {
                 sourceFolder = folderName;
             }
         }
-        let sourceFilesRoot = sourceFolder === undefined? this._rootFolder : path.join(this._rootFolder, sourceFolder);
+        this._sourceFilesRoot = sourceFolder === undefined? this._rootFolder : path.join(this._rootFolder, sourceFolder);
+    }
+    
+    private setOutputFolder() {
+        this._outputFolder = this._workspacePackages.length > 0?
+                                undefined : path.join(this._rootFolder, ProjectSources.outputFolderName);
+    }
+    setDeclarationsOutputFolder() {
         this._declarationsOutputFolder = this._workspacePackages.length > 0?
-                                undefined : sourceFilesRoot;
+                                undefined : path.join(this._rootFolder, ProjectSources.outputFolderName);
     }
     private setCompiledTestsGlob() {
         this._compiledTestsGlob = this._workspacePackages.length > 0?
@@ -189,15 +201,7 @@ export class ProjectSources {
             this._workspacePackages.forEach(workspacePackage => this.pushGlobs(workspacePackage.rootFolder, globs, globPatterns));
         }
         else {
-            let sourceFolder: string | undefined;
-            for (let folderName of ProjectSources.sourceFileFolderNames) {
-                let folderPath = path.join(this._rootFolder, folderName);
-                if (fs.existsSync(folderPath) && fs.statSync(folderPath).isDirectory()) {
-                    sourceFolder = folderName;
-                }
-            }
-            let sourceFilesRoot = sourceFolder === undefined? this._rootFolder : path.join(this._rootFolder, sourceFolder);
-            this.pushGlobs(sourceFilesRoot, globs, globPatterns);
+            this.pushGlobs(this.sourceFilesRoot, globs, globPatterns);
             
         }
     }
