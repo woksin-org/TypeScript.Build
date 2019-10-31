@@ -12,7 +12,7 @@ We have a common [Typescript Build Package](https://www.github.com/dolittle-tool
 Essentially all this package does is provide the building blocks you'd need for a TypeScript project using Mocha + Sinon + Chai for testing. We build upon this package and extend it in order to provide pre-configured build packages for building TypeScript libraries using gulp and node, and client applications using webpack.
 
 ## Project Structure Model
-The package, [@dolittle/typescript.build](https://www.npmjs.org/packages/@dolittle/typescript.build), exposes a class called *Project()* which, when constructed, generates a structure model of the typescript project from the *package.json* file at the given directory or the directory at the current working directory of the node instances that's running. It will then expose the essential package details and also crate absolute paths and glob-patterns for files you might be interested in like for example; source files, tests, build destination folder, etc...
+The package, [@dolittle/typescript.build](https://www.npmjs.com/package/@dolittle/typescript.build), exposes a class called *Project()* which, when constructed, generates a structure model of the typescript project from the *package.json* file at the given directory or the directory at the current working directory of the node instances that's running. It will then expose the essential package details and also crate absolute paths and glob-patterns for files you might be interested in like for example; source files, tests, build destination folder, etc...
 
 ### Project Structure Conventions
 To make the process of creating the project structure model it has to stick with a few, simple, conventions.
