@@ -101,4 +101,5 @@ export class Package {
     hasWorkspaces() {
         return this._packageObject.workspaces !== undefined;
     }
+
 }

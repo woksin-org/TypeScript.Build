@@ -80,7 +80,6 @@ export class ProjectSources {
         return this._compiledFilesGlobs;
     }
 
-
     /**
      * Gets the globs for the declaration files in the project
      *
@@ -143,6 +142,8 @@ export class ProjectSources {
     get tsConfig() {
         return this._tsConfig;
     }
+
+
     private setSourceFilesRoot() {
         let sourceFolder: string | undefined;
         for (let folderName of ProjectSources.sourceFileFolderNames) {
@@ -158,30 +159,38 @@ export class ProjectSources {
         this._outputFolder = this._workspacePackages.length > 0?
                                 undefined : path.join(this._rootFolder, ProjectSources.outputFolderName);
     }
-    setDeclarationsOutputFolder() {
+
+    private setDeclarationsOutputFolder() {
         this._declarationsOutputFolder = this._workspacePackages.length > 0?
                                 undefined : path.join(this._rootFolder, ProjectSources.outputFolderName);
     }
+
     private setCompiledTestsGlob() {
         this._compiledTestsGlob = this._workspacePackages.length > 0?
                                 undefined : toUnixPath(`${path.join(this._rootFolder, ProjectSources.outputFolderName)}/**/for_*/**/*.js`);
     }
+
     private setTsConfig() {
         this._tsConfig = this._workspacePackages.length > 0?
                                 undefined : path.join(this._rootFolder, 'tsconfig.json');
     }
+
     private createAllSourceFileGlobs() {
         this.createSourceFileGlobs(this._allSourceFilesGlobs, '**/*.ts');
     }
+
     private createDeclarationFilesGlobs() {
         this.createSourceFileGlobs(this._declarationFilesGlobs, '**/*.d.ts');
     }
+
     private createTestFileGlobs() {
         this.createSourceFileGlobs(this._testFileGlobs, '**/for_*/**/!(given)/*.ts', '**/for_*/*.ts')
     }
+
     private createTestSetupFileGlobs() {
         this.createSourceFileGlobs(this._testSetupFileGlobs, '**/for_*/**/given/**/*.ts')
     }
+
     private createCompiledFilesGlobs() {
         this._compiledFilesGlobs = [];
         if (this._workspacePackages.length > 0) {
@@ -205,6 +214,7 @@ export class ProjectSources {
             
         }
     }
+
     private pushGlobs(rootFolder: string, globs: string[], globPatterns: string[]) {
         globPatterns.forEach(globPattern => globs.push(`${toUnixPath(rootFolder)}/${globPattern}`));
     }
