@@ -1,6 +1,6 @@
 ---
-title: Typescript Build Pipeline
-description: Learn about our pipeline for building typescript applications
+title: Typescript Build
+description: Learn about the basic building block for building TypeScript applications
 keywords: Tools, typescript build pipeline 
 author: woksin
 weight: 1
