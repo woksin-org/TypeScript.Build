@@ -5,6 +5,7 @@ keywords: Tools, typescript build
 author: woksin
 weight: 1
 repository: https://github.com/dolittle-tools/TypeScript.Build
+aliases: /tooling/typescript-build-pipeline/
 ---
 
 We have a common [Typescript Build Package](https://www.github.com/dolittle-tools/TypeScript.Build) that bundles all the basic tools that we use for setting up our TypeScripts projects.
