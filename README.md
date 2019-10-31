@@ -1,5 +1,3 @@
-# Build
-
 This project represents a base build pipeline for TypeScript based projects.
 Everything that is common among any TypeScript project, be it a node or browser (client) based, is found here.
 
@@ -10,7 +8,7 @@ Which means that you normally shouldn't consume this package directly. You'd wan
 
 Currently we provide build packages for a small set of project-types:
 
-* [NodeJS Projects / Libraries](https://github.com/dolittle-tools/TypeScript.Build.Node)
+* [NodeJS Projects / Libraries](https://npmjs.org/package/@dolittle/typescript.build.node)
 * Browser using Webpack (In development)
 * Aurelia Client app using Webpack (In development)
 
