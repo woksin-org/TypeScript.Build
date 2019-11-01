@@ -6,7 +6,8 @@ import fs from 'fs';
 import isGlob from 'is-glob';
 import path from 'path';
 import toUnixPath from 'slash';
-import { Package } from "../internal";
+import { YarnWorkspace } from "../internal";
+import {  } from './YarnWorkspace';
 
 
 /**
@@ -17,32 +18,36 @@ import { Package } from "../internal";
  */
 export class ProjectSources {
     
-    static get sourceFileFolderNames() { return ['Source']; }
+    static get sourceFileFolderName() { return 'Source'; }
     static get outputFolderName() { return 'Distribution'; }
 
-    private _sourceFilesRoot!: string
-    private _allSourceFilesGlobs: string[] = []
-    private _declarationFilesGlobs: string[] = []
-    private _testFileGlobs: string[] = []
-    private _testSetupFileGlobs: string[] = []
-    private _compiledFilesGlobs: string[] = []
+    sourceFilesGlobPatterns = ['**/*.ts'];
+    declarationFilesGlobPatterns = ['**/*.d.ts'];
+    testFilesGlobPatterns = ['**/for_*/**/!(given)/*.ts', '**/for_*/*.ts'];
+    testSetupFilesGlobPatterns = ['**/for_*/**/given/**/*.ts'];
 
-    private _compiledTestsGlob?: string
+    private _sourceFilesRoot: string
     private _outputFolder?: string
-    private _declarationsOutputFolder?: string
     private _tsConfig?: string
 
-    constructor(private _rootFolder: string, private _workspacePackages: Package[] = []) {
-        this.setSourceFilesRoot();
-        this.setOutputFolder();
-        this.setDeclarationsOutputFolder();
-        this.setTsConfig();
-        this.setCompiledTestsGlob();
-        this.createAllSourceFileGlobs();
-        this.createDeclarationFilesGlobs();
-        this.createTestFileGlobs();
-        this.createTestSetupFileGlobs();
-        this.createCompiledFilesGlobs();
+    private _allSourceFilesGlobs: string[]
+    private _declarationFilesGlobs: string[]
+    private _testFileGlobs: string[]
+    private _testSetupFileGlobs: string[]
+    private _compiledFilesGlobs: string[]
+    private _compiledTestsGlobs: string[]
+
+    constructor(private _rootFolder: string, private _workspaces: YarnWorkspace[] = []) {
+        this._sourceFilesRoot = this.getSourceFilesRoot();
+        this._outputFolder = this.getOutputFolder();
+        this._tsConfig = this.getTsConfig();
+        
+        this._allSourceFilesGlobs = this.createSourceFileGlobs(...this.sourceFilesGlobPatterns);
+        this._declarationFilesGlobs = this.createCompiledFileGlobs(...this.declarationFilesGlobPatterns);
+        this._testFileGlobs = this.createSourceFileGlobs(...this.testFilesGlobPatterns);
+        this._testSetupFileGlobs = this.createSourceFileGlobs(...this.testSetupFilesGlobPatterns);
+        this._compiledFilesGlobs = this.createCompiledFileGlobs(...this.sourceFilesGlobPatterns);
+        this._compiledTestsGlobs = this.createCompiledFileGlobs(...this.testFilesGlobPatterns);
     }
 
     /**
@@ -108,12 +113,12 @@ export class ProjectSources {
     }
 
     /**
-     * Gets the glob for all compiled tests in the project. If this project has workspaces this field is undefined
+     * Gets the globs for all compiled tests in the project.
      *
      * @readonly
      */
     get compiledTestsGlobs() {
-        return this._compiledTestsGlob;
+        return this._compiledTestsGlobs;
     }
 
     /**
@@ -126,15 +131,6 @@ export class ProjectSources {
     }
 
     /**
-     * Gets the absolute path to the output folder for declaration files for this project. If this project has workspaces thi field is undefined.
-     *
-     * @readonly
-     */
-    get declarationsOutputFolder() {
-        return this._declarationsOutputFolder;
-    }
-
-    /**
      * Gets the absolute path to the tsconfig of this project. If this project has workspaces this field is undefined
      *
      * @readonly
@@ -143,79 +139,49 @@ export class ProjectSources {
         return this._tsConfig;
     }
 
-
-    private setSourceFilesRoot() {
-        let sourceFolder: string | undefined;
-        for (let folderName of ProjectSources.sourceFileFolderNames) {
-            let folderPath = path.join(this._rootFolder, folderName);
-            if (fs.existsSync(folderPath) && fs.statSync(folderPath).isDirectory()) {
-                sourceFolder = folderName;
-            }
-        }
-        this._sourceFilesRoot = sourceFolder === undefined? this._rootFolder : path.join(this._rootFolder, sourceFolder);
+    private getSourceFilesRoot() {
+        let sourceFolder = path.join(this._rootFolder, ProjectSources.sourceFileFolderName);
+        return fs.existsSync(sourceFolder) && fs.statSync(sourceFolder).isDirectory()? sourceFolder : this._rootFolder;
     }
     
-    private setOutputFolder() {
-        this._outputFolder = this._workspacePackages.length > 0?
-                                undefined : path.join(this._rootFolder, ProjectSources.outputFolderName);
+    private getOutputFolder() {
+        return this._workspaces.length > 0? undefined : path.join(this._rootFolder, ProjectSources.outputFolderName);
     }
 
-    private setDeclarationsOutputFolder() {
-        this._declarationsOutputFolder = this._workspacePackages.length > 0?
-                                undefined : path.join(this._rootFolder, ProjectSources.outputFolderName);
+    private getTsConfig() {
+        return this._workspaces.length > 0? undefined : path.join(this._rootFolder, 'tsconfig.json');
     }
-
-    private setCompiledTestsGlob() {
-        this._compiledTestsGlob = this._workspacePackages.length > 0?
-                                undefined : toUnixPath(`${path.join(this._rootFolder, ProjectSources.outputFolderName)}/**/for_*/**/*.js`);
-    }
-
-    private setTsConfig() {
-        this._tsConfig = this._workspacePackages.length > 0?
-                                undefined : path.join(this._rootFolder, 'tsconfig.json');
-    }
-
-    private createAllSourceFileGlobs() {
-        this.createSourceFileGlobs(this._allSourceFilesGlobs, '**/*.ts');
-    }
-
-    private createDeclarationFilesGlobs() {
-        this.createSourceFileGlobs(this._declarationFilesGlobs, '**/*.d.ts');
-    }
-
-    private createTestFileGlobs() {
-        this.createSourceFileGlobs(this._testFileGlobs, '**/for_*/**/!(given)/*.ts', '**/for_*/*.ts')
-    }
-
-    private createTestSetupFileGlobs() {
-        this.createSourceFileGlobs(this._testSetupFileGlobs, '**/for_*/**/given/**/*.ts')
-    }
-
-    private createCompiledFilesGlobs() {
-        this._compiledFilesGlobs = [];
-        if (this._workspacePackages.length > 0) {
-            this._workspacePackages.forEach(workspacePackage => {
-                this._compiledFilesGlobs.push(`${toUnixPath(path.join(workspacePackage.rootFolder, ProjectSources.outputFolderName))}/**`);
-            });
+    
+    private createCompiledFileGlobs(...globPatterns: string[]) {
+        if (this._workspaces.length > 0) {
+            let globs: string[] = []
+            this._workspaces.forEach(workspace => globs.concat(this.createProjectFileGlobs(workspace.sources.outputFolder!, globPatterns)));
+            return globs;
         } else {
-            this._compiledFilesGlobs.push(`${toUnixPath(path.join(this._rootFolder, ProjectSources.outputFolderName))}/**`);
+            return this.createProjectFileGlobs(this.outputFolder!, globPatterns)
         }
     }
 
-    private createSourceFileGlobs(globs: string[], ...globPatterns: string[]) {
+    private createSourceFileGlobs(...globPatterns: string[]) {
+        let globs = ['!**/node_modules/**/*'];
+
+        if (this._workspaces.length > 0)
+            this._workspaces.forEach(workspace => globs.concat(this.createProjectFileGlobs(workspace.sources.sourceFilesRoot, globPatterns)));
+        else 
+            globs.concat(this.createProjectFileGlobs(this.sourceFilesRoot, globPatterns));
+        return globs;
+    }
+
+    private createProjectFileGlobs(rootFolderAbsolutePath: string, globPatterns: string[]) {
         globPatterns.forEach(globPattern => {
             if (!isGlob(globPattern)) throw new Error(`'${globPattern}' is not a valid glob pattern`);
         });
-        if (this._workspacePackages.length > 0) {
-            this._workspacePackages.forEach(workspacePackage => this.pushGlobs(workspacePackage.rootFolder, globs, globPatterns));
-        }
-        else {
-            this.pushGlobs(this.sourceFilesRoot, globs, globPatterns);
-            
-        }
+        return this.getAbsoluteGlobs(rootFolderAbsolutePath, globPatterns);
     }
 
-    private pushGlobs(rootFolder: string, globs: string[], globPatterns: string[]) {
+    private getAbsoluteGlobs(rootFolder: string, globPatterns: string[]) {
+        let globs: string[] = [];
         globPatterns.forEach(globPattern => globs.push(`${toUnixPath(rootFolder)}/${globPattern}`));
+        return globs;
     }
 }

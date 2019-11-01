@@ -34,7 +34,7 @@ export class Project {
             this.createWorkspaces();
         }
         
-        this._sources = new ProjectSources(this._root, this._workspaces.map(_ => _.workspacePackage));
+        this._sources = new ProjectSources(this._root, this._workspaces);
     }
     /**
      * Gets the absolute path to the root folder
