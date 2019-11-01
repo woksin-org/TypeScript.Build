@@ -155,7 +155,7 @@ export class ProjectSources {
     private createCompiledFileGlobs(...globPatterns: string[]) {
         if (this._workspaces.length > 0) {
             let globs: string[] = []
-            this._workspaces.forEach(workspace => globs.concat(this.createProjectFileGlobs(workspace.sources.outputFolder!, globPatterns)));
+            this._workspaces.forEach(workspace => globs.push(...this.createProjectFileGlobs(workspace.sources.outputFolder!, globPatterns)));
             return globs;
         } else {
             return this.createProjectFileGlobs(this.outputFolder!, globPatterns)
@@ -166,9 +166,9 @@ export class ProjectSources {
         let globs = ['!**/node_modules/**/*'];
 
         if (this._workspaces.length > 0)
-            this._workspaces.forEach(workspace => globs.concat(this.createProjectFileGlobs(workspace.sources.sourceFilesRoot, globPatterns)));
+            this._workspaces.forEach(workspace => globs.push(...this.createProjectFileGlobs(workspace.sources.sourceFilesRoot, globPatterns)));
         else 
-            globs.concat(this.createProjectFileGlobs(this.sourceFilesRoot, globPatterns));
+            globs.push(...this.createProjectFileGlobs(this.sourceFilesRoot, globPatterns));
         return globs;
     }
 
