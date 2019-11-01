@@ -163,12 +163,14 @@ export class ProjectSources {
     }
 
     private createSourceFileGlobs(...globPatterns: string[]) {
-        let globs = ['!**/node_modules/**/*'];
+        let globs = [];
 
         if (this._workspaces.length > 0)
             this._workspaces.forEach(workspace => globs.push(...this.createProjectFileGlobs(workspace.sources.sourceFilesRoot, globPatterns)));
         else 
             globs.push(...this.createProjectFileGlobs(this.sourceFilesRoot, globPatterns));
+
+        globs.push('!**/node_modules/**/*');
         return globs;
     }
 
