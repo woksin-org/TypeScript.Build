@@ -171,7 +171,7 @@ export class ProjectSources {
         else 
             globs.push(...this.createProjectFileGlobs(this.sourceFilesRoot, globPatterns));
 
-        globs.push('!**/node_modules/**/*');
+        globs.push('!**/node_modules/**/*', `!${toUnixPath(this.rootFolder)}/wallaby.conf.js`, `!${toUnixPath(this.rootFolder)}/Gulpfile.js`, `!${toUnixPath(this.rootFolder)}/gulpfile.js`);
         return globs;
     }
 
