@@ -7,7 +7,6 @@ import isGlob from 'is-glob';
 import path from 'path';
 import toUnixPath from 'slash';
 import { YarnWorkspace } from "../internal";
-import {  } from './YarnWorkspace';
 
 
 /**
@@ -21,10 +20,12 @@ export class ProjectSources {
     static get sourceFileFolderName() { return 'Source'; }
     static get outputFolderName() { return 'Distribution'; }
 
-    sourceFilesGlobPatterns = ['**/*.ts'];
+    sourceFilesGlobPatterns = ['**/*.@(ts|js)'];
+    compiledSourceFilesGlobPatterns = ['**/*.js'];
     declarationFilesGlobPatterns = ['**/*.d.ts'];
-    testFilesGlobPatterns = ['**/for_*/**/!(given)/*.ts', '**/for_*/*.ts'];
-    testSetupFilesGlobPatterns = ['**/for_*/**/given/**/*.ts'];
+    testFilesGlobPatterns = ['**/for_*/**/!(given)/*.@(ts|js)', '**/for_*/*.@(ts|js)'];
+    compiledTestFilesGlobPatterns = ['**/for_*/**/!(given)/*.js', '**/for_*/*.js'];
+    testSetupFilesGlobPatterns = ['**/for_*/**/given/**/*.@(ts|js)'];
 
     private _sourceFilesRoot: string
     private _outputFolder?: string
@@ -46,8 +47,8 @@ export class ProjectSources {
         this._declarationFilesGlobs = this.createCompiledFileGlobs(...this.declarationFilesGlobPatterns);
         this._testFileGlobs = this.createSourceFileGlobs(...this.testFilesGlobPatterns);
         this._testSetupFileGlobs = this.createSourceFileGlobs(...this.testSetupFilesGlobPatterns);
-        this._compiledFilesGlobs = this.createCompiledFileGlobs(...this.sourceFilesGlobPatterns);
-        this._compiledTestsGlobs = this.createCompiledFileGlobs(...this.testFilesGlobPatterns);
+        this._compiledFilesGlobs = this.createCompiledFileGlobs(...this.compiledSourceFilesGlobPatterns);
+        this._compiledTestsGlobs = this.createCompiledFileGlobs(...this.compiledTestFilesGlobPatterns);
     }
 
     /**
