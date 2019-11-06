@@ -8,7 +8,10 @@ import path from 'path';
 import toUnixPath from 'slash';
 import { YarnWorkspace } from "../internal";
 
-
+export type Globs = {
+    includes: string[],
+    excludes: string[];
+}
 /**
  * Represents a project
  *
@@ -31,12 +34,12 @@ export class ProjectSources {
     private _outputFolder?: string
     private _tsConfig?: string
 
-    private _allSourceFilesGlobs: string[]
-    private _declarationFilesGlobs: string[]
-    private _testFileGlobs: string[]
-    private _testSetupFileGlobs: string[]
-    private _compiledFilesGlobs: string[]
-    private _compiledTestsGlobs: string[]
+    private _allSourceFilesGlobs: Globs
+    private _declarationFilesGlobs: Globs
+    private _testFileGlobs: Globs
+    private _testSetupFileGlobs: Globs
+    private _compiledFilesGlobs: Globs
+    private _compiledTestsGlobs: Globs
 
     constructor(private _rootFolder: string, private _workspaces: YarnWorkspace[] = []) {
         this._sourceFilesRoot = this.getSourceFilesRoot();
@@ -154,25 +157,26 @@ export class ProjectSources {
     }
     
     private createCompiledFileGlobs(...globPatterns: string[]) {
+        let includes: string[] = [];
         if (this._workspaces.length > 0) {
-            let globs: string[] = []
-            this._workspaces.forEach(workspace => globs.push(...this.createProjectFileGlobs(workspace.sources.outputFolder!, globPatterns)));
-            return globs;
+            this._workspaces.forEach(workspace => includes.push(...this.createProjectFileGlobs(workspace.sources.outputFolder!, globPatterns)));
+            return {includes, excludes: []} as Globs;
         } else {
-            return this.createProjectFileGlobs(this.outputFolder!, globPatterns)
+            includes.push(...this.createProjectFileGlobs(this.outputFolder!, globPatterns));
+            return {includes, excludes: []} as Globs;
         }
     }
 
     private createSourceFileGlobs(...globPatterns: string[]) {
-        let globs = [];
-
+        let includes: string[] = []
+        let excludes: string[] = []
         if (this._workspaces.length > 0)
-            this._workspaces.forEach(workspace => globs.push(...this.createProjectFileGlobs(workspace.sources.sourceFilesRoot, globPatterns)));
+            this._workspaces.forEach(workspace => includes.push(...this.createProjectFileGlobs(workspace.sources.sourceFilesRoot, globPatterns)));
         else 
-            globs.push(...this.createProjectFileGlobs(this.sourceFilesRoot, globPatterns));
+            includes.push(...this.createProjectFileGlobs(this.sourceFilesRoot, globPatterns));
 
-        globs.push('!**/node_modules/**/*', `!${toUnixPath(this.rootFolder)}/wallaby.conf.js`, `!${toUnixPath(this.rootFolder)}/Gulpfile.js`, `!${toUnixPath(this.rootFolder)}/gulpfile.js`);
-        return globs;
+        excludes.push('**/node_modules/**/*', `${toUnixPath(this.rootFolder)}/wallaby.conf.js`, `${toUnixPath(this.rootFolder)}/Gulpfile.js`, `${toUnixPath(this.rootFolder)}/gulpfile.js`);
+        return {includes, excludes} as Globs;
     }
 
     private createProjectFileGlobs(rootFolderAbsolutePath: string, globPatterns: string[]) {
