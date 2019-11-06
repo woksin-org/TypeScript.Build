@@ -23,7 +23,7 @@ export class ProjectSources {
     static get sourceFileFolderName() { return 'Source'; }
     static get outputFolderName() { return 'Distribution'; }
 
-    sourceFilesGlobPatterns = ['**/*.@(ts|js)'];
+    sourceFilesGlobPatterns = ['*.@(ts|js)', '!(node_modules)/**/*.@(ts|js)', '!(node_modules)/*.@(ts|js)'];
     compiledSourceFilesGlobPatterns = ['**/*.js'];
     declarationFilesGlobPatterns = ['**/*.d.ts'];
     testFilesGlobPatterns = ['**/for_*/**/!(given)/*.@(ts|js)', '**/for_*/*.@(ts|js)'];
