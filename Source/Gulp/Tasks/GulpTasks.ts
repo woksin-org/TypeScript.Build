@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import {TaskFunction} from 'undertaker';
 import gulp from 'gulp';
-import { YarnWorkspace } from '@dolittle/typescript.build';
+import { YarnWorkspace } from '../../internal';
 import { GulpContext, getCleanTasks, getBuildTasks, getTestTasks } from '../../internal';
 
 class GulpTasks {

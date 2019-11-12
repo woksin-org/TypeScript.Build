@@ -36,6 +36,8 @@ export class BuildTasks {
             task = gulp.series(getCleanTasks(this._context).cleanTask, this.createWorkspacesBuildTask());
         }
         else {
+            // if project is node
+            // else if project is webpack
             let projectSources = this._context.project.sources;
             let tsProject = gulpTypescript.createProject(projectSources.tsConfig!);
             let taskFunction: TaskFunction = done => {
@@ -63,6 +65,8 @@ export class BuildTasks {
         let streams: {stream: Readable, dest: string}[] = [];
 
         this._context.project.workspaces.forEach(workspace => {
+            // if workspace is node
+            // else if workspace is webpack
             let projectSources = workspace.sources;
             let tsProject = gulpTypescript.createProject(projectSources.tsConfig!);
             let taskFunction: TaskFunction = done => {

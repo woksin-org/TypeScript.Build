@@ -59,7 +59,6 @@
         "@types/gulp-sourcemaps": "^0.0.32",
         "@types/is-glob": "^4.0.1",
         "@types/is-valid-path": "^0.1.0",
-        "@types/node": "^12.11.6",
         "@types/rimraf": "^2.0.2"
     }
 }

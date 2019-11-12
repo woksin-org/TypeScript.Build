@@ -2,10 +2,9 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import {Project, ProjectSources} from '@dolittle/typescript.build';
 import fs from 'fs';
 import path from 'path';
-import { WallabySettingsCallback, SetupCallback, WallabySettings, WallabySetup } from '../internal';
+import { WallabySettingsCallback, SetupCallback, WallabySettings, WallabySetup, Project, ProjectSources } from '../internal';
 
 export function wallaby(settingsCallback?: WallabySettingsCallback, setupCallback?: SetupCallback) {
     return (wallaby: any) => {

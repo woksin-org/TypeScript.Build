@@ -2,7 +2,7 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import { Project } from '@dolittle/typescript.build';
+import { Project } from '../internal';
 /**
  * Build context
  */
