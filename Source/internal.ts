@@ -5,6 +5,7 @@
 // Project
 export * from './Project/NoPackageJson';
 export * from './Project/PathIsNotDirectory';
+export * from './Project/InvalidYarnWorkspace';
 export * from './Project/Package';
 export * from './Project/ProjectSources'
 export * from './Project/YarnWorkspace';
