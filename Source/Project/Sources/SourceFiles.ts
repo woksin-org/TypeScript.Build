@@ -125,7 +125,7 @@ export class SourceFiles {
 
         let excludePatterns = ['node_modules/**/*', '**/node_modules/**/*', 'wallaby.conf.js', 'Gulpfile.js', 'gulpfile.js'];
         excludePatterns.forEach(globPattern => {
-            globs.excludes.push({relative: globPattern, absolute: globAsAbsoluteGlob(this.root, globPattern)})
+            globs.excludes.push({relative: globPattern, absolute: globAsAbsoluteGlob(this._projectRootFolder, globPattern)})
         });
         return globs;
     }
