@@ -21,5 +21,5 @@ export class StaticFiles {
      */
     static staticSourceFilesGlobPatterns = toPatternsThatIgnoreNodeModules(`*${asPossibleFileExtensionsPattern(StaticFiles.NOT_STATIC_FILE_EXTENSIONS, true)}`)
 
-    static  staticOutputFilesGlobPatterns = `**/*${asPossibleFileExtensionsPattern(StaticFiles.NOT_STATIC_FILE_EXTENSIONS, true)}`
+    static  staticOutputFilesGlobPatterns = [`**/*${asPossibleFileExtensionsPattern(StaticFiles.NOT_STATIC_FILE_EXTENSIONS, true)}`];
 }
