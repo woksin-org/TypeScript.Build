@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import fs from 'fs';
 import path from 'path';
-import { WallabySettingsCallback, SetupCallback, WallabySettings, WallabySetup, Project, ProjectSources } from '../internal';
+import { WallabySettingsCallback, SetupCallback, WallabySettings, WallabySetup, Project, Sources } from '../internal';
 
 export function wallaby(settingsCallback?: WallabySettingsCallback, setupCallback?: SetupCallback) {
     return (wallaby: any) => {
@@ -21,8 +21,8 @@ export function wallaby(settingsCallback?: WallabySettingsCallback, setupCallbac
 
 function setNodePath(w: any, project: Project) {
     let nodePath: string = w.projectCacheDir;
-    if (fs.existsSync(path.join(project.sources.rootFolder, ProjectSources.sourceFileFolderName))) {
-        nodePath = path.join(nodePath, ProjectSources.sourceFileFolderName);
+    if (fs.existsSync(path.join(project.sources.root, Sources.sourceFileFolderName))) {
+        nodePath = path.join(nodePath, Sources.sourceFileFolderName);
     }
 
     process.env.NODE_PATH = nodePath;

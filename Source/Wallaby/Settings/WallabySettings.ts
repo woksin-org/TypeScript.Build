@@ -100,12 +100,12 @@ export class WallabySettings {
     }
     
     private globsAsRelativeGlobs(globs: string[]) {
-        return globs.map(glob => glob.replace(`${this._project.sources.rootFolder}${path.sep}`, ''))
+        return globs.map(glob => glob.replace(`${this._project.sources.root}${path.sep}`, ''))
     }
 
     private getRelativePathToSource() {
         let sourceFilesRoot = this._project.sources.sourceFilesRoot;
-        let root = this._project.sources.rootFolder;
+        let root = this._project.sources.root;
         return root === sourceFilesRoot? '' : sourceFilesRoot.replace(`${root}${path.sep}`, '');
     }
     

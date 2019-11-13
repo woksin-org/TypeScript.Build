@@ -7,7 +7,14 @@ export * from './Project/NoPackageJson';
 export * from './Project/PathIsNotDirectory';
 export * from './Project/InvalidYarnWorkspace';
 export * from './Project/Package';
-export * from './Project/ProjectSources'
+
+export * from './Project/Sources/NotValidGlob';
+export * from './Project/Sources/Globs';
+export * from './Project/Sources/StaticFiles';
+export * from './Project/Sources/SourceFiles';
+export * from './Project/Sources/OutputFiles';
+export * from './Project/Sources/Sources';
+
 export * from './Project/YarnWorkspace';
 export * from './Project/Project';
 
