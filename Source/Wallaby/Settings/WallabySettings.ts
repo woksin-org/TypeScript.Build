@@ -2,7 +2,7 @@
 *  Copyright (c) Dolittle. All rights reserved.
 *  Licensed under the MIT License. See LICENSE in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
-import path from 'path';
+import toUnixPath from 'slash';
 import { WallabySetup, Project } from "../../internal";
 
 type WallabyFilePattern = string | {
@@ -60,26 +60,26 @@ export class WallabySettings {
         this._files = [];
         this._files.push(...this.getBaseFiles());
         let sources = this._project.sources;
-        this.globsAsRelativeGlobs(sources.declarationFilesGlobs.includes).forEach(glob => this._files.push({pattern: glob, ignore: true}));
-        this.globsAsRelativeGlobs(sources.compiledFilesGlobs.includes).forEach(glob => this._files.push({pattern: glob, ignore: true}));
-        this.globsAsRelativeGlobs(sources.testFileGlobs.includes).forEach(glob => this._files.push({pattern: glob, ignore: true}));
-        this.globsAsRelativeGlobs(sources.testSetupFileGlobs.includes).forEach(glob => this._files.push({pattern: glob, instrument: false}))
-        this.globsAsRelativeGlobs(sources.sourceFileGlobs.includes).forEach(glob => this._files.push({pattern: glob}));
+        sources.outputFiles.declarationFilesGlobs.includes.map(_ => _.relative).forEach(glob => this._files.push({pattern: glob, ignore: true}));
+        sources.outputFiles.compiledFilesGlobs.includes.map(_ => _.relative).forEach(glob => this._files.push({pattern: glob, ignore: true}));
+        sources.sourceFiles.testFileGlobs.includes.map(_ => _.relative).forEach(glob => this._files.push({pattern: glob, ignore: true}));
+        sources.sourceFiles.testSetupFileGlobs.includes.map(_ => _.relative).forEach(glob => this._files.push({pattern: glob, instrument: false}))
+        sources.sourceFiles.sourceFileGlobs.includes.map(_ => _.relative).forEach(glob => this._files.push({pattern: glob}));
     }
 
     private createTests() {
         this._tests = [];
         let sources = this._project.sources;
-        this.globsAsRelativeGlobs(sources.declarationFilesGlobs.includes).forEach(glob => this._tests.push({pattern: glob, ignore: true}));
-        this.globsAsRelativeGlobs(sources.compiledFilesGlobs.includes).forEach(glob => this._tests.push({pattern: glob, ignore: true}));
-        this.globsAsRelativeGlobs(sources.testSetupFileGlobs.includes).forEach(glob => this._tests.push({pattern: glob, ignore: true}));
-        this.globsAsRelativeGlobs(sources.testFileGlobs.includes).forEach(glob => this._tests.push({pattern: glob}));
+        sources.outputFiles.declarationFilesGlobs.includes.map(_ => _.relative).forEach(glob => this._tests.push({pattern: glob, ignore: true}));
+        sources.outputFiles.compiledFilesGlobs.includes.map(_ => _.relative).forEach(glob => this._tests.push({pattern: glob, ignore: true}));
+        sources.sourceFiles.testSetupFileGlobs.includes.map(_ => _.relative).forEach(glob => this._tests.push({pattern: glob, ignore: true}));
+        sources.sourceFiles.testFileGlobs.includes.map(_ => _.relative).forEach(glob => this._tests.push({pattern: glob}));
     }
 
     private createCompilers() {
         this._compilers = {};
         let sources = this._project.sources;
-        this.globsAsRelativeGlobs(sources.sourceFileGlobs.includes).forEach(glob => {
+        sources.sourceFiles.sourceFileGlobs.includes.map(_ => _.relative).forEach(glob => {
             this._compilers[glob] = this._wallaby.compilers.typeScript({module: 'cjs', downlevelIteration: true, experimentalDecorators: true, esModuleInterop: true });
         });
     }
@@ -98,15 +98,12 @@ export class WallabySettings {
             { pattern: 'node_modules/@dolittle/typescript.build/**/*', instrument: false }
         ]);
     }
-    
-    private globsAsRelativeGlobs(globs: string[]) {
-        return globs.map(glob => glob.replace(`${this._project.sources.root}${path.sep}`, ''))
-    }
 
     private getRelativePathToSource() {
-        let sourceFilesRoot = this._project.sources.sourceFilesRoot;
-        let root = this._project.sources.root;
-        return root === sourceFilesRoot? '' : sourceFilesRoot.replace(`${root}${path.sep}`, '');
+        let sourceFilesRoot = toUnixPath(this._project.sources.sourceFiles.root);
+
+        let root = toUnixPath(this._project.sources.root);
+        return root === sourceFilesRoot? '' : sourceFilesRoot.replace(`${root}/`, '');
     }
     
 }

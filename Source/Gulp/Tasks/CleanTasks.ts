@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import rimraf from 'rimraf';
-import {TaskFunction} from 'undertaker';
+import { TaskFunction } from 'undertaker';
 import toUnixPath from 'slash';
 import { GulpContext, createTask } from '../../internal';
 
@@ -19,7 +19,7 @@ export class CleanTasks {
         if (this._cleanTask === undefined) {
             this._cleanTask = createTask(this._context, 'clean', true,  workspace => {
                 let projectSources = workspace !== undefined? workspace.sources : this._context.project.sources;
-                return done => rimraf(projectSources.outputFolder!, error => done(error));
+                return done => rimraf(projectSources.outputFiles.root!, error => done(error));
             });
         }
 
@@ -31,7 +31,7 @@ export class CleanTasks {
         if (this._testsCleanTask === undefined) {
             this._testsCleanTask = createTask(this._context, 'test-clean', true, workspace => {
                 let projectSources = workspace !== undefined? workspace.sources : this._context.project.sources;
-                return done => rimraf(`${toUnixPath(projectSources.outputFolder!)}/**/for_*`, error => done(error));
+                return done => rimraf(`${toUnixPath(projectSources.outputFiles.root!)}/**/for_*`, error => done(error));
             });
         }
     
