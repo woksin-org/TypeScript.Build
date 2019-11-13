@@ -2,8 +2,6 @@
 *  Copyright (c) Dolittle. All rights reserved.
 *  Licensed under the MIT License. See LICENSE in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
-import {Exception} from '@dolittle/tooling.common.utilities';
-
 /**
  * The exception that gets thrown when a glob pattern is not valid
  *
@@ -11,7 +9,7 @@ import {Exception} from '@dolittle/tooling.common.utilities';
  * @class NotValidGlob
  * @extends {Exception}
  */
-export class NotValidGlob extends Exception {
+export class NotValidGlob extends Error {
     /**
      * Instantiates an instance of {NotValidGlob}.
      * @param {string} pattern
