@@ -77,7 +77,7 @@ export class OutputFiles {
         }
         if (this._workspaces.length > 0) {
             this._workspaces.forEach(_ => {
-                globs.includes.push(...createGlobPatterns(_.sources.outputFiles.root!, globPatterns, toUnixPath(_.sources.sourceFiles.root.replace(this._projectRootFolder, ''))))
+                globs.includes.push(...createGlobPatterns(_.sources.outputFiles.root!, globPatterns, toUnixPath(_.sources.outputFiles.root!.replace(this._projectRootFolder, ''))))
             });
         } else {
             globs.includes.push(...createGlobPatterns(this.root!, globPatterns, OutputFiles.FOLDER_NAME));
