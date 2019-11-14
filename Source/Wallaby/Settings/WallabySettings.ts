@@ -3,7 +3,7 @@
 *  Licensed under the MIT License. See LICENSE in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 import toUnixPath from 'slash';
-import { WallabySetup, Project } from "../../internal";
+import { WallabySetup, Project, Sources } from "../../internal";
 
 type WallabyFilePattern = string | {
     pattern: string, 
@@ -59,51 +59,71 @@ export class WallabySettings {
     private createFiles() {
         this._files = [];
         this._files.push(...this.getBaseFiles());
-        let sources = this._project.sources;
-        sources.outputFiles.declarationFilesGlobs.includes.map(_ => _.relative).forEach(glob => this._files.push({pattern: glob, ignore: true}));
-        sources.outputFiles.compiledFilesGlobs.includes.map(_ => _.relative).forEach(glob => this._files.push({pattern: glob, ignore: true}));
-        sources.sourceFiles.testFileGlobs.includes.map(_ => _.relative).forEach(glob => this._files.push({pattern: glob, ignore: true}));
-        sources.sourceFiles.testSetupFileGlobs.includes.map(_ => _.relative).forEach(glob => this._files.push({pattern: glob, instrument: false}))
-        sources.sourceFiles.sourceFileGlobs.includes.map(_ => _.relative).forEach(glob => this._files.push({pattern: glob}));
+        if (this._project.workspaces.length > 0) {
+            this._project.workspaces.forEach(_ => this._files.push(...this.getFilesFromSources(_.sources)));   
+        }
+        else this._files.push(...this.getFilesFromSources(this._project.sources));
     }
 
     private createTests() {
         this._tests = [];
-        let sources = this._project.sources;
-        sources.outputFiles.declarationFilesGlobs.includes.map(_ => _.relative).forEach(glob => this._tests.push({pattern: glob, ignore: true}));
-        sources.outputFiles.compiledFilesGlobs.includes.map(_ => _.relative).forEach(glob => this._tests.push({pattern: glob, ignore: true}));
-        sources.sourceFiles.testSetupFileGlobs.includes.map(_ => _.relative).forEach(glob => this._tests.push({pattern: glob, ignore: true}));
-        sources.sourceFiles.testFileGlobs.includes.map(_ => _.relative).forEach(glob => this._tests.push({pattern: glob}));
+        if (this._project.workspaces.length > 0) {
+            this._project.workspaces.forEach(_ => this._tests.push(...this.getTestsFromSources(_.sources)));   
+        }
+        else this._tests.push(...this.getTestsFromSources(this._project.sources));
+    }
+
+
+    private getFilesFromSources(sources: Sources) {
+        let files: WallabyFilePattern[] = [];
+        let sourceRoot = toUnixPath(sources.sourceFiles.root);
+        let outputRoot = toUnixPath(sources.outputFiles.root!);
+        files.push({pattern: `${outputRoot}/**/*`, ignore: true});
+        files.push({pattern: `${sourceRoot}/**/for_*/**/!(given)/*.@(ts|js)`, ignore: true});
+        files.push({pattern: `${sourceRoot}/**/for_*/*.@(ts|js)`, ignore: true});
+        files.push({pattern: `${sourceRoot}/**/for_*/**/given/*.@(ts|js)`, instrument: false});
+        return files;
+
+    }
+
+    private getTestsFromSources(sources: Sources) {
+        let files: WallabyFilePattern[] = [];
+        let sourceRoot = toUnixPath(sources.sourceFiles.root);
+        let outputRoot = toUnixPath(sources.outputFiles.root!);
+        files.push({pattern: `${outputRoot}/**/*`, ignore: true});
+        files.push({pattern: `${sourceRoot}/**/for_*/**/given/*.@(ts|js)`, ignore: true});
+        files.push({pattern: `${sourceRoot}/**/for_*/*.@(ts|js)`});
+        files.push({pattern: `${sourceRoot}/**/for_*/**/!(given)/*.@(ts|js)`});
+        return files;
     }
 
     private createCompilers() {
-        this._compilers = {};
-        let sources = this._project.sources;
-        sources.sourceFiles.sourceFileGlobs.includes.map(_ => _.relative).forEach(glob => {
-            this._compilers[glob] = this._wallaby.compilers.typeScript({module: 'cjs', downlevelIteration: true, experimentalDecorators: true, esModuleInterop: true });
-        });
+        this._compilers = {
+            '**/*.@(js|ts)': this._wallaby.compilers.typeScript({//Should read and parse tsconfig
+                module: 'commonjs',
+                downlevelIteration: true,
+                allowJs: true,
+                experimentalDecorators: true,
+                esModuleInterop: true,
+                target: 'es6'
+            })
+        };
     }
 
     private getBaseFiles() {
-        let baseFiles = [{ pattern: 'package.json', instrument: false}];
+        let baseFiles: WallabyFilePattern[] = [{ pattern: 'package.json', instrument: false}];
         if (this._project.workspaces.length > 0) {
-            baseFiles.push({pattern: `${this.getRelativePathToSource()}/**/package.json`, instrument: false});
-            baseFiles.push({pattern: `${this.getRelativePathToSource()}/**/node_modules/**/*`, instrument: false});
+            this._project.workspaces.forEach(_ => {
+                baseFiles.push({pattern: `${_.sources.root}/node_modules/**/*`, ignore: true});
+                baseFiles.push({pattern: `${_.sources.root}/package.json`, instrument: false});
+            });
         }
         return baseFiles.concat([
-            { pattern: 'node_modules/chai/**/*', instrument: false},
-            { pattern: 'node_modules/chai-as-promised/**/*', instrument: false },
-            { pattern: 'node_modules/sinon/pkg/**/*', instrument: false },
-            { pattern: 'node_modules/sinon-chai/**/*', instrument: false },
-            { pattern: 'node_modules/@dolittle/typescript.build/**/*', instrument: false }
+            { pattern: 'node_modules/chai', instrument: false},
+            { pattern: 'node_modules/chai-as-promised', instrument: false },
+            { pattern: 'node_modules/sinon', instrument: false },
+            { pattern: 'node_modules/sinon-chai', instrument: false },
+            { pattern: 'node_modules/@dolittle/typescript.build', instrument: false }
         ]);
     }
-
-    private getRelativePathToSource() {
-        let sourceFilesRoot = toUnixPath(this._project.sources.sourceFiles.root);
-
-        let root = toUnixPath(this._project.sources.root);
-        return root === sourceFilesRoot? '' : sourceFilesRoot.replace(`${root}/`, '');
-    }
-    
 }

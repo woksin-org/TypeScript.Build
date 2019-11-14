@@ -36,7 +36,7 @@ export class SourceFiles {
      *
      * @static
      */
-    static filesToIgnore = ['wallaby.conf.js', 'Gulpfile.js', 'gulpfile.js', 'webpack.config.js', 'mocha.opts.js'];
+    static filesToIgnore = ['wallaby.conf.js', 'Gulpfile.js', 'gulpfile.js', 'webpack.config.js', 'mocha.opts.js', 'tsconfig.json', 'tsconfig.settings.json', 'package.json'];
 
     /**
      * The list of source file glob patterns
