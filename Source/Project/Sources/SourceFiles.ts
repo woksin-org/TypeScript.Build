@@ -32,6 +32,13 @@ export class SourceFiles {
     static get FILE_EXTENSIONS() { return ['ts', 'js'] }
 
     /**
+     * The list of files that should not be considered a part of the source files
+     *
+     * @static
+     */
+    static filesToIgnore = ['wallaby.conf.js', 'Gulpfile.js', 'gulpfile.js', 'webpack.config.js', 'mocha.opts.js'];
+
+    /**
      * The list of source file glob patterns
      *
      * @static
@@ -123,7 +130,7 @@ export class SourceFiles {
         });
         else globs.includes.push(...createGlobPatterns(this.root, globPatterns, this._underSourceFolder === true? SourceFiles.FOLDER_NAME : undefined));
 
-        let excludePatterns = ['node_modules/**/*', '**/node_modules/**/*', 'wallaby.conf.js', 'Gulpfile.js', 'gulpfile.js'];
+        let excludePatterns = ['node_modules/**/*', '**/node_modules/**/*', ...SourceFiles.filesToIgnore];
         excludePatterns.forEach(globPattern => {
             globs.excludes.push({relative: globPattern, absolute: globAsAbsoluteGlob(this._projectRootFolder, globPattern)})
         });
