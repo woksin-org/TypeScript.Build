@@ -76,8 +76,8 @@ export class WallabySettings {
 
     private getFilesFromSources(sources: Sources) {
         let files: WallabyFilePattern[] = [];
-        let sourceRoot = toUnixPath(sources.sourceFiles.root);
-        let outputRoot = toUnixPath(sources.outputFiles.root!);
+        let sourceRoot = this.pathAsRelativeGlobFromRoot(sources.sourceFiles.root);
+        let outputRoot = this.pathAsRelativeGlobFromRoot(sources.outputFiles.root!);
         files.push({pattern: `${outputRoot}/**/*`, ignore: true});
         files.push({pattern: `${sourceRoot}/**/for_*/**/!(given)/*.@(ts|js)`, ignore: true});
         files.push({pattern: `${sourceRoot}/**/for_*/*.@(ts|js)`, ignore: true});
@@ -88,8 +88,8 @@ export class WallabySettings {
 
     private getTestsFromSources(sources: Sources) {
         let files: WallabyFilePattern[] = [];
-        let sourceRoot = toUnixPath(sources.sourceFiles.root);
-        let outputRoot = toUnixPath(sources.outputFiles.root!);
+        let sourceRoot = this.pathAsRelativeGlobFromRoot(sources.sourceFiles.root);
+        let outputRoot = this.pathAsRelativeGlobFromRoot(sources.outputFiles.root!);
         files.push({pattern: `${outputRoot}/**/*`, ignore: true});
         files.push({pattern: `${sourceRoot}/**/for_*/**/given/*.@(ts|js)`, ignore: true});
         files.push({pattern: `${sourceRoot}/**/for_*/*.@(ts|js)`});
@@ -125,5 +125,11 @@ export class WallabySettings {
             { pattern: 'node_modules/sinon-chai', instrument: false },
             { pattern: 'node_modules/@dolittle/typescript.build', instrument: false }
         ]);
+    }
+
+    private pathAsRelativeGlobFromRoot(path: string) {
+        path = toUnixPath(path);
+        let root = toUnixPath(this._project.sources.root);
+        return root === path? '' : path.replace(`${root}/`, '');
     }
 }
