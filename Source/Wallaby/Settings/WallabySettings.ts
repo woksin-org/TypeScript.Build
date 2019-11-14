@@ -114,8 +114,9 @@ export class WallabySettings {
         let baseFiles: WallabyFilePattern[] = [{ pattern: 'package.json', instrument: false}];
         if (this._project.workspaces.length > 0) {
             this._project.workspaces.forEach(_ => {
-                baseFiles.push({pattern: `${_.sources.root}/node_modules/**/*`, ignore: true});
-                baseFiles.push({pattern: `${_.sources.root}/package.json`, instrument: false});
+                let root = this.pathAsRelativeGlobFromRoot(_.sources.root);
+                baseFiles.push({pattern: `${root}/node_modules`, ignore: true});
+                baseFiles.push({pattern: `${root}/package.json`, instrument: false});
             });
         }
         return baseFiles.concat([
