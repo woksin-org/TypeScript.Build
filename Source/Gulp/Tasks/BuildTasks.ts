@@ -2,10 +2,11 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+import path from 'path';
 import gulp from 'gulp';
 import gulpSourcemaps from 'gulp-sourcemaps';
 import gulpTypescript from 'gulp-typescript';
-import gulpWebpack from 'webpack-stream';
+import gutil from 'gulp-util';
 import { TaskFunction } from 'undertaker';
 import { GulpContext, getCleanTasks, createTask } from '../../internal'
 import { Readable } from 'stream';
@@ -40,7 +41,12 @@ export class BuildTasks {
             if (this._context.project.rootPackage.usesWebpack()) {
                 let taskFunction: TaskFunction = done => {
                     let webpackConfig = require(this._context.project.rootPackage.webpackConfigPath!);
-                    return gulpWebpack(webpackConfig).on('end', done);
+                    let webpack = require(path.join(this._context.project.root, 'node_modules', 'webpack'));
+                    webpack(webpackConfig, (error: Error, stats: any) => {
+                        if (error) throw new gutil.PluginError('webpack', error);
+                        gutil.log("[webpack]", stats.toString())
+                        done();
+                    });
                 }
 
                 taskFunction.displayName = `build:${this._context.project.rootPackage.packageObject.name}`;
@@ -83,7 +89,12 @@ export class BuildTasks {
             if (workspace.workspacePackage.usesWebpack()) {
                 let taskFunction: TaskFunction = done => {
                     let webpackConfig = require(workspace.workspacePackage.webpackConfigPath!);
-                    return gulpWebpack(webpackConfig).on('end', done);
+                    let webpack = require(path.join(this._context.project.root, 'node_modules', 'webpack'));
+                    webpack(webpackConfig, (error: Error, stats: any) => {
+                        if (error) throw new gutil.PluginError('webpack', error);
+                        gutil.log("[webpack]", stats.toString())
+                        done();
+                    });
                 }
 
                 taskFunction.displayName = `build:${workspace.workspacePackage.packageObject.name}`;
