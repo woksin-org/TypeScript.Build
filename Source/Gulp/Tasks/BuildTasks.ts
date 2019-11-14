@@ -40,13 +40,14 @@ export class BuildTasks {
         else {
             if (this._context.project.rootPackage.usesWebpack()) {
                 let taskFunction: TaskFunction = done => {
-                    let webpackConfig = require(this._context.project.rootPackage.webpackConfigPath!);
-                    let webpack = require(path.join(this._context.project.root, 'node_modules', 'webpack'));
-                    webpack(webpackConfig, (error: Error, stats: any) => {
-                        if (error) throw new gutil.PluginError('webpack', error);
-                        gutil.log("[webpack]", stats.toString())
-                        done();
-                    });
+                    done();
+                    // let webpackConfig = require(this._context.project.rootPackage.webpackConfigPath!);
+                    // let webpack = require(path.join(this._context.project.root, 'node_modules', 'webpack'));
+                    // webpack(webpackConfig, (error: Error, stats: any) => {
+                    //     if (error) throw new gutil.PluginError('webpack', error);
+                    //     gutil.log("[webpack]", stats.toString())
+                    //     done();
+                    // });
                 }
 
                 taskFunction.displayName = `build:${this._context.project.rootPackage.packageObject.name}`;
@@ -88,13 +89,14 @@ export class BuildTasks {
         this._context.project.workspaces.forEach(workspace => {
             if (workspace.workspacePackage.usesWebpack()) {
                 let taskFunction: TaskFunction = done => {
-                    let webpackConfig = require(workspace.workspacePackage.webpackConfigPath!);
-                    let webpack = require(path.join(this._context.project.root, 'node_modules', 'webpack'));
-                    webpack(webpackConfig, (error: Error, stats: any) => {
-                        if (error) throw new gutil.PluginError('webpack', error);
-                        gutil.log("[webpack]", stats.toString())
-                        done();
-                    });
+                    done();
+                    // let webpackConfig = require(workspace.workspacePackage.webpackConfigPath!);
+                    // let webpack = require(path.join(this._context.project.root, 'node_modules', 'webpack'));
+                    // webpack(webpackConfig, (error: Error, stats: any) => {
+                    //     if (error) throw new gutil.PluginError('webpack', error);
+                    //     gutil.log("[webpack]", stats.toString())
+                    //     done();
+                    // });
                 }
 
                 taskFunction.displayName = `build:${workspace.workspacePackage.packageObject.name}`;
