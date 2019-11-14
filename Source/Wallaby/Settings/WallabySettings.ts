@@ -82,6 +82,7 @@ export class WallabySettings {
         files.push({pattern: `${sourceRoot}/**/for_*/**/!(given)/*.@(ts|js)`, ignore: true});
         files.push({pattern: `${sourceRoot}/**/for_*/*.@(ts|js)`, ignore: true});
         files.push({pattern: `${sourceRoot}/**/for_*/**/given/*.@(ts|js)`, instrument: false});
+        files.push({pattern: `${sourceRoot}/**/*.@(ts|js)`});
         return files;
 
     }
