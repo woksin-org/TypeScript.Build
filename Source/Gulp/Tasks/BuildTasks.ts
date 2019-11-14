@@ -5,6 +5,7 @@
 import gulp from 'gulp';
 import gulpSourcemaps from 'gulp-sourcemaps';
 import gulpTypescript from 'gulp-typescript';
+import gulpWebpack from 'webpack-stream';
 import { TaskFunction } from 'undertaker';
 import { GulpContext, getCleanTasks, createTask } from '../../internal'
 import { Readable } from 'stream';
@@ -36,28 +37,38 @@ export class BuildTasks {
             task = gulp.series(getCleanTasks(this._context).cleanTask, this.createWorkspacesBuildTask(), this.createCopyStaticTask());
         }
         else {
-            let projectSources = this._context.project.sources;
-            let tsProject = gulpTypescript.createProject(projectSources.tsConfig!);
-            let sourceFiles = projectSources.sourceFiles.sourceFileGlobs.includes.map(_ => _.absolute);
-            let excludedSourceFiles = projectSources.sourceFiles.sourceFileGlobs.excludes.map(_ => _.absolute);
+            if (this._context.project.rootPackage.usesWebpack()) {
+                let taskFunction: TaskFunction = done => {
+                    let webpackConfig = require(this._context.project.rootPackage.webpackConfigPath!);
+                    return gulpWebpack(webpackConfig).on('end', done);
+                }
 
-            // TODO: if project is node
-            // else if project is webpack
-            let destination = projectSources.outputFiles.root!;
-            let taskFunction: TaskFunction = done => {
-                let tsResult = gulp.src(sourceFiles.concat(excludedSourceFiles.map(_ => '!' + _)))
-                    .pipe(gulpSourcemaps.init())
-                    .pipe(tsProject());
-                tsResult.dts
-                    .pipe(gulp.dest(destination));
-                return tsResult.js
-                    .pipe(gulpSourcemaps.write())
-                    .pipe(gulp.dest(destination))
-                    .on('end', _ => done())
-                    .on('error', err => done(err));
-            };
-            taskFunction.displayName = `build:${this._context.project.rootPackage.packageObject.name}`;
-            task = gulp.series(getCleanTasks(this._context).cleanTask, taskFunction, this.createCopyStaticTask());
+                taskFunction.displayName = `build:${this._context.project.rootPackage.packageObject.name}`;
+                task = gulp.series(getCleanTasks(this._context).cleanTask, taskFunction, this.createCopyStaticTask());
+            }
+            else {
+                let projectSources = this._context.project.sources;
+                let tsProject = gulpTypescript.createProject(projectSources.tsConfig!);
+                let sourceFiles = projectSources.sourceFiles.sourceFileGlobs.includes.map(_ => _.absolute);
+                let excludedSourceFiles = projectSources.sourceFiles.sourceFileGlobs.excludes.map(_ => _.absolute);
+
+                let destination = projectSources.outputFiles.root!;
+                let taskFunction: TaskFunction = done => {
+                    let tsResult = gulp.src(sourceFiles.concat(excludedSourceFiles.map(_ => '!' + _)))
+                        .pipe(gulpSourcemaps.init())
+                        .pipe(tsProject());
+                    tsResult.dts
+                        .pipe(gulp.dest(destination));
+                    return tsResult.js
+                        .pipe(gulpSourcemaps.write())
+                        .pipe(gulp.dest(destination))
+                        .on('end', _ => done())
+                        .on('error', err => done(err));
+                };
+                taskFunction.displayName = `build:${this._context.project.rootPackage.packageObject.name}`;
+                task = gulp.series(getCleanTasks(this._context).cleanTask, taskFunction, this.createCopyStaticTask());
+            }
+            
                 
         }
         task.displayName = 'build';
@@ -69,27 +80,37 @@ export class BuildTasks {
         let streams: {stream: Readable, dest: string}[] = [];
 
         this._context.project.workspaces.forEach(workspace => {
-            let projectSources = workspace.sources;
-            let tsProject = gulpTypescript.createProject(projectSources.tsConfig!);
-            let sourceFiles = projectSources.sourceFiles.sourceFileGlobs.includes.map(_ => _.absolute);
-            let excludedSourceFiles = projectSources.sourceFiles.sourceFileGlobs.excludes.map(_ => _.absolute);
-            // TODO: if workspace is node
-            // else if workspace is webpack
-            let destination = projectSources.outputFiles.root!;
-            let taskFunction: TaskFunction = done => {
-                let tsResult = gulp.src(sourceFiles.concat(excludedSourceFiles.map(_ => '!' + _)))
-                    .pipe(gulpSourcemaps.init())
-                    .pipe(tsProject());
-                    
-                streams.push({stream: tsResult.js, dest: destination});
-                streams.push({stream: tsResult.dts, dest: destination});
-                tsResult
-                    .on('end', _ => done())
-                    .on('error', err => done(err));
-                return tsResult;
-            };
-            taskFunction.displayName = `build:${workspace.workspacePackage.packageObject.name}`;
-            tasks.push(taskFunction);
+            if (workspace.workspacePackage.usesWebpack()) {
+                let taskFunction: TaskFunction = done => {
+                    let webpackConfig = require(workspace.workspacePackage.webpackConfigPath!);
+                    return gulpWebpack(webpackConfig).on('end', done);
+                }
+
+                taskFunction.displayName = `build:${workspace.workspacePackage.packageObject.name}`;
+                tasks.push(taskFunction);
+            }
+            else {
+                let projectSources = workspace.sources;
+                let tsProject = gulpTypescript.createProject(projectSources.tsConfig!);
+                let sourceFiles = projectSources.sourceFiles.sourceFileGlobs.includes.map(_ => _.absolute);
+                let excludedSourceFiles = projectSources.sourceFiles.sourceFileGlobs.excludes.map(_ => _.absolute);
+                
+                let destination = projectSources.outputFiles.root!;
+                let taskFunction: TaskFunction = done => {
+                    let tsResult = gulp.src(sourceFiles.concat(excludedSourceFiles.map(_ => '!' + _)))
+                        .pipe(gulpSourcemaps.init())
+                        .pipe(tsProject());
+                        
+                    streams.push({stream: tsResult.js, dest: destination});
+                    streams.push({stream: tsResult.dts, dest: destination});
+                    tsResult
+                        .on('end', _ => done())
+                        .on('error', err => done(err));
+                    return tsResult;
+                };
+                taskFunction.displayName = `build:${workspace.workspacePackage.packageObject.name}`;
+                tasks.push(taskFunction);
+            }
         });
         let writeFilesTask: TaskFunction = done => {
             let counter = 0;
@@ -114,6 +135,8 @@ export class BuildTasks {
     private createCopyStaticTask() {
         if (this._copyStaticTask === undefined) {
             this._copyStaticTask = createTask(this._context, 'copy', true,  workspace => {
+                let usesWebPack = workspace? workspace.workspacePackage.usesWebpack() : this._context.project.rootPackage.usesWebpack();
+                if (usesWebPack) return done => done();
                 let projectSources = workspace !== undefined? workspace.sources : this._context.project.sources;
                 let staticFiles = projectSources.sourceFiles.staticSourceFileGlobs.includes.map(_ => _.absolute);
                 let excludedStaticFiles = projectSources.sourceFiles.staticSourceFileGlobs.excludes.map(_ => _.absolute);
