@@ -13,6 +13,11 @@ import { YarnWorkspace, SourceFiles, OutputFiles } from "../../internal";
  */
 export class Sources {
 
+    /**
+     * Instantiates an instance of {Sources}.
+     * @param {string} _rootFolder
+     * @param {YarnWorkspace[]} [_workspaces=[]]
+     */
     constructor(private _rootFolder: string, private _workspaces: YarnWorkspace[] = []) {
         this.sourceFiles = new SourceFiles(this._rootFolder, this._workspaces);
         this.outputFiles = new OutputFiles(this._rootFolder, this._workspaces);
