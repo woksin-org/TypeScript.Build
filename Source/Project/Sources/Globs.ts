@@ -53,8 +53,8 @@ export function globAsAbsoluteGlob(rootFolder: string, glob: string) {
 export function toPatternsThatIgnoreNodeModules(pattern: string) {
     return [
         pattern,
-        `!(node_modules)/**/${pattern}`,
-        `!(node_modules)/${pattern}`
+        `**/!(node_modules)/**/${pattern}`,
+        `**/!(node_modules)/${pattern}`
     ];
 };
 
