@@ -19,7 +19,14 @@ export class CleanTasks {
         if (this._cleanTask === undefined) {
             this._cleanTask = createTask(this._context, 'clean', true,  workspace => {
                 let projectSources = workspace !== undefined? workspace.sources : this._context.project.sources;
-                return done => rimraf(projectSources.outputFiles.root!, error => done(error));
+                return done => {
+                    rimraf(projectSources.outputFiles.root!, error => done(error))
+                    let projectPackage = workspace? workspace.workspacePackage : this._context.project.rootPackage;
+                    if (projectPackage.usesWebpack()) {
+                        let wwwroot = require(projectPackage.webpackConfigPath!)().output.path;
+                        rimraf(wwwroot, error => done(error));
+                    }
+                };    
             });
         }
 
