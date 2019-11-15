@@ -5,7 +5,7 @@
 import fs from 'fs';
 import path from 'path';
 import toUnixPath from 'slash';
-import { YarnWorkspace, Globs, toPatternsThatIgnoreNodeModules, asPossibleFileExtensionsPattern, createGlobPatterns, globAsAbsoluteGlob, StaticFiles } from "../../internal";
+import { YarnWorkspace, Globs, toPatternsThatIgnoreNodeModules, asPossibleFileExtensionsPattern, createGlobPatterns, globAsAbsoluteGlob, StaticFiles, Package } from "../../internal";
 
 
 /**
@@ -73,7 +73,7 @@ export class SourceFiles {
      * @param {string} _projectRootFolder
      * @param {YarnWorkspace[]} [_workspaces=[]]
      */
-    constructor(private _projectRootFolder: string, private _workspaces: YarnWorkspace[] = []) {
+    constructor(private _projectRootFolder: string, private _rootPackage: Package, private _workspaces: YarnWorkspace[] = []) {
         this.root = this._projectRootFolder
         
         let sourceFolder = path.resolve(this._projectRootFolder, SourceFiles.FOLDER_NAME);
@@ -133,11 +133,20 @@ export class SourceFiles {
         });
         else globs.includes.push(...createGlobPatterns(this.root, globPatterns, this._underSourceFolder === true? SourceFiles.FOLDER_NAME : undefined));
 
-        let excludePatterns = ['node_modules/**/*', '**/node_modules/**/*', 'wwwroot', '**/wwwroot', 'Configurations', 'Scripts', ...SourceFiles.filesToIgnore];
+        let excludePatterns = ['node_modules/**/*', '**/node_modules/**/*', ...this.webpackSpecificExcludes, ...SourceFiles.filesToIgnore];
         excludePatterns.forEach(globPattern => {
             globs.excludes.push({relative: globPattern, absolute: globAsAbsoluteGlob(this._projectRootFolder, globPattern)})
         });
         return globs;
+    }
+
+    private get webpackSpecificExcludes() {
+        let excludes: string[] = [];
+        if (this._rootPackage.usesWebpack()) {
+            let outputFolder = path.basename(require(this._rootPackage.webpackConfigPath!)().output.path);
+            excludes.push(outputFolder, 'Configurations', 'Scripts')
+        }
+        return excludes
     }
     
 }

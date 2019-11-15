@@ -30,7 +30,7 @@ export class Project {
             this.createWorkspaces();
         }
         
-        this.sources = new Sources(this.root, this._workspaces);
+        this.sources = new Sources(this.root, this.rootPackage, this._workspaces);
     }
 
     /**
@@ -81,7 +81,7 @@ export class Project {
                     try {
                         if (fs.statSync(workspacePath).isDirectory()) {
                             let workspacePackage = new Package(workspacePath, this.rootPackage);
-                            let workspaceSources = new Sources(workspacePackage.rootFolder);
+                            let workspaceSources = new Sources(workspacePackage.rootFolder, workspacePackage);
                             this._workspaces.push(new YarnWorkspace(workspacePackage, workspaceSources));
                         }
                     } catch (error) {
@@ -93,7 +93,7 @@ export class Project {
                 try {
                     if (fs.statSync(workspace).isDirectory()) {
                         let workspacePackage = new Package(workspace, this.rootPackage);
-                        let workspaceSources = new Sources(workspacePackage.rootFolder);
+                        let workspaceSources = new Sources(workspacePackage.rootFolder, workspacePackage);
                         this._workspaces.push(new YarnWorkspace(workspacePackage, workspaceSources));
                     }
                 } catch (error) {
