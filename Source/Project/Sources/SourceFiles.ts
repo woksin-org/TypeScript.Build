@@ -32,6 +32,31 @@ export class SourceFiles {
     static get FILE_EXTENSIONS() { return ['ts', 'js'] }
 
     /**
+     * The patterns to exclude that are common to webpack projects
+     *
+     * @static
+     */
+    static webpackSpecificPatternsToExclude = [
+        'Configurations/**/*', 'Scripts/**/*'
+    ]
+
+    /**
+     * Gets the relative patterns to exclude that are specific for webpack based on the project package
+     *
+     * @static
+     * @param {Package} rootPackage
+     * @returns
+     */
+    static getWebpackSpecificExcludes(rootPackage: Package) {
+        let excludes: string[] = [];
+        if (rootPackage.usesWebpack()) {
+            let outputFolder = path.basename(require(rootPackage.webpackConfigPath!)().output.path);
+            excludes.push(`${outputFolder}/**/*`, ...SourceFiles.webpackSpecificPatternsToExclude)
+        }
+        return excludes
+    }
+
+    /**
      * The list of files that should not be considered a part of the source files
      *
      * @static
@@ -133,20 +158,11 @@ export class SourceFiles {
         });
         else globs.includes.push(...createGlobPatterns(this.root, globPatterns, this._underSourceFolder === true? SourceFiles.FOLDER_NAME : undefined));
 
-        let excludePatterns = ['node_modules/**/*', '**/node_modules/**/*', ...this.webpackSpecificExcludes, ...SourceFiles.filesToIgnore];
+        let excludePatterns = ['node_modules/**/*', '**/node_modules/**/*', ...SourceFiles.getWebpackSpecificExcludes(this._rootPackage), ...SourceFiles.filesToIgnore];
         excludePatterns.forEach(globPattern => {
             globs.excludes.push({relative: globPattern, absolute: globAsAbsoluteGlob(this._projectRootFolder, globPattern)})
         });
         return globs;
-    }
-
-    private get webpackSpecificExcludes() {
-        let excludes: string[] = [];
-        if (this._rootPackage.usesWebpack()) {
-            let outputFolder = path.basename(require(this._rootPackage.webpackConfigPath!)().output.path);
-            excludes.push(outputFolder, 'Configurations', 'Scripts')
-        }
-        return excludes
     }
     
 }

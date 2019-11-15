@@ -3,7 +3,7 @@
 *  Licensed under the MIT License. See LICENSE in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 import toUnixPath from 'slash';
-import { WallabySetup, Project, Sources } from "../../internal";
+import { WallabySetup, Project, Sources, SourceFiles } from "../../internal";
 
 type WallabyFilePattern = string | {
     pattern: string, 
@@ -14,9 +14,21 @@ type WallabyFilePattern = string | {
 export type WallabySettingsCallback = (wallaby: any, settings: any) => void;
 
 export class WallabySettings {
+    
+    static get INSTRUMENTED_NODE_MODULES() {
+        return [
+            'chai',
+            'chai-as-promised',
+            'sinon',
+            'sinon-chai',
+            '@dolittle/typescript.build'
+        ];
+    } 
+    
     private _files!: WallabyFilePattern[]
     private _tests!: WallabyFilePattern[]
     private _compilers!: any
+
 
     constructor(private _wallaby: any, private _project: Project, private _setup: WallabySetup, private  _settingsCallback?: WallabySettingsCallback) {
         this.createFiles();
@@ -58,7 +70,7 @@ export class WallabySettings {
 
     private createFiles() {
         this._files = [];
-        this._files.push(...this.getBaseFiles());
+        this._files.push(...this.getBaseIgnoredFiles(), ...this.getBaseInstrumentedFiles());
         if (this._project.workspaces.length > 0) {
             this._project.workspaces.forEach(_ => this._files.push(...this.getFilesFromSources(_.sources)));   
         }
@@ -66,7 +78,7 @@ export class WallabySettings {
     }
 
     private createTests() {
-        this._tests = [];
+        this._tests = this.getBaseIgnoredFiles();
         if (this._project.workspaces.length > 0) {
             this._project.workspaces.forEach(_ => this._tests.push(...this.getTestsFromSources(_.sources)));   
         }
@@ -111,23 +123,52 @@ export class WallabySettings {
         };
     }
 
-    private getBaseFiles() {
+    private getBaseInstrumentedFiles() {
         let baseFiles: WallabyFilePattern[] = [{ pattern: 'package.json', instrument: false}];
         if (this._project.workspaces.length > 0) {
             this._project.workspaces.forEach(_ => {
                 let root = this.pathAsRelativeGlobFromRoot(_.sources.root);
-                baseFiles.push({pattern: `${root}/node_modules`, ignore: true});
                 baseFiles.push({pattern: `${root}/package.json`, instrument: false});
             });
         }
-        return baseFiles.concat([
-            { pattern: 'node_modules/chai', instrument: false},
-            { pattern: 'node_modules/chai-as-promised', instrument: false },
-            { pattern: 'node_modules/sinon', instrument: false },
-            { pattern: 'node_modules/sinon-chai', instrument: false },
-            { pattern: 'node_modules/@dolittle/typescript.build', instrument: false }
-        ]);
+        return baseFiles.concat(WallabySettings.INSTRUMENTED_NODE_MODULES.map(_ => {
+            return {pattern: `node_modules/${_}`, instrument: false};
+        }));
     }
+
+    private getBaseIgnoredFiles() {
+        let baseFiles: WallabyFilePattern[] = [];
+        if (this._project.workspaces.length > 0) {
+            this._project.workspaces.forEach(_ => {
+                let root = this.pathAsRelativeGlobFromRoot(_.sources.root);
+                baseFiles.push({pattern: `${root}/node_modules`, ignore: true});
+                if (_.workspacePackage.usesWebpack()) {
+                    SourceFiles.getWebpackSpecificExcludes(_.workspacePackage).forEach(pattern => {
+                        baseFiles.push({pattern: `${root}/${pattern}`, ignore: true});
+                    });
+                }
+            });
+        }
+        else {
+            let rootPackage = this._project.rootPackage;
+            if (rootPackage.usesWebpack()) {
+                SourceFiles.getWebpackSpecificExcludes(rootPackage).forEach(pattern => {
+                    baseFiles.push({pattern, ignore: true});
+                });
+            }
+        }
+        let scopedPackages = WallabySettings.INSTRUMENTED_NODE_MODULES.filter(_ => _.startsWith('@'));
+        let unscopedPackages = WallabySettings.INSTRUMENTED_NODE_MODULES.filter(_ => !_.startsWith('@'));
+        baseFiles.push({pattern: `node_modules/!(${unscopedPackages.join('|')})`, ignore: true});
+        scopedPackages.forEach(_ => {
+            let splitPackage = _.split('/');
+            let scope = splitPackage[0], packageName = splitPackage[1];
+            baseFiles.push({pattern: `node_modules/${scope}/!(${packageName})`, ignore: true});
+        })
+        
+        return baseFiles;
+    }
+
 
     private pathAsRelativeGlobFromRoot(path: string) {
         path = toUnixPath(path);
