@@ -36,7 +36,10 @@ export class SourceFiles {
      *
      * @static
      */
-    static filesToIgnore = ['wallaby.conf.js', 'Gulpfile.js', 'gulpfile.js', 'webpack.config.js', 'mocha.opts.js', 'tsconfig.json', 'tsconfig.settings.json', 'package.json'];
+    static filesToIgnore = [
+        'wallaby.config.js','wallaby.conf.js', 'wallaby.js', 'Gulpfile.js', 'gulpfile.js', 'webpack.config.js', 'webpack.conf.js', 'webpack.js', 'webpack.prod.config.js', 'webpack.prod.conf.js', 'webpack.prod.js', 
+        'mocha.options.js', 'mocha.opts.js', 'mocha.js', 'run.js', 'nginx-default.conf', 'tsconfig.json', 'tsconfig.settings.json', 'package.json', 'package-lock.json', 'yarn.lock'
+    ];
 
     /**
      * The list of source file glob patterns
@@ -130,7 +133,7 @@ export class SourceFiles {
         });
         else globs.includes.push(...createGlobPatterns(this.root, globPatterns, this._underSourceFolder === true? SourceFiles.FOLDER_NAME : undefined));
 
-        let excludePatterns = ['node_modules/**/*', '**/node_modules/**/*', 'wwwroot', '**/wwwroot', ...SourceFiles.filesToIgnore];
+        let excludePatterns = ['node_modules/**/*', '**/node_modules/**/*', 'wwwroot', '**/wwwroot', 'Configurations', 'Scripts', ...SourceFiles.filesToIgnore];
         excludePatterns.forEach(globPattern => {
             globs.excludes.push({relative: globPattern, absolute: globAsAbsoluteGlob(this._projectRootFolder, globPattern)})
         });

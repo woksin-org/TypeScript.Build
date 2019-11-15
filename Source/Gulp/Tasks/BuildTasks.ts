@@ -27,7 +27,6 @@ export class BuildTasks {
         return this._buildTask;
     }
 
-
     get allTasks() {
         return [this.buildTask];
     }
