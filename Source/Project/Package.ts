@@ -5,6 +5,7 @@
 import fs from 'fs';
 import path from 'path';
 import isValidPath from 'is-valid-path';
+import { NoPackageJson, PathIsNotDirectory } from '../internal';
 
 export type PackageObject = {
     /**
@@ -35,26 +36,28 @@ export type PackageObject = {
  */
 export class Package {
 
-    static get PACKAGE_NAME() { return 'package.json' }
+    static get PACKAGE_NAME() { return 'package.json'; }
+    static get WEBPACK_CONFIG_NAME() {return 'webpack.config.js'; }
 
-    private _path: string
-    private _packageObject: PackageObject
-    
     /**
      * Instantiates an instance of {Package}.
      * @param {string} _rootFolder Path to the root of the project containing a package.json file 
      * @param {Package} [_parentPackage] The parent {Package} if this {Package} is a yarn workspace
      */
-    constructor(private _rootFolder: string, private _parentPackage?: Package) {
-        if (!isValidPath(this._rootFolder) || !fs.statSync(this._rootFolder).isDirectory())
-        throw new Error(`Package root directory '${this._rootFolder}' is not a valid directory`)
+    constructor(rootFolder: string, private _parentPackage?: Package) {
+        if (!isValidPath(rootFolder) || !fs.statSync(rootFolder).isDirectory())
+            throw new PathIsNotDirectory(rootFolder);
+        this.rootFolder = path.resolve(rootFolder);
+        this.path = path.join(rootFolder, Package.PACKAGE_NAME);
+        if (!fs.existsSync(this.path)) 
+            throw new NoPackageJson(this.path);
         
-        this._rootFolder = path.resolve(this._rootFolder);
-        this._path = path.resolve(path.join(this._rootFolder, Package.PACKAGE_NAME));
-        if (!fs.existsSync(this._path)) 
-            throw new Error(`There is no package.json at path '${this._path}'`);
-        
-        this._packageObject = JSON.parse(fs.readFileSync(this._path) as any);
+        this.packageObject = JSON.parse(fs.readFileSync(this.path) as any);
+
+        let webpackConfigPath = path.join(this.rootFolder, Package.WEBPACK_CONFIG_NAME);
+        if (fs.existsSync(webpackConfigPath)) {
+            this.webpackConfigPath = webpackConfigPath;
+        }
     }
 
     /**
@@ -62,27 +65,28 @@ export class Package {
      *
      * @readonly
      */
-    get path() {
-        return this._path;
-    }
+    readonly path: string
 
     /**
      * Gets the absolute path to the folder 
      *
      * @readonly
      */
-    get rootFolder() {
-        return this._rootFolder;
-    }
+    readonly rootFolder: string
 
     /**
      * Gets the package.json object
      *
      * @readonly
      */
-    get packageObject() {
-        return this._packageObject;
-    }
+    readonly packageObject: PackageObject
+
+    /**
+     * The path to the webpack configuration, if it exists
+     *
+     * @type {string}
+     */
+    readonly webpackConfigPath?: string
 
     /**
      * Gets the parent package for this yarn workspace
@@ -99,7 +103,15 @@ export class Package {
      * @returns
      */
     hasWorkspaces() {
-        return this._packageObject.workspaces !== undefined;
+        return this.packageObject.workspaces !== undefined;
     }
 
+    /**
+     * Whether or not this package uses webpack
+     *
+     * @returns
+     */
+    usesWebpack() {
+        return this.webpackConfigPath !== undefined
+    }
 }

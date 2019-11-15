@@ -2,7 +2,7 @@
 *  Copyright (c) Dolittle. All rights reserved.
 *  Licensed under the MIT License. See LICENSE in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
-import { Package, ProjectSources } from "../internal";
+import { Package, Sources } from "../internal";
 
 /**
  * Represents a yarn workspace 
@@ -12,7 +12,7 @@ import { Package, ProjectSources } from "../internal";
  */
 export class YarnWorkspace {
 
-    constructor(private _workspacePackage: Package, private _sources: ProjectSources) {}
+    constructor(private _workspacePackage: Package, private _sources: Sources) {}
 
     /**
      * Gets the {ProjectSources} for this yarn workspace
