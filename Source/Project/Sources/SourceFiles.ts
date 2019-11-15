@@ -130,7 +130,7 @@ export class SourceFiles {
         });
         else globs.includes.push(...createGlobPatterns(this.root, globPatterns, this._underSourceFolder === true? SourceFiles.FOLDER_NAME : undefined));
 
-        let excludePatterns = ['node_modules/**/*', '**/node_modules/**/*', ...SourceFiles.filesToIgnore];
+        let excludePatterns = ['node_modules/**/*', '**/node_modules/**/*', 'wwwroot', '**/wwwroot', ...SourceFiles.filesToIgnore];
         excludePatterns.forEach(globPattern => {
             globs.excludes.push({relative: globPattern, absolute: globAsAbsoluteGlob(this._projectRootFolder, globPattern)})
         });
