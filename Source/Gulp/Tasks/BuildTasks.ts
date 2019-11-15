@@ -38,7 +38,7 @@ export class BuildTasks {
             task = gulp.series(getCleanTasks(this._context).cleanTask, this.createWorkspacesBuildTask(), this.createCopyStaticTask());
         }
         else {
-            if (this._context.project.rootPackage.usesWebpack()) {
+            if (/*this._context.project.rootPackage.usesWebpack()*/ false) {
                 let taskFunction: TaskFunction = done => {
                     done();
                     // let webpackConfig = require(this._context.project.rootPackage.webpackConfigPath!);
@@ -87,7 +87,7 @@ export class BuildTasks {
         let streams: {stream: Readable, dest: string}[] = [];
 
         this._context.project.workspaces.forEach(workspace => {
-            if (workspace.workspacePackage.usesWebpack()) {
+            if (/*workspace.workspacePackage.usesWebpack()*/ false) {
                 let taskFunction: TaskFunction = done => {
                     done();
                     // let webpackConfig = require(workspace.workspacePackage.webpackConfigPath!);
