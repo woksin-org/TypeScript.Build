@@ -1,6 +1,6 @@
 {
     "name": "@dolittle/typescript.build",
-    "version": "5.0.0",
+    "version": "5.0.1",
     "description": "Base build pipeline for Dolittle TypeScript projects",
     "repository": {
         "type": "git",
