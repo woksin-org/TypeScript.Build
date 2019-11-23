@@ -4,13 +4,8 @@ Everything that is common among any TypeScript project, be it a node or browser 
 ## Using it
 
 The idea is that this package serves as a foundation to build specific tools for building node and browser applications.
-Which means that you normally shouldn't consume this package directly. You'd want to consume the higher-level build packages specific to building certain kinds of projects.
 
-Currently we provide build packages for a small set of project-types:
-
-* [NodeJS Projects / Libraries](https://npmjs.org/package/@dolittle/typescript.build.node)
-* Browser using Webpack (In development)
-* Aurelia Client app using Webpack (In development)
+Read the documentation [here](https://dolittle.io/tooling/typescript/build)
 
 ## Dependencies
 
