@@ -53,6 +53,6 @@ You don't need to have all these scripts, unless you're using the Dolittle Azure
 
 
 {{% notice info %}}
---gulpfile must point to the Gulpfile.js file in the @dolittle/typescript.build.node package.
+--gulpfile must point to the Gulpfile.js file in the @dolittle/typescript.build package.
 {{% /notice %}}
 

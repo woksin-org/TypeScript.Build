@@ -12,7 +12,7 @@ To use the TypeScript Build Pipeline, all you have to do is to add this dependen
 
 ```json
 "devDependencies": {
-    "@dolittle/typescript.build": "^4.0.0"
+    "@dolittle/typescript.build": "^5.0.0"
 }
 ```
 
@@ -21,6 +21,7 @@ We have [examples](https://github.com/dolittle-tools/TypeScript.Build/tree/maste
 {{% notice info%}}
 Having [Yarn](https://yarnpkg.com/lang/en/) globally installed is a pre-requisite to fully utilize this build pipeline solution.
 
+
 ```bash
 npm i -g yarn
 ```
@@ -28,10 +29,11 @@ npm i -g yarn
 
 
 {{% notice info%}}
-All the source files must be sitting in a folder called 'Source'. Follow the structure given in the [examples](https://github.com/dolittle-tools/TypeScript.Build/tree/master/Examples) 
+It is required to have a tsconfig.json and package.json in every package. 
+
+All the source files must be sitting in a folder called 'Source'. Follow the structure given in the [examples](https://github.com/dolittle-tools/TypeScript.Build/tree/master/Examples)
+
+We recommend to have similar configurations (package.json, tsconfig.json) as the one provided under the [examples](https://github.com/dolittle-tools/TypeScript.Build/tree/master/Examples) of the project structure you want to use. The you're also free to override 'compilerOptions' settings yourself if you wish to, for example if you need to target a specific version of EcmaScript or need to allow javascript files.
 {{% /notice %}}
 
-{{% notice info%}}
-We recommend to have similar configurations (package.json, tsconfig.json) as the one provided under the [examples](https://github.com/dolittle-tools/TypeScript.Build/tree/master/Examples) of the project structure you want to use.
-{{% /notice %}}
 

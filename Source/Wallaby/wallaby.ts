@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import fs from 'fs';
 import path from 'path';
-import { WallabySettingsCallback, SetupCallback, WallabySettings, WallabySetup, Project, Sources, SourceFiles } from '../internal';
+import { WallabySettingsCallback, SetupCallback, WallabySettings, WallabySetup, Project, SourceFiles } from '../internal';
 
 export function wallaby(settingsCallback?: WallabySettingsCallback, setupCallback?: SetupCallback) {
     return (wallaby: any) => {
