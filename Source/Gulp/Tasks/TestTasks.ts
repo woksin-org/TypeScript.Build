@@ -22,7 +22,7 @@ export class TestTasks {
                 let compiledTests = projectSources.outputFiles.compiledTestsGlobs.includes.map(_ => _.absolute);
                 let excludedCompiledTests = projectSources.outputFiles.compiledTestsGlobs.excludes.map(_ => _.absolute);
                 return done => gulp.src(compiledTests.concat(excludedCompiledTests.map(_ => '!' + _)), {read: false})
-                                .pipe(gulpMocha({reporter: 'spec', require: ['@dolittle/typescript.build/mocha.opts']}))
+                                .pipe(gulpMocha({reporter: 'spec', require: ['@dolittle/typescript.build/mocha.opts', 'jsdom-global/register']}))
                                 .on('end', done);
             });
         }
