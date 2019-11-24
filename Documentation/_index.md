@@ -1,5 +1,5 @@
 ---
-title: Typescript Build
+title: Build
 description: Learn about our build package for TypeScript
 keywords: Tools, typescript, build
 author: woksin

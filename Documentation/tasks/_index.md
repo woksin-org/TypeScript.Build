@@ -1,5 +1,5 @@
 ---
-title: Tasks
+title: Gulp Tasks
 description: Learn about the gulp tasks
 keywords: Tools, typescript, build, tasks
 author: woksin
