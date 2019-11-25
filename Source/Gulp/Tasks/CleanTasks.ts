@@ -21,14 +21,14 @@ export class CleanTasks {
                 let projectSources = workspace !== undefined? workspace.sources : this._context.project.sources;
                 return done => {
                     let outputFolder = projectSources.outputFiles.root!;
-                    let projectPackage = workspace? workspace.workspacePackage : this._context.project.rootPackage;
-                    if (projectPackage.usesWebpack()) {
-                        let wwwroot = require(projectPackage.webpackConfigPath!)().output.path;
-                        return del([outputFolder, wwwroot])
-                            .then(_ => done())
-                            .catch(error => done(error));
-                    }
-                    else return del(outputFolder)
+                    // if (projectPackage.usesWebpack()) {
+                    //     let wwwroot = require(projectPackage.webpackConfigPath!)().output.path;
+                    //     return del([outputFolder, wwwroot])
+                    //         .then(_ => done())
+                    //         .catch(error => done(error));
+                    // }
+                    // else 
+                    return del(outputFolder)
                         .then(_ => done())
                         .catch(error => done(error));
                 };    
