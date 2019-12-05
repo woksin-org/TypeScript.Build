@@ -173,6 +173,6 @@ export class WallabySettings {
     private pathAsRelativeGlobFromRoot(path: string) {
         path = toUnixPath(path);
         let root = toUnixPath(this._project.sources.root);
-        return root === path? '' : path.replace(`${root}/`, '');
+        return root === path? '.' : path.replace(`${root}/`, '');
     }
 }
