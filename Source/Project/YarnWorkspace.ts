@@ -2,10 +2,10 @@
 *  Copyright (c) Dolittle. All rights reserved.
 *  Licensed under the MIT License. See LICENSE in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
-import { Package, Sources } from "../internal";
+import { Package, Sources } from '../internal';
 
 /**
- * Represents a yarn workspace 
+ * Represents a yarn workspace
  *
  * @export
  * @class YarnWorkspace

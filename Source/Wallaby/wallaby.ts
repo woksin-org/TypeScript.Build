@@ -8,11 +8,11 @@ import { WallabySettingsCallback, SetupCallback, WallabySettings, WallabySetup, 
 
 export function wallaby(settingsCallback?: WallabySettingsCallback, setupCallback?: SetupCallback) {
     return (wallaby: any) => {
-        let project = new Project(process.cwd());
-        let setup = new WallabySetup(wallaby, project, setupCallback)
-        let settings = new WallabySettings(wallaby, project, setup, settingsCallback);
-        
-        setNodePath(wallaby, project)
+        const project = new Project(process.cwd());
+        const setup = new WallabySetup(wallaby, project, setupCallback);
+        const settings = new WallabySettings(wallaby, project, setup, settingsCallback);
+
+        setNodePath(wallaby, project);
 
         if (typeof settingsCallback === 'function') settingsCallback(wallaby, settings);
         return settings.settings;
@@ -21,7 +21,7 @@ export function wallaby(settingsCallback?: WallabySettingsCallback, setupCallbac
 
 function setNodePath(w: any, project: Project) {
     let nodePath: string = w.projectCacheDir;
-    let sourcePath = path.join(project.sources.root, SourceFiles.FOLDER_NAME);
+    const sourcePath = path.join(project.sources.root, SourceFiles.FOLDER_NAME);
     if (project.workspaces.length > 1 && fs.existsSync(sourcePath)) {
         nodePath = path.join(nodePath, SourceFiles.FOLDER_NAME);
     }

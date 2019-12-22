@@ -16,6 +16,6 @@ export class InvalidYarnWorkspace extends Error {
      * @param {string} path
      */
     constructor(path: string, innerError?: Error) {
-        super(`Could not create YarnWorkspace structure. Invalid yarn workspace at path '${path}'. ${innerError? `Inner error message: ${innerError.message}` : ''}`);
+        super(`Could not create YarnWorkspace structure. Invalid yarn workspace at path '${path}'. ${innerError ? `Inner error message: ${innerError.message}` : ''}`);
     }
 }

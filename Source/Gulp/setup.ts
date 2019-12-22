@@ -8,9 +8,9 @@ import { GulpContext, getGulpTasks } from '../internal';
  * @param {any} originalExports The original exports object in the scope of the gulpfile importing this
  */
 export default function setupGulp(originalExports: any) {
-    let context = new GulpContext();
-    let gulpTasks = getGulpTasks(context);
-    for (let task of gulpTasks.allTasks ) {
+    const context = new GulpContext();
+    const gulpTasks = getGulpTasks(context);
+    for (const task of gulpTasks.allTasks ) {
         if (task.displayName === undefined) throw new Error('Task missing displayName!');
         originalExports[task.displayName] = task;
     }
@@ -18,5 +18,5 @@ export default function setupGulp(originalExports: any) {
         console.info('There is no default task');
         done();
         process.exit(0);
-    }
+    };
 }

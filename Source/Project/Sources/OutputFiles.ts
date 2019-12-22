@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import path from 'path';
 import toUnixPath from 'slash';
-import { YarnWorkspace, Globs, StaticFiles, createGlobPatterns } from "../../internal";
+import { YarnWorkspace, Globs, StaticFiles, createGlobPatterns } from '../../internal';
 
 /**
  * Represents the files that are outputted
@@ -13,7 +13,7 @@ import { YarnWorkspace, Globs, StaticFiles, createGlobPatterns } from "../../int
  * @class OutputFiles
  */
 export class OutputFiles {
-    
+
     static get FOLDER_NAME() { return 'Distribution'; }
 
     static declarationFilesGlobPatterns = ['**/*.d.ts'];
@@ -26,8 +26,8 @@ export class OutputFiles {
      * @param {YarnWorkspace[]} [_workspaces=[]]
      */
     constructor(private _projectRootFolder: string, private _workspaces: YarnWorkspace[] = []) {
-        this.root = this._workspaces.length > 0? undefined : path.join(this._projectRootFolder, OutputFiles.FOLDER_NAME);
-        
+        this.root = this._workspaces.length > 0 ? undefined : path.join(this._projectRootFolder, OutputFiles.FOLDER_NAME);
+
         this.compiledFilesGlobs = this.createCompiledFileGlobs(...OutputFiles.compiledSourceFilesGlobPatterns);
         this.staticOutputFileGlobs = this.createCompiledFileGlobs(...StaticFiles.staticOutputFilesGlobPatterns);
         this.declarationFilesGlobs = this.createCompiledFileGlobs(...OutputFiles.declarationFilesGlobPatterns);
@@ -39,14 +39,14 @@ export class OutputFiles {
      *
      * @readonly
      */
-    readonly root?: string
+    readonly root?: string;
 
     /**
      * The globs for all the compiled files in the project
      *
      * @readonly
      */
-    readonly compiledFilesGlobs: Globs
+    readonly compiledFilesGlobs: Globs;
 
 
     /**
@@ -54,30 +54,30 @@ export class OutputFiles {
      *
      * @readonly
      */
-    readonly staticOutputFileGlobs: Globs
+    readonly staticOutputFileGlobs: Globs;
 
     /**
      * The globs for the declaration files in the project
      *
      * @readonly
      */
-    readonly declarationFilesGlobs: Globs
+    readonly declarationFilesGlobs: Globs;
 
     /**
      * The globs for all compiled tests in the project.
      *
      * @readonly
      */
-    readonly compiledTestsGlobs: Globs
-    
+    readonly compiledTestsGlobs: Globs;
+
     private createCompiledFileGlobs(...globPatterns: string[]) {
-        let globs: Globs = {
+        const globs: Globs = {
             includes: [],
             excludes: []
-        }
+        };
         if (this._workspaces.length > 0) {
             this._workspaces.forEach(_ => {
-                globs.includes.push(...createGlobPatterns(_.sources.outputFiles.root!, globPatterns, _.sources.outputFiles.root! === this._projectRootFolder? '' : toUnixPath(_.sources.outputFiles.root!.replace(`${this._projectRootFolder}${path.sep}`, ''))))
+                globs.includes.push(...createGlobPatterns(_.sources.outputFiles.root!, globPatterns, _.sources.outputFiles.root! === this._projectRootFolder ? '' : toUnixPath(_.sources.outputFiles.root!.replace(`${this._projectRootFolder}${path.sep}`, ''))));
             });
         } else {
             globs.includes.push(...createGlobPatterns(this.root!, globPatterns, OutputFiles.FOLDER_NAME));
