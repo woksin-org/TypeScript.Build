@@ -27,6 +27,7 @@
         "interface-name": [true, "always-prefix"],
         "no-angle-bracket-type-assertion": true,
         "prefer-method-signature": true,
+        "jsdoc-format": [true, "check-multiline-start"],
 
         "eofline": true,
         "import-spacing": true,
