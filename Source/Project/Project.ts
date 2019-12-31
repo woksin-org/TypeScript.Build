@@ -25,6 +25,9 @@ export class Project {
     constructor(root?: string) {
         this.root = root !== undefined ? path.resolve(root) : process.cwd();
         this.rootPackage = new Package(this.root);
+        this.tsLint = fs.existsSync(path.join(this.root, 'tslint.json')) ?
+                        path.join(this.root, 'tslint.json')
+                        : path.join(this.root, 'node_modules', '@dolittle', 'typescript.build', 'TSConfig', 'tslint.json');
 
         if (this.rootPackage.hasWorkspaces()) {
             this.createWorkspaces();
@@ -55,7 +58,14 @@ export class Project {
     readonly sources: Sources;
 
     /**
-     * Gets the {YarnWorkspace} meta-data configuration for each yarn workspace in the project
+     * The absolute path to the tslint configuration for this project.
+     *
+     * @type {string}
+     */
+    readonly tsLint: string;
+
+    /**
+     * Gets the {YarnWorkspace} configuration for each yarn workspace in the project
      *
      * @readonly
      */
@@ -82,7 +92,7 @@ export class Project {
                         if (fs.statSync(workspacePath).isDirectory()) {
                             const workspacePackage = new Package(workspacePath, this.rootPackage);
                             const workspaceSources = new Sources(workspacePackage.rootFolder, workspacePackage);
-                            this._workspaces.push(new YarnWorkspace(workspacePackage, workspaceSources));
+                            this._workspaces.push(new YarnWorkspace(workspacePackage, workspaceSources, this.tsLint));
                         }
                     } catch (error) {
                         throw new InvalidYarnWorkspace(workspacePath, error);
@@ -94,7 +104,7 @@ export class Project {
                     if (fs.statSync(workspace).isDirectory()) {
                         const workspacePackage = new Package(workspace, this.rootPackage);
                         const workspaceSources = new Sources(workspacePackage.rootFolder, workspacePackage);
-                        this._workspaces.push(new YarnWorkspace(workspacePackage, workspaceSources));
+                        this._workspaces.push(new YarnWorkspace(workspacePackage, workspaceSources, this.tsLint));
                     }
                 } catch (error) {
                     throw new InvalidYarnWorkspace(workspace, error);
