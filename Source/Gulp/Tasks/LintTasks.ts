@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import gulp from 'gulp';
 import gulpTslint from 'gulp-tslint';
-import tslint from 'tslint';
+import * as tslint from 'tslint';
 import { TaskFunction } from 'undertaker';
 import { GulpContext } from '../../internal';
 import { createTask } from './GulpTasks';
