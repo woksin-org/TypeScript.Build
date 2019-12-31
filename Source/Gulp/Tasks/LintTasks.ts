@@ -20,6 +20,7 @@ export class LintTasks {
     static lintTasks: LintTasks;
 
     private _lintTask!: TaskFunction;
+    private _lintFixTask!: TaskFunction;
 
     constructor(private _context: GulpContext) {}
 
@@ -30,9 +31,21 @@ export class LintTasks {
      */
     get lintTask() {
         if (this._lintTask === undefined) {
-            this._lintTask = this.createLintTask();
+            this._lintTask = this.createLintTask(false);
         }
         return this._lintTask;
+    }
+
+    /**
+     * The task for linting and fixing
+     *
+     * @readonly
+     */
+    get lintFixTask() {
+        if (this._lintFixTask === undefined) {
+            this._lintFixTask = this.createLintTask(true);
+        }
+        return this._lintFixTask;
     }
 
     /**
@@ -41,11 +54,11 @@ export class LintTasks {
      * @readonly
      */
     get allTasks() {
-        return [this.lintTask];
+        return [this.lintTask, this.lintFixTask];
     }
 
-    private createLintTask() {
-        const task = createTask(this._context, 'lint', true, workspace => {
+    private createLintTask(fix: boolean) {
+        const task = createTask(this._context, fix ? 'lint-fix' : 'lint', true, workspace => {
             const projectSources = workspace !== undefined ? workspace.sources : this._context.project.sources;
             const tsLintConfigPath = workspace ? workspace.tsLint : this._context.project.tsLint;
             const sourceFiles = projectSources.sourceFiles.sourceFileGlobs.includes.map(_ => _.absolute);
@@ -55,7 +68,7 @@ export class LintTasks {
             return done => gulp.src(sourceFiles.concat(excludedSourceFiles.map(_ => '!' + _)))
                 .pipe(gulpTslint({
                     formatter: 'verbose',
-                    fix: false,
+                    fix,
                     configuration: tsLintConfigPath,
                     program
                 }))
