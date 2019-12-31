@@ -3,7 +3,8 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import gulp from 'gulp';
-import tslint from 'gulp-tslint';
+import gulpTslint from 'gulp-tslint';
+import tslint from 'tslint';
 import { TaskFunction } from 'undertaker';
 import { GulpContext } from '../../internal';
 import { createTask } from './GulpTasks';
@@ -50,13 +51,15 @@ export class LintTasks {
             const sourceFiles = projectSources.sourceFiles.sourceFileGlobs.includes.map(_ => _.absolute);
             const excludedSourceFiles = projectSources.sourceFiles.sourceFileGlobs.excludes.map(_ => _.absolute);
 
+            const program = tslint.Linter.createProgram(projectSources.tsConfig!);
             return done => gulp.src(sourceFiles.concat(excludedSourceFiles.map(_ => '!' + _)))
-                .pipe(tslint({
+                .pipe(gulpTslint({
                     formatter: 'verbose',
                     fix: false,
-                    configuration: tsLintConfigPath
+                    configuration: tsLintConfigPath,
+                    program
                 }))
-                .pipe(tslint.report({
+                .pipe(gulpTslint.report({
                     summarizeFailureOutput: true
                 }))
                 .on('end', done);
