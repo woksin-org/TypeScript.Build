@@ -4,8 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import { TaskFunction } from 'undertaker';
 import gulp from 'gulp';
-import { YarnWorkspace, getLintTasks } from '../../internal';
-import { GulpContext, getCleanTasks, getBuildTasks, getTestTasks } from '../../internal';
+import { GulpContext, getCleanTasks, getBuildTasks, getTestTasks, YarnWorkspace, getLintTasks } from '../../internal';
 
 class GulpTasks {
     static gulpTask: GulpTasks;
