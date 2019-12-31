@@ -6,8 +6,8 @@ import gulp from 'gulp';
 import gulpSourcemaps from 'gulp-sourcemaps';
 import gulpTypescript from 'gulp-typescript';
 import { TaskFunction } from 'undertaker';
-import { GulpContext, getCleanTasks, createTask } from '../../internal';
 import { Readable } from 'stream';
+import { GulpContext, getCleanTasks, createTask, getLintTasks } from '../../internal';
 
 
 export class BuildTasks {
@@ -32,7 +32,7 @@ export class BuildTasks {
     private createBuildTask() {
         let task: TaskFunction;
         if (this._context.project.workspaces.length > 0) {
-            task = gulp.series(getCleanTasks(this._context).cleanTask, this.createWorkspacesBuildTask(), this.createCopyStaticTask());
+            task = gulp.series(getCleanTasks(this._context).cleanTask, getLintTasks(this._context).lintTask, this.createWorkspacesBuildTask(), this.createCopyStaticTask());
         }
         else {
                 const projectSources = this._context.project.sources;
@@ -54,7 +54,7 @@ export class BuildTasks {
                         .on('error', err => done(err));
                 };
                 taskFunction.displayName = `build:${this._context.project.rootPackage.packageObject.name}`;
-                task = gulp.series(getCleanTasks(this._context).cleanTask, taskFunction, this.createCopyStaticTask());
+                task = gulp.series(getCleanTasks(this._context).cleanTask, getLintTasks(this._context).lintTask, taskFunction, this.createCopyStaticTask());
 
         }
         task.displayName = 'build';

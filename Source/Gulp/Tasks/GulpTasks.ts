@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 import { TaskFunction } from 'undertaker';
 import gulp from 'gulp';
-import { YarnWorkspace } from '../../internal';
+import { YarnWorkspace, getLintTasks } from '../../internal';
 import { GulpContext, getCleanTasks, getBuildTasks, getTestTasks } from '../../internal';
 
 class GulpTasks {
@@ -16,6 +16,10 @@ class GulpTasks {
         return getCleanTasks(this._context);
     }
 
+    get lintTasks() {
+        return getLintTasks(this._context);
+    }
+
     get buildTasks() {
         return getBuildTasks(this._context);
     }
@@ -25,7 +29,7 @@ class GulpTasks {
     }
 
     get allTasks() {
-        return [...this.cleanTasks.allTasks, ...this.buildTasks.allTasks, ...this.testTasks.allTasks];
+        return [...this.cleanTasks.allTasks, ...this.lintTasks.allTasks, ...this.buildTasks.allTasks, ...this.testTasks.allTasks];
     }
 }
 

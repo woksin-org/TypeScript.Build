@@ -27,6 +27,7 @@ export * from './Wallaby/Settings/WallabySetup';
 export * from './Gulp/setup';
 export * from './Gulp/GulpContext';
 export * from './Gulp/Tasks/CleanTasks';
+export * from './Gulp/Tasks/LintTasks';
 export * from './Gulp/Tasks/BuildTasks';
 export * from './Gulp/Tasks/TestTasks';
 export * from './Gulp/Tasks/GulpTasks';
