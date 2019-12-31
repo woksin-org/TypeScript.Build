@@ -21,13 +21,6 @@ export class CleanTasks {
                 const projectSources = workspace !== undefined ? workspace.sources : this._context.project.sources;
                 return done => {
                     const outputFolder = projectSources.outputFiles.root!;
-                    // if (projectPackage.usesWebpack()) {
-                    //     let wwwroot = require(projectPackage.webpackConfigPath!)().output.path;
-                    //     return del([outputFolder, wwwroot])
-                    //         .then(_ => done())
-                    //         .catch(error => done(error));
-                    // }
-                    // else
                     return del(outputFolder)
                         .then(_ => done())
                         .catch(error => done(error));

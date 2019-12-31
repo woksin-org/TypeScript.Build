@@ -63,7 +63,6 @@ export class LintTasks {
             const tsLintConfigPath = workspace ? workspace.tsLint : this._context.project.tsLint;
             const sourceFiles = projectSources.sourceFiles.sourceFileGlobs.includes.map(_ => _.absolute);
             const excludedSourceFiles = projectSources.sourceFiles.sourceFileGlobs.excludes.map(_ => _.absolute);
-
             const program = tslint.Linter.createProgram(projectSources.tsConfig!);
             return done => gulp.src(sourceFiles.concat(excludedSourceFiles.map(_ => '!' + _)))
                 .pipe(gulpTslint({
