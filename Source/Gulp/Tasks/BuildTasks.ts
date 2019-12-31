@@ -14,26 +14,35 @@ export class BuildTasks {
     static buildTasks: BuildTasks;
 
     private _buildTask!: TaskFunction;
+    private _buildNoLintTask!: TaskFunction;
     private _copyStaticTask!: TaskFunction;
 
     constructor(private _context: GulpContext) {}
 
     get buildTask() {
         if (this._buildTask === undefined) {
-            this._buildTask = this.createBuildTask();
+            this._buildTask = this.createBuildTask(true);
         }
         return this._buildTask;
     }
 
-    get allTasks() {
-        return [this.buildTask];
+    get buildNoLintTask() {
+        if (this._buildNoLintTask === undefined) {
+            this._buildNoLintTask = this.createBuildTask(false);
+        }
+        return this._buildNoLintTask;
     }
 
-    private createBuildTask() {
+    get allTasks() {
+        return [this.buildTask, this.buildNoLintTask];
+    }
+
+    private createBuildTask(lint: boolean) {
         let task: TaskFunction;
-        if (this._context.project.workspaces.length > 0) {
-            task = gulp.series(getCleanTasks(this._context).cleanTask, getLintTasks(this._context).lintTask, this.createWorkspacesBuildTask(), this.createCopyStaticTask());
-        }
+        const taskSeries = [getCleanTasks(this._context).cleanTask];
+        if (lint) taskSeries.push(getLintTasks(this._context).lintTask);
+
+        if (this._context.project.workspaces.length > 0) taskSeries.push(this.createWorkspacesBuildTask(lint));
         else {
                 const projectSources = this._context.project.sources;
                 const tsProject = gulpTypescript.createProject(projectSources.tsConfig!);
@@ -53,15 +62,16 @@ export class BuildTasks {
                         .on('end', _ => done())
                         .on('error', err => done(err));
                 };
-                taskFunction.displayName = `build:${this._context.project.rootPackage.packageObject.name}`;
-                task = gulp.series(getCleanTasks(this._context).cleanTask, getLintTasks(this._context).lintTask, taskFunction, this.createCopyStaticTask());
-
-        }
-        task.displayName = 'build';
+                taskFunction.displayName = `build${lint ? '' : '-no-lint'}:${this._context.project.rootPackage.packageObject.name}`;
+                taskSeries.push(taskFunction);
+            }
+        taskSeries.push(this.createCopyStaticTask());
+        task = gulp.series(...taskSeries);
+        task.displayName = `build${lint ? '' : '-no-lint'}`;
         return task;
     }
 
-    private createWorkspacesBuildTask() {
+    private createWorkspacesBuildTask(lint: boolean) {
         const tasks: TaskFunction[] = [];
         const streams: {stream: Readable, dest: string}[] = [];
 
@@ -84,7 +94,7 @@ export class BuildTasks {
                     .on('error', err => done(err));
                 return tsResult;
             };
-            taskFunction.displayName = `build:${workspace.workspacePackage.packageObject.name}`;
+            taskFunction.displayName = `build${lint ? '' : '-no-lint'}:${workspace.workspacePackage.packageObject.name}`;
             tasks.push(taskFunction);
         });
         const writeFilesTask: TaskFunction = done => {
