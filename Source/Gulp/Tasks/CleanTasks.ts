@@ -38,7 +38,6 @@ export class CleanTasks {
         return this._cleanTask;
     }
 
-
     get testsCleanTask() {
         if (this._testsCleanTask === undefined) {
             this._testsCleanTask = createTask(this._context, 'test-clean', true, workspace => {
@@ -49,6 +48,7 @@ export class CleanTasks {
 
         return this._testsCleanTask;
     }
+
     get allTasks() {
         return [this.cleanTask, this.testsCleanTask];
     }
