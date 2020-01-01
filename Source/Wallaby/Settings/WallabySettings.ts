@@ -3,18 +3,18 @@
 *  Licensed under the MIT License. See LICENSE in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 import toUnixPath from 'slash';
-import { WallabySetup, Project, Sources, SourceFiles } from "../../internal";
+import { WallabySetup, Project, Sources, SourceFiles } from '../../internal';
 
 type WallabyFilePattern = string | {
-    pattern: string, 
-    instrument?: boolean, 
+    pattern: string,
+    instrument?: boolean,
     ignore?: boolean
 };
 
 export type WallabySettingsCallback = (wallaby: any, settings: any) => void;
 
 export class WallabySettings {
-    
+
     static get INSTRUMENTED_NODE_MODULES() {
         return [
             'chai',
@@ -23,11 +23,11 @@ export class WallabySettings {
             'sinon-chai',
             '@dolittle/typescript.build'
         ];
-    } 
-    
-    private _files!: WallabyFilePattern[]
-    private _tests!: WallabyFilePattern[]
-    private _compilers!: any
+    }
+
+    private _files!: WallabyFilePattern[];
+    private _tests!: WallabyFilePattern[];
+    private _compilers!: any;
 
 
     constructor(private _wallaby: any, private _project: Project, private _setup: WallabySetup, private  _settingsCallback?: WallabySettingsCallback) {
@@ -37,12 +37,12 @@ export class WallabySettings {
     }
 
     get settings() {
-        let settings = {
+        const settings = {
             files: this.files,
             tests: this.tests,
             compilers: this.compilers,
             setup: this._setup.setup,
-            
+
             testFramework: 'mocha',
             env: {
                 type: 'node',
@@ -72,7 +72,7 @@ export class WallabySettings {
         this._files = [];
         this._files.push(...this.getBaseIgnoredFiles(), ...this.getBaseInstrumentedFiles());
         if (this._project.workspaces.length > 0) {
-            this._project.workspaces.forEach(_ => this._files.push(...this.getFilesFromSources(_.sources)));   
+            this._project.workspaces.forEach(_ => this._files.push(...this.getFilesFromSources(_.sources)));
         }
         else this._files.push(...this.getFilesFromSources(this._project.sources));
     }
@@ -80,16 +80,16 @@ export class WallabySettings {
     private createTests() {
         this._tests = this.getBaseIgnoredFiles();
         if (this._project.workspaces.length > 0) {
-            this._project.workspaces.forEach(_ => this._tests.push(...this.getTestsFromSources(_.sources)));   
+            this._project.workspaces.forEach(_ => this._tests.push(...this.getTestsFromSources(_.sources)));
         }
         else this._tests.push(...this.getTestsFromSources(this._project.sources));
     }
 
 
     private getFilesFromSources(sources: Sources) {
-        let files: WallabyFilePattern[] = [];
-        let sourceRoot = this.pathAsRelativeGlobFromRoot(sources.sourceFiles.root);
-        let outputRoot = this.pathAsRelativeGlobFromRoot(sources.outputFiles.root!);
+        const files: WallabyFilePattern[] = [];
+        const sourceRoot = this.pathAsRelativeGlobFromRoot(sources.sourceFiles.root);
+        const outputRoot = this.pathAsRelativeGlobFromRoot(sources.outputFiles.root!);
         files.push({pattern: `${outputRoot}/**/*`, ignore: true});
         files.push({pattern: `${sourceRoot}/**/for_*/**/!(given)/*.@(ts|js)`, ignore: true});
         files.push({pattern: `${sourceRoot}/**/for_*/*.@(ts|js)`, ignore: true});
@@ -100,9 +100,9 @@ export class WallabySettings {
     }
 
     private getTestsFromSources(sources: Sources) {
-        let files: WallabyFilePattern[] = [];
-        let sourceRoot = this.pathAsRelativeGlobFromRoot(sources.sourceFiles.root);
-        let outputRoot = this.pathAsRelativeGlobFromRoot(sources.outputFiles.root!);
+        const files: WallabyFilePattern[] = [];
+        const sourceRoot = this.pathAsRelativeGlobFromRoot(sources.sourceFiles.root);
+        const outputRoot = this.pathAsRelativeGlobFromRoot(sources.outputFiles.root!);
         files.push({pattern: `${outputRoot}/**/*`, ignore: true});
         files.push({pattern: `${sourceRoot}/**/for_*/**/given/*.@(ts|js)`, ignore: true});
         files.push({pattern: `${sourceRoot}/**/for_*/*.@(ts|js)`});
@@ -124,10 +124,10 @@ export class WallabySettings {
     }
 
     private getBaseInstrumentedFiles() {
-        let baseFiles: WallabyFilePattern[] = [{ pattern: 'package.json', instrument: false}];
+        const baseFiles: WallabyFilePattern[] = [{ pattern: 'package.json', instrument: false}];
         if (this._project.workspaces.length > 0) {
             this._project.workspaces.forEach(_ => {
-                let root = this.pathAsRelativeGlobFromRoot(_.sources.root);
+                const root = this.pathAsRelativeGlobFromRoot(_.sources.root);
                 baseFiles.push({pattern: `${root}/package.json`, instrument: false});
             });
         }
@@ -137,10 +137,10 @@ export class WallabySettings {
     }
 
     private getBaseIgnoredFiles() {
-        let baseFiles: WallabyFilePattern[] = [];
+        const baseFiles: WallabyFilePattern[] = [];
         if (this._project.workspaces.length > 0) {
             this._project.workspaces.forEach(_ => {
-                let root = this.pathAsRelativeGlobFromRoot(_.sources.root);
+                const root = this.pathAsRelativeGlobFromRoot(_.sources.root);
                 baseFiles.push({pattern: `${root}/node_modules`, ignore: true});
                 if (_.workspacePackage.usesWebpack()) {
                     SourceFiles.getWebpackSpecificExcludes(_.workspacePackage).forEach(pattern => {
@@ -150,29 +150,29 @@ export class WallabySettings {
             });
         }
         else {
-            let rootPackage = this._project.rootPackage;
+            const rootPackage = this._project.rootPackage;
             if (rootPackage.usesWebpack()) {
                 SourceFiles.getWebpackSpecificExcludes(rootPackage).forEach(pattern => {
                     baseFiles.push({pattern, ignore: true});
                 });
             }
         }
-        let scopedPackages = WallabySettings.INSTRUMENTED_NODE_MODULES.filter(_ => _.startsWith('@'));
-        let unscopedPackages = WallabySettings.INSTRUMENTED_NODE_MODULES.filter(_ => !_.startsWith('@'));
+        const scopedPackages = WallabySettings.INSTRUMENTED_NODE_MODULES.filter(_ => _.startsWith('@'));
+        const unscopedPackages = WallabySettings.INSTRUMENTED_NODE_MODULES.filter(_ => !_.startsWith('@'));
         baseFiles.push({pattern: `node_modules/!(${unscopedPackages.join('|')})`, ignore: true});
         scopedPackages.forEach(_ => {
-            let splitPackage = _.split('/');
-            let scope = splitPackage[0], packageName = splitPackage[1];
+            const splitPackage = _.split('/');
+            const scope = splitPackage[0], packageName = splitPackage[1];
             baseFiles.push({pattern: `node_modules/${scope}/!(${packageName})`, ignore: true});
-        })
-        
+        });
+
         return baseFiles;
     }
 
 
     private pathAsRelativeGlobFromRoot(path: string) {
         path = toUnixPath(path);
-        let root = toUnixPath(this._project.sources.root);
-        return root === path? '.' : path.replace(`${root}/`, '');
+        const root = toUnixPath(this._project.sources.root);
+        return root === path ? '.' : path.replace(`${root}/`, '');
     }
 }

@@ -15,6 +15,6 @@ export class NoPackageJson extends Error {
      * @param {string} path
      */
     constructor(path: string) {
-        super(`Could not find package.json at path '${path}'`)
+        super(`Could not find package.json at path '${path}'`);
     }
 }

@@ -25,8 +25,8 @@ export type PackageObject = {
      *
      * @type {string[]}
      */
-    workspaces?: string[] 
-}
+    workspaces?: string[]
+};
 
 /**
  * Represents an npm package
@@ -41,7 +41,7 @@ export class Package {
 
     /**
      * Instantiates an instance of {Package}.
-     * @param {string} _rootFolder Path to the root of the project containing a package.json file 
+     * @param {string} _rootFolder Path to the root of the project containing a package.json file
      * @param {Package} [_parentPackage] The parent {Package} if this {Package} is a yarn workspace
      */
     constructor(rootFolder: string, private _parentPackage?: Package) {
@@ -49,12 +49,12 @@ export class Package {
             throw new PathIsNotDirectory(rootFolder);
         this.rootFolder = path.resolve(rootFolder);
         this.path = path.join(rootFolder, Package.PACKAGE_NAME);
-        if (!fs.existsSync(this.path)) 
+        if (!fs.existsSync(this.path))
             throw new NoPackageJson(this.path);
-        
+
         this.packageObject = JSON.parse(fs.readFileSync(this.path) as any);
 
-        let webpackConfigPath = path.join(this.rootFolder, Package.WEBPACK_CONFIG_NAME);
+        const webpackConfigPath = path.join(this.rootFolder, Package.WEBPACK_CONFIG_NAME);
         if (fs.existsSync(webpackConfigPath)) {
             this.webpackConfigPath = webpackConfigPath;
         }
@@ -65,28 +65,28 @@ export class Package {
      *
      * @readonly
      */
-    readonly path: string
+    readonly path: string;
 
     /**
-     * Gets the absolute path to the folder 
+     * Gets the absolute path to the folder
      *
      * @readonly
      */
-    readonly rootFolder: string
+    readonly rootFolder: string;
 
     /**
      * Gets the package.json object
      *
      * @readonly
      */
-    readonly packageObject: PackageObject
+    readonly packageObject: PackageObject;
 
     /**
      * The path to the webpack configuration, if it exists
      *
      * @type {string}
      */
-    readonly webpackConfigPath?: string
+    readonly webpackConfigPath?: string;
 
     /**
      * Gets the parent package for this yarn workspace
@@ -112,6 +112,6 @@ export class Package {
      * @returns
      */
     usesWebpack() {
-        return this.webpackConfigPath !== undefined
+        return this.webpackConfigPath !== undefined;
     }
 }

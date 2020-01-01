@@ -32,7 +32,7 @@ export type Globs = {
     excludes: GlobPattern[];
 };
 /**
- * Returns a glob pattern as a glob pattern with absolute path insteda of relative. 
+ * Returns a glob pattern as a glob pattern with absolute path instead of relative.
  *
  * @export
  * @param {string} rootFolder The root folder where the the relative glob is supposed to be used from
@@ -56,7 +56,7 @@ export function toPatternsThatIgnoreNodeModules(pattern: string) {
         `**/!(node_modules)/**/${pattern}`,
         `**/!(node_modules)/${pattern}`
     ];
-};
+}
 
 /**
  * Creates glob patterns for matching one or more file extensions
@@ -67,7 +67,7 @@ export function toPatternsThatIgnoreNodeModules(pattern: string) {
  */
 export function asPossibleFileExtensionsPattern(fileExtensions: string[], negate: boolean = false) {
     if (fileExtensions.length <= 0) throw new Error('No file extension to create pattern from');
-    return `.${negate === true? '!' : '@'}(${fileExtensions.join('|')})`;
+    return `.${negate === true ? '!' : '@'}(${fileExtensions.join('|')})`;
 }
 
 /**
@@ -80,10 +80,10 @@ export function asPossibleFileExtensionsPattern(fileExtensions: string[], negate
  * @returns
  */
 export function createGlobPatterns(rootFolderAbsolutePath: string, globPatterns: string[], folderName?: string) {
-    let result: GlobPattern[] = [];
+    const result: GlobPattern[] = [];
     globPatterns.forEach(globPattern => {
         if (!isGlob(globPattern)) throw new Error(`'${globPattern}' is not a valid glob pattern`);
-        result.push({relative: `${folderName? `${folderName}/` : ''}${globPattern}`, absolute: globAsAbsoluteGlob(rootFolderAbsolutePath, globPattern)})
+        result.push({relative: `${folderName ? `${folderName}/` : ''}${globPattern}`, absolute: globAsAbsoluteGlob(rootFolderAbsolutePath, globPattern)});
     });
     return result;
 }

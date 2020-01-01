@@ -15,6 +15,6 @@ export class PathIsNotDirectory extends Error {
      * @param {string} path
      */
     constructor(path: string) {
-        super(`'${path}' is not a directory`)
+        super(`'${path}' is not a directory`);
     }
 }

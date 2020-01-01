@@ -4,11 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 import { Project } from '../internal';
 
-/**
- * Build context
- */
 export class GulpContext {
-    private _project: Project
+    private _project: Project;
+
     /**
      * Initializes a new instance of {GulpContext}
      */
