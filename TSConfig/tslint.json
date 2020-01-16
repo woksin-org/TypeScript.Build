@@ -4,7 +4,6 @@
         "no-conditional-assignment": true,
         "no-construct": true,
         "no-duplicate-super": true,
-        "no-empty": true,
         "no-empty-interface": true,
         "no-internal-module": true,
         "no-misused-new": true,
