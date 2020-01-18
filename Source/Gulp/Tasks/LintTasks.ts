@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 import gulp from 'gulp';
 import gulpTslint from 'gulp-tslint';
-import * as tslint from 'tslint';
 import { TaskFunction } from 'undertaker';
 import { GulpContext } from '../../internal';
 import { createTask } from './GulpTasks';
@@ -63,20 +62,17 @@ export class LintTasks {
             const tsLintConfigPath = workspace ? workspace.tsLint : this._context.project.tsLint;
             const sourceFiles = projectSources.sourceFiles.sourceFileGlobs.includes.map(_ => _.absolute);
             const excludedSourceFiles = projectSources.sourceFiles.sourceFileGlobs.excludes.map(_ => _.absolute);
-            const program = tslint.Linter.createProgram(projectSources.tsConfig!);
             return done => gulp.src(sourceFiles.concat(excludedSourceFiles.map(_ => '!' + _)))
                 .pipe(gulpTslint({
                     formatter: 'verbose',
                     fix,
-                    configuration: tsLintConfigPath,
-                    program
+                    configuration: tsLintConfigPath
                 }))
                 .pipe(gulpTslint.report({
                     summarizeFailureOutput: true
                 }))
                 .on('end', done);
         });
-
         return task;
     }
 
