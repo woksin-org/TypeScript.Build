@@ -10,3 +10,4 @@ let sinonChai = require('sinon-chai');
 let chaiAsPromised = require('chai-as-promised');
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
+let jsdom = require('jsdom-global')(undefined, {url: 'http://localhost/'})
