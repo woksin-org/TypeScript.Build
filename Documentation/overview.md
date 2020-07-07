@@ -1,7 +1,7 @@
 ---
 title: Overview
 description: Learn about our build package for TypeScript
-keywords: Tools, typescript, build
+keywords: typescript, build
 author: woksin
 weight: 1
 ---

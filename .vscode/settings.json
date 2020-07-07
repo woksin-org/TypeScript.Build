@@ -1,4 +1,4 @@
 {
-    "tslint.packageManager": "yarn",
-    "tslint.configFile": "./TSConfig/tslint.json"
+    "tslint.configFile": "tslint.json",
+    "tslint.packageManager": "yarn"
 }
