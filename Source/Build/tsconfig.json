@@ -4,8 +4,9 @@
     "rootDir": "./",
     "outDir": "Distribution",
     "declarationDir": "Distribution",
-    "baseUrl": "./",
     "sourceRoot": "./",
+    "watch": true,
+    "incremental": true
   },
   "exclude": ["node_modules", "Distribution"],
   "include": ["**/*.ts"] 

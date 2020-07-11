@@ -1,9 +1,16 @@
 {
-    "extends": "../../tsconfig.settings.json",
-    "compilerOptions": {
-      "rootDir": ".",
-      "baseUrl": "./",
-      "sourceRoot": "./",
-      "outDir": "Distribution"
-    }
+  "extends": "../Build/TsConfig/tsconfig.settings.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceRoot": "./",
+    "outDir": "Distribution",
+    "incremental": true,
+    "composite": true,
+    "watch": true
+  },
+  "exclude": ["node_modules", "Distribution"],
+  "include": ["**/*.ts"],
+  "references": [
+    { "path": "../Build" }
+  ]
 }

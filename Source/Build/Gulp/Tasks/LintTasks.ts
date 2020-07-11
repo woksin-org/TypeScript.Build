@@ -1,13 +1,11 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-import gulp from 'gulp';
-import gulpTslint from 'gulp-tslint';
-import { TaskFunction } from 'undertaker';
-import { GulpContext } from '../../internal';
-import { createTask } from './GulpTasks';
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+import gulp from 'gulp';
+import { TaskFunction } from 'undertaker';
+import { createTask } from './';
+import { GulpContext } from '../';
+const gulpEslint = require('gulp-eslint');
 
 export class LintTasks {
     /**
@@ -59,18 +57,10 @@ export class LintTasks {
     private createLintTask(fix: boolean) {
         const task = createTask(this._context, fix ? 'lint-fix' : 'lint', true, workspace => {
             const projectSources = workspace !== undefined ? workspace.sources : this._context.project.sources;
-            const tsLintConfigPath = workspace ? workspace.tsLint : this._context.project.tsLint;
             const sourceFiles = projectSources.sourceFiles.sourceFileGlobs.includes.map(_ => _.absolute);
             const excludedSourceFiles = projectSources.sourceFiles.sourceFileGlobs.excludes.map(_ => _.absolute);
             return done => gulp.src(sourceFiles.concat(excludedSourceFiles.map(_ => '!' + _)))
-                .pipe(gulpTslint({
-                    formatter: 'verbose',
-                    fix,
-                    configuration: tsLintConfigPath
-                }))
-                .pipe(gulpTslint.report({
-                    summarizeFailureOutput: true
-                }))
+                .pipe(gulpEslint())
                 .on('end', done);
         });
         return task;

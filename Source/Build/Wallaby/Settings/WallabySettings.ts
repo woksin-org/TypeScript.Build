@@ -1,9 +1,9 @@
-/*---------------------------------------------------------------------------------------------
-*  Copyright (c) Dolittle. All rights reserved.
-*  Licensed under the MIT License. See LICENSE in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 import toUnixPath from 'slash';
-import { WallabySetup, Project, Sources, SourceFiles } from '../../internal';
+import { Project } from '../../Project';
+import { Sources, SourceFiles } from '../../Project/Sources';
+import { WallabySetup } from './WallabySetup';
 
 type WallabyFilePattern = string | {
     pattern: string,
@@ -11,26 +11,29 @@ type WallabyFilePattern = string | {
     ignore?: boolean
 };
 
+const INSTRUMENTED_NODE_MODULES = [
+    'chai',
+    'chai-as-promised',
+    'sinon',
+    'sinon-chai',
+    '@dolittle/typescript.build'
+];
+
 export type WallabySettingsCallback = (wallaby: any, settings: any) => void;
 
 export class WallabySettings {
-
-    static get INSTRUMENTED_NODE_MODULES() {
-        return [
-            'chai',
-            'chai-as-promised',
-            'sinon',
-            'sinon-chai',
-            '@dolittle/typescript.build'
-        ];
-    }
 
     private _files!: WallabyFilePattern[];
     private _tests!: WallabyFilePattern[];
     private _compilers!: any;
 
 
-    constructor(private _wallaby: any, private _project: Project, private _setup: WallabySetup, private  _settingsCallback?: WallabySettingsCallback) {
+    constructor(
+        private _wallaby: any,
+        private _project: Project,
+        private _setup: WallabySetup,
+        private  _settingsCallback?: WallabySettingsCallback
+    ) {
         this.createFiles();
         this.createTests();
         this.createCompilers();
@@ -126,12 +129,12 @@ export class WallabySettings {
     private getBaseInstrumentedFiles() {
         const baseFiles: WallabyFilePattern[] = [{ pattern: 'package.json', instrument: false}];
         if (this._project.workspaces.length > 0) {
-            this._project.workspaces.forEach(_ => {
+            this._project.workspaces.forEach((_: any) => {
                 const root = this.pathAsRelativeGlobFromRoot(_.sources.root);
                 baseFiles.push({pattern: `${root}/package.json`, instrument: false});
             });
         }
-        return baseFiles.concat(WallabySettings.INSTRUMENTED_NODE_MODULES.map(_ => {
+        return baseFiles.concat(INSTRUMENTED_NODE_MODULES.map(_ => {
             return {pattern: `node_modules/${_}`, instrument: false};
         }));
     }
@@ -152,13 +155,13 @@ export class WallabySettings {
         else {
             const rootPackage = this._project.rootPackage;
             if (rootPackage.usesWebpack()) {
-                SourceFiles.getWebpackSpecificExcludes(rootPackage).forEach(pattern => {
+                SourceFiles.getWebpackSpecificExcludes(rootPackage).forEach((pattern: any) => {
                     baseFiles.push({pattern, ignore: true});
                 });
             }
         }
-        const scopedPackages = WallabySettings.INSTRUMENTED_NODE_MODULES.filter(_ => _.startsWith('@'));
-        const unscopedPackages = WallabySettings.INSTRUMENTED_NODE_MODULES.filter(_ => !_.startsWith('@'));
+        const scopedPackages = INSTRUMENTED_NODE_MODULES.filter(_ => _.startsWith('@'));
+        const unscopedPackages = INSTRUMENTED_NODE_MODULES.filter(_ => !_.startsWith('@'));
         baseFiles.push({pattern: `node_modules/!(${unscopedPackages.join('|')})`, ignore: true});
         scopedPackages.forEach(_ => {
             const splitPackage = _.split('/');

@@ -1,24 +1,29 @@
 {
   "compilerOptions": {
+    "pretty": true,
     "lib": ["es2017", "dom"],
-    "module": "commonjs",
-    "target": "es2015",
+    "target": "es5",
+    "module": "ESNext",
+    "moduleResolution": "node",
+
     "esModuleInterop": true,
     "stripInternal": true,
     
     "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": true,
+    "noEmitOnError": true,
 
-    "strict": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "assumeChangesOnlyAffectDirectDependencies": true,
 
-    "moduleResolution": "node",
-    "inlineSourceMap": true,
-    "inlineSources": true,
-
-    "downlevelIteration": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "alwaysStrict": true,
+    "preserveConstEnums": true,
+    "newLine": "lf"
   }
 }
   

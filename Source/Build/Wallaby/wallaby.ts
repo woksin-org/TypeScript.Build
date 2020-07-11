@@ -1,10 +1,11 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 import fs from 'fs';
 import path from 'path';
-import { WallabySettingsCallback, SetupCallback, WallabySettings, WallabySetup, Project, SourceFiles } from '../internal';
+import { Project } from '../Project';
+import { SetupCallback, WallabySetup } from './Settings/WallabySetup';
+import { SourceFiles } from '../Project/Sources';
+import { WallabySettings, WallabySettingsCallback } from './Settings/WallabySettings';
 
 export function wallaby(settingsCallback?: WallabySettingsCallback, setupCallback?: SetupCallback) {
     return (wallaby: any) => {

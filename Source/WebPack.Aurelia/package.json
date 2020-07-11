@@ -24,11 +24,11 @@
     "prepublishOnly": "yarn build"
   },
   "devDependencies": {
-    "@dolittle/typescript.build": "~5.3.6",
+    "@dolittle/typescript.build": "6.0.0-rc.1",
     "@types/webpack": "^4.39.8"
   },
   "dependencies": {
-    "@dolittle/typescript.webpack": "^1.2.11",
+    "@dolittle/typescript.webpack": "6.0.0-rc.1",
     "aurelia-loader-nodejs": "^1.0.1",
     "aurelia-polyfills": "^1.3.4",
     "aurelia-testing": "^1.0.0",

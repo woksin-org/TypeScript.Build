@@ -1,4 +1,4 @@
 {
-    "tslint.configFile": "tslint.json",
-    "tslint.packageManager": "yarn"
+    "eslint.enable": true,
+    "eslint.packageManager": "yarn"
 }

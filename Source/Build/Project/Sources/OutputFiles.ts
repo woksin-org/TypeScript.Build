@@ -1,10 +1,10 @@
-/*---------------------------------------------------------------------------------------------
-*  Copyright (c) Dolittle. All rights reserved.
-*  Licensed under the MIT License. See LICENSE in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 import path from 'path';
 import toUnixPath from 'slash';
-import { YarnWorkspace, Globs, StaticFiles, createGlobPatterns } from '../../internal';
+import { Globs, StaticFiles, createGlobPatterns } from './';
+import { YarnWorkspace} from '../';
 
 /**
  * Represents the files that are outputted
@@ -79,7 +79,8 @@ export class OutputFiles {
             this._workspaces.forEach(_ => {
                 globs.includes.push(...createGlobPatterns(_.sources.outputFiles.root!, globPatterns, _.sources.outputFiles.root! === this._projectRootFolder ? '' : toUnixPath(_.sources.outputFiles.root!.replace(`${this._projectRootFolder}${path.sep}`, ''))));
             });
-        } else {
+        }
+ else {
             globs.includes.push(...createGlobPatterns(this.root!, globPatterns, OutputFiles.FOLDER_NAME));
         }
         return globs;

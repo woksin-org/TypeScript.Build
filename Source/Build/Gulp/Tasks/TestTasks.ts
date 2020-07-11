@@ -1,11 +1,12 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 import gulp from 'gulp';
 import gulpMocha from 'gulp-mocha';
 import { TaskFunction } from 'undertaker';
-import { GulpContext, createTask, getBuildTasks } from '../../internal';
+import { GulpContext } from '../';
+import { createTask } from './';
+import { YarnWorkspace } from '../../Project';
 
 export class TestTasks {
     static testTasks: TestTasks;
@@ -17,7 +18,7 @@ export class TestTasks {
 
     get runTestsTask() {
         if (this._runTestsTask === undefined) {
-            this._runTestsTask = createTask(this._context, 'test-run', false, workspace => {
+            this._runTestsTask = createTask(this._context, 'test-run', false, (workspace: YarnWorkspace) => {
                 const projectSources = workspace !== undefined ? workspace.sources : this._context.project.sources;
                 const compiledTests = projectSources.outputFiles.compiledTestsGlobs.includes.map(_ => _.absolute);
                 const excludedCompiledTests = projectSources.outputFiles.compiledTestsGlobs.excludes.map(_ => _.absolute);
@@ -31,7 +32,6 @@ export class TestTasks {
     get testTask() {
         if (this._testTask === undefined) {
             this._testTask = gulp.series(
-                getBuildTasks(this._context).buildTask,
                 this.runTestsTask
             );
             this._testTask.displayName = 'test';
