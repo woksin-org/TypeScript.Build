@@ -1,20 +1,20 @@
-{
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
+module.exports = {
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
       "warnOnUnsupportedTypeScriptVersion": false,
       "ecmaVersion": 2020,
       "sourceType": "module"
   },
-  "env": {
-      "browser": true,
-      "node": true,
-      "es6": true,
-      "mocha": true
+  env: {
+      browser: false,
+      node: true,
+      es6: true,
+      mocha: true
   },
-  "plugins": [
+  plugins: [
       "@typescript-eslint", "header", "jsdoc", "no-null", "import"
   ],
-  "rules": {
+  rules: {
     "@typescript-eslint/adjacent-overload-signatures": "error",
     "@typescript-eslint/array-type": "error",
 

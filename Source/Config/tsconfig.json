@@ -20,6 +20,7 @@
     "assumeChangesOnlyAffectDirectDependencies": true,
 
     "experimentalDecorators": true,
+    "resolveJsonModule": true,
     "emitDecoratorMetadata": true,
     "alwaysStrict": true,
     "preserveConstEnums": true,
