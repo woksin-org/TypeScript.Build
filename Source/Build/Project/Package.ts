@@ -43,7 +43,9 @@ export class Package {
      * @param {Package} [_parentPackage] The parent {Package} if this {Package} is a yarn workspace
      */
     constructor(rootFolder: string, private _parentPackage?: Package) {
-        if (!isValidPath(rootFolder) || !fs.statSync(rootFolder).isDirectory()) {throw new PathIsNotDirectory(rootFolder);}
+        if (!isValidPath(rootFolder) || !fs.statSync(rootFolder).isDirectory()) {
+            throw new PathIsNotDirectory(rootFolder);
+        }
         this.rootFolder = path.resolve(rootFolder);
         this.path = path.join(rootFolder, PACKAGE_NAME);
         if (!fs.existsSync(this.path)) {throw new NoPackageJson(this.path);}

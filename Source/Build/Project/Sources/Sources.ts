@@ -19,9 +19,9 @@ export class Sources {
      * @param {YarnWorkspace[]} [_workspaces=[]]
      */
     constructor(private _rootFolder: string, private _rootPackage: Package, private _workspaces: YarnWorkspace[] = []) {
+        this.tsConfig = this._workspaces.length > 0 ? undefined : path.join(this._rootFolder, 'tsconfig.json');
         this.sourceFiles = new SourceFiles(this._rootFolder, this._rootPackage, this._workspaces);
         this.outputFiles = new OutputFiles(this._rootFolder, this._workspaces);
-        this.tsConfig = this._workspaces.length > 0 ? undefined : path.join(this._rootFolder, 'tsconfig.json');
 
     }
     /**
