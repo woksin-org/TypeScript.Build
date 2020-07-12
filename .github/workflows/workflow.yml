@@ -48,7 +48,7 @@ jobs:
         version: ${{ steps.increment-version.outputs.next-version }}
     - name: Release javascript 
       if: ${{ steps.context.outputs.should-publish == 'true' }}
-      uses: dolittle/release-typescript-lib-action@v0
+      uses: dolittle/release-typescript-lib-action@v1
       with:
         version: ${{ steps.increment-version.outputs.next-version }}
         root: '.'
