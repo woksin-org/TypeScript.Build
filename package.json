@@ -1,16 +1,14 @@
 {
-    "name": "@dolittle/typescript.build",
     "private": "true",
     "workspaces": [
-        "Source/**"
+        "Source/*"
     ],
     "scripts": {
-        "ts:build": "tsc -p tsconfig.json",
-        "build": "yarn clean && yarn lint && yarn ts:build ",
-        "clean": "rimraf Distribution",
-        "lint:fix": "tslint --config ./TSConfig/tslint.json --project tsconfig.json --fix",
-        "lint": "tslint --config ./TSConfig/tslint.json --project tsconfig.json",
-        "prepublishOnly": "yarn build"
+        "build": "tsc -b Source/tsconfig.json",
+        "clean": "yarn workspaces run clean",
+        "lint": "yarn workspaces run lint",
+        "lint:fix": "yarn workspaces run lint:fix",
+        "ci": "yarn clean && yarn build && yarn lint"
     },
     "devDependencies": {
         "rimraf": "^3.0.0"

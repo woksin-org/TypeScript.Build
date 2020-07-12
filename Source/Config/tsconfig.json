@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "pretty": true,
+    "lib": ["es2017", "dom"],
+    "target": "es5",
+    "module": "ESNext",
+    "moduleResolution": "node",
+
+    "esModuleInterop": true,
+    "stripInternal": true,
+    
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": true,
+    "noEmitOnError": true,
+
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "assumeChangesOnlyAffectDirectDependencies": true,
+
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "emitDecoratorMetadata": true,
+    "alwaysStrict": true,
+    "preserveConstEnums": true,
+    "newLine": "lf"
+  }
+}
+  

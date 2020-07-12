@@ -1,10 +1,6 @@
-/*---------------------------------------------------------------------------------------------
-*  Copyright (c) Dolittle. All rights reserved.
-*  Licensed under the MIT License. See LICENSE in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
-/**
- * The arguments that can be used in the configuration of webpack
- */
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 export type WebpackArguments = {
     server?: boolean;
     extractCss?: boolean;

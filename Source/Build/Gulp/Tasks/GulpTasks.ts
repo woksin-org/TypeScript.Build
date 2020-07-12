@@ -1,10 +1,12 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-import { TaskFunction } from 'undertaker';
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 import gulp from 'gulp';
-import { GulpContext, getCleanTasks, getBuildTasks, getTestTasks, YarnWorkspace, getLintTasks } from '../../internal';
+import { TaskFunction } from 'undertaker';
+import { GulpContext} from '../';
+import { getCleanTasks, getTestTasks, getLintTasks } from './';
+import { YarnWorkspace } from '../../Project';
+import { getStaticFilesTasks } from './StaticFilesTasks';
 
 class GulpTasks {
     static gulpTask: GulpTasks;
@@ -19,8 +21,8 @@ class GulpTasks {
         return getLintTasks(this._context);
     }
 
-    get buildTasks() {
-        return getBuildTasks(this._context);
+    get staticFilesTasks() {
+        return getStaticFilesTasks(this._context);
     }
 
     get testTasks() {
@@ -28,7 +30,7 @@ class GulpTasks {
     }
 
     get allTasks() {
-        return [...this.cleanTasks.allTasks, ...this.lintTasks.allTasks, ...this.buildTasks.allTasks, ...this.testTasks.allTasks];
+        return [...this.cleanTasks.allTasks, ...this.lintTasks.allTasks, ...this.testTasks.allTasks, ...this.staticFilesTasks.allTasks];
     }
 }
 

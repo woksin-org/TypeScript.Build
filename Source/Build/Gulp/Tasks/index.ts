@@ -1,5 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-const setup = require('./Distribution/Gulp/setup').default;
-setup(exports);
+export * from './GulpTasks';
+export * from './CleanTasks';
+export * from './LintTasks';
+export * from './TestTasks';

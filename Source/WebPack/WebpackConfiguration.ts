@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 import {
     Configuration,
     Output,
@@ -11,6 +10,7 @@ import {
     Plugin,
     ProvidePlugin
 } from 'webpack';
+
 import fs from 'fs';
 import path from 'path';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
@@ -76,7 +76,7 @@ export class WebpackConfiguration {
     }
 
     createConfiguration(): Configuration {
-        let config: Configuration = {};
+        const config: Configuration = {};
         config.mode = this._environment.production
             ? 'production'
             : 'development';
@@ -99,7 +99,7 @@ export class WebpackConfiguration {
         return config;
     }
     private getResolve() {
-        let resolve: Resolve = {
+        const resolve: Resolve = {
             symlinks: false,
             mainFields: ['main'],
             extensions: ['.ts', '.js'],
@@ -121,7 +121,7 @@ export class WebpackConfiguration {
     }
 
     private getOutput() {
-        let output: Output = {
+        const output: Output = {
             filename:
                 this._environment.production === true
                     ? '[name].[chunkhash].bundle.js'
@@ -140,21 +140,21 @@ export class WebpackConfiguration {
         return output;
     }
     private getPerformance() {
-        let performance: Options.Performance = {
+        const performance: Options.Performance = {
             hints: false
         };
         return performance;
     }
 
     private getDevtool() {
-        let devtool: any = !this._environment.production
+        const devtool: any = !this._environment.production
             ? 'inline-source-map'
             : '';
         return devtool;
     }
 
     private getModule() {
-        let module: Module = {
+        const module: Module = {
             rules: [
                 // Styles
                 {
@@ -259,7 +259,7 @@ export class WebpackConfiguration {
     }
 
     private getPlugins() {
-        let plugins: Plugin[] = [
+        const plugins: Plugin[] = [
             new DuplicatePackageChecker(),
             new CleanWebpackPlugin({
                 dangerouslyAllowCleanPatternsOutsideProject: true,
@@ -309,7 +309,7 @@ export class WebpackConfiguration {
     }
 
     private getOptimization() {
-        let optimization: Options.Optimization = {
+        const optimization: Options.Optimization = {
             runtimeChunk: true, // separates the runtime chunk, required for long term cacheability
             // moduleIds is the replacement for HashedModuleIdsPlugin and NamedModulesPlugin deprecated in https://github.com/webpack/webpack/releases/tag/v4.16.0
             // changes module id's to use hashes be based on the relative path of the module, required for long term cacheability

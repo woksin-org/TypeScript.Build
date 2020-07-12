@@ -1,11 +1,11 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-import del from 'del';
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+ import del from 'del';
 import { TaskFunction } from 'undertaker';
 import toUnixPath from 'slash';
-import { GulpContext, createTask } from '../../internal';
+import { GulpContext } from '../';
+import { createTask } from './';
 
 export class CleanTasks {
     static cleanTasks: CleanTasks;

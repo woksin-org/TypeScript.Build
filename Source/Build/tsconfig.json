@@ -1,11 +1,15 @@
 {
-  "extends": "./TSConfig/tsconfig.base.json",
+  "extends": "../../tsconfig.settings.json",
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "Distribution",
     "declarationDir": "Distribution",
-    "baseUrl": "./",
+    "target": "es5",
+    "module": "CommonJS",
     "sourceRoot": "./",
+    "watch": true,
+    "incremental": true,
+    "composite": true
   },
   "exclude": ["node_modules", "Distribution"],
   "include": ["**/*.ts"] 

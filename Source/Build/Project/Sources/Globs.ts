@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
-*  Copyright (c) Dolittle. All rights reserved.
-*  Licensed under the MIT License. See LICENSE in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 import toUnixPath from 'slash';
 import isGlob from 'is-glob';
 
@@ -65,7 +64,7 @@ export function toPatternsThatIgnoreNodeModules(pattern: string) {
  * @param {string[]} fileExtensions
  * @returns
  */
-export function asPossibleFileExtensionsPattern(fileExtensions: string[], negate: boolean = false) {
+export function asPossibleFileExtensionsPattern(fileExtensions: string[], negate = false) {
     if (fileExtensions.length <= 0) throw new Error('No file extension to create pattern from');
     return `.${negate === true ? '!' : '@'}(${fileExtensions.join('|')})`;
 }

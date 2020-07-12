@@ -1,13 +1,12 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-let chai = require('chai');
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+const chai = require('chai');
 global.expect = chai.expect;
-let should = chai.should();
+const should = chai.should();
 global.sinon = require('sinon');
-let sinonChai = require('sinon-chai');
-let chaiAsPromised = require('chai-as-promised');
+const sinonChai = require('sinon-chai');
+const chaiAsPromised = require('chai-as-promised');
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
-let jsdom = require('jsdom-global')(undefined, {url: 'http://localhost/'});
+const jsdom = require('jsdom-global')(undefined, {url: 'http://localhost/'});

@@ -1,8 +1,7 @@
-/*---------------------------------------------------------------------------------------------
-*  Copyright (c) Dolittle. All rights reserved.
-*  Licensed under the MIT License. See LICENSE in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
-import { Project } from '../../internal';
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+import { Project } from '../../Project';
 
 export type SetupCallback = (w: any) => void;
 
@@ -25,8 +24,9 @@ export class WallabySetup {
       }
 
     private getSetupFunction(): (wallaby: any) => void {
-        const setup = (wallaby: any) => {
+        const setup = (_wallaby: any) => {
             (process.env as any).IS_TESTING = true;
+            // eslint-disable-next-line import/no-extraneous-dependencies
             const Project = require('@dolittle/typescript.build').Project;
             const project = new Project(process.cwd());
 
@@ -47,8 +47,6 @@ export class WallabySetup {
             const chaiAsPromised = require('chai-as-promised');
             chai.use(sinonChai);
             chai.use(chaiAsPromised);
-
-            (global as any).mock = require('@fluffy-spoon/substitute').Substitute;
         };
 
         if (typeof this._setupCallback === 'function') {
