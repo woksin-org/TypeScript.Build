@@ -1,6 +1,6 @@
 {
   "name": "@dolittle/typescript.webpack.aurelia",
-  "version": "6.0.0-rc.6",
+  "version": "6.0.0-rc.7",
   "description": "Build tool for webpack-based aurelia applications",
   "homepage": "https://dolittle.io/",
   "author": "Dolittle",

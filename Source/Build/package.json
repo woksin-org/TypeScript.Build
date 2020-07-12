@@ -1,6 +1,6 @@
 {
   "name": "@dolittle/typescript.build",
-  "version": "6.0.0-rc.6",
+  "version": "6.0.0-rc.7",
   "description": "Base build pipeline for Dolittle TypeScript projects",
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
     "lint": "eslint \"**/*.ts\""
   },
   "dependencies": {
-    "@dolittle/eslint-config-typescript": "6.0.0-rc.6",
+    "@dolittle/eslint-config-typescript": "6.0.0-rc.7",
     "@dolittle/typescript.config": "6.0.0-rc.6",
     "@types/chai": "^4.2.11",
     "@types/chai-as-promised": "^7.1.3",
