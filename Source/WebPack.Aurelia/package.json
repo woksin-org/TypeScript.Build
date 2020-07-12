@@ -39,15 +39,5 @@
     "aurelia-polyfills": "^1.3.4",
     "aurelia-testing": "^1.0.0",
     "aurelia-webpack-plugin": "^4.0.0"
-  },
-  "devDependencies}": {
-    "@dolittle/typescript": {
-      "build": "6.0.0-rc.5"
-    }
-  },
-  "dependencies}": {
-    "@dolittle/typescript": {
-      "webpack": "6.0.0-rc.5"
-    }
   }
 }
