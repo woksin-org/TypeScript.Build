@@ -4,6 +4,8 @@
     "rootDir": "./",
     "outDir": "Distribution",
     "declarationDir": "Distribution",
+    "target": "es5",
+    "module": "CommonJS",
     "sourceRoot": "./",
     "watch": true,
     "incremental": true,

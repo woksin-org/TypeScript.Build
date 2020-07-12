@@ -29,18 +29,9 @@ export class TestTasks {
         }
         return this._runTestsTask;
     }
-    get testTask() {
-        if (this._testTask === undefined) {
-            this._testTask = gulp.series(
-                this.runTestsTask
-            );
-            this._testTask.displayName = 'test';
-        }
-        return this._testTask;
-    }
 
     get allTasks() {
-        return [this.testTask, this.runTestsTask];
+        return [this.runTestsTask];
     }
 
 }

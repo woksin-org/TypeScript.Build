@@ -1,11 +1,12 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import gulp from 'gulp';
+import gulp, { dest } from 'gulp';
 import { TaskFunction } from 'undertaker';
 import { createTask } from './';
 import { GulpContext } from '../';
 const gulpEslint = require('gulp-eslint');
+const gulpIf = require('gulp-if');
 
 export class LintTasks {
     /**
@@ -59,8 +60,12 @@ export class LintTasks {
             const projectSources = workspace !== undefined ? workspace.sources : this._context.project.sources;
             const sourceFiles = projectSources.sourceFiles.sourceFileGlobs.includes.map(_ => _.absolute);
             const excludedSourceFiles = projectSources.sourceFiles.sourceFileGlobs.excludes.map(_ => _.absolute);
+            const destination = projectSources.sourceFiles.root!;
             return done => gulp.src(sourceFiles.concat(excludedSourceFiles.map(_ => '!' + _)))
-                .pipe(gulpEslint())
+                .pipe(gulpEslint({ fix }))
+                .pipe(gulpEslint.format())
+                .pipe(gulpEslint.failAfterError())
+                .pipe(gulpIf(fix, dest(destination)))
                 .on('end', done);
         });
         return task;

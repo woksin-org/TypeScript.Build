@@ -1,6 +1,6 @@
 {
     "name": "@dolittle/eslint-config-typescript",
-    "version": "6.0.0-rc.1",
+    "version": "6.0.0-rc.2",
     "description": "Base build pipeline for Dolittle TypeScript projects",
     "repository": {
         "type": "git",

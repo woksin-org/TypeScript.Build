@@ -47,8 +47,6 @@ export class WallabySetup {
             const chaiAsPromised = require('chai-as-promised');
             chai.use(sinonChai);
             chai.use(chaiAsPromised);
-
-            (global as any).mock = require('@fluffy-spoon/substitute').Substitute;
         };
 
         if (typeof this._setupCallback === 'function') {
