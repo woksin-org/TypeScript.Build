@@ -3,13 +3,7 @@
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "Distribution",
-    "declarationDir": "Distribution",
-    "target": "es5",
-    "module": "CommonJS",
-    "sourceRoot": "./",
-    "watch": true,
-    "incremental": true,
-    "composite": true
+    "sourceRoot": "./"
   },
   "exclude": ["node_modules", "Distribution"],
   "include": ["**/*.ts"] 

@@ -18,7 +18,7 @@ export class TestTasks {
 
     get runTestsTask() {
         if (this._runTestsTask === undefined) {
-            this._runTestsTask = createTask(this._context, 'test-run', false, (workspace: YarnWorkspace) => {
+            this._runTestsTask = createTask(this._context, 'test-run', false, (workspace?: YarnWorkspace) => {
                 const projectSources = workspace !== undefined ? workspace.sources : this._context.project.sources;
                 const compiledTests = projectSources.outputFiles.compiledTestsGlobs.includes.map(_ => _.absolute);
                 const excludedCompiledTests = projectSources.outputFiles.compiledTestsGlobs.excludes.map(_ => _.absolute);
