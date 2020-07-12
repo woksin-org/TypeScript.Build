@@ -121,5 +121,13 @@ module.exports = {
     'space-in-parens': 'error',
     'unicode-bom': ['error', 'never'],
     'use-isnan': 'error'
-  }
+  },
+  overrides: [
+    {
+      files: ['**/for_*/**'],
+      rules: {
+        '@typescript-eslint/naming-convention': 'off'
+      }
+    }
+  ]
 };
