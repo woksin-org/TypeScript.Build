@@ -66,11 +66,5 @@
     "@types/is-glob": "^4.0.1",
     "@types/is-valid-path": "^0.1.0",
     "undertaker": "^1.2.1"
-  },
-  "dependencies}": {
-    "@dolittle/eslint-config-typescript": "6.0.0-rc.5",
-    "@dolittle/typescript": {
-      "config": "6.0.0-rc.5"
-    }
   }
 }

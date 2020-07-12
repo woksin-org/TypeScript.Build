@@ -21,6 +21,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
+        registry-url: 'https://registry.npmjs.org'
     - run: yarn
     - run: yarn ci
 
@@ -52,5 +53,5 @@ jobs:
         version: ${{ steps.increment-version.outputs.next-version }}
         root: '.'
       env:
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         
