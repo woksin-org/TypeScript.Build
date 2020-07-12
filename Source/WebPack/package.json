@@ -1,6 +1,6 @@
 {
   "name": "@dolittle/typescript.webpack",
-  "version": "6.0.0-rc.2",
+  "version": "6.0.0-rc.5",
   "description": "Build tool for webpack-based applications",
   "homepage": "https://dolittle.io/",
   "author": "Dolittle",
@@ -24,7 +24,7 @@
     "clean": "rimraf Distribution",
     "lint:fix": "eslint \"**/*.ts\" --fix",
     "lint": "eslint \"**/*.ts\""
-},
+  },
   "devDependencies": {
     "@dolittle/typescript.build": "6.0.0-rc.2",
     "@types/duplicate-package-checker-webpack-plugin": "^2.1.0",
@@ -55,5 +55,10 @@
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
+  },
+  "devDependencies}": {
+    "@dolittle/typescript": {
+      "build": "6.0.0-rc.5"
+    }
   }
 }
