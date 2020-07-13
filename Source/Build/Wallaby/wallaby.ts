@@ -3,20 +3,27 @@
 
 import fs from 'fs';
 import path from 'path';
+import { CompilerOptions } from 'typescript';
 import { Project } from '../Project';
 import { SetupCallback, WallabySetup } from './Settings/WallabySetup';
 import { SourceFiles } from '../Project/Sources';
 import { WallabySettings, WallabySettingsCallback } from './Settings/WallabySettings';
 
-export function wallaby(settingsCallback?: WallabySettingsCallback, setupCallback?: SetupCallback) {
+export type WallabyConfigurationOptions = {
+    settingsCallback?: WallabySettingsCallback,
+    setupCallback?: SetupCallback,
+    compilerOptions?: CompilerOptions
+};
+
+export function wallaby(options?: WallabyConfigurationOptions) {
     return (wallaby: any) => {
         const project = new Project(process.cwd());
-        const setup = new WallabySetup(wallaby, project, setupCallback);
-        const settings = new WallabySettings(wallaby, project, setup, settingsCallback);
+        const setup = new WallabySetup(wallaby, project, options?.setupCallback);
+        const settings = new WallabySettings(wallaby, project, setup, options?.settingsCallback, options?.compilerOptions);
 
         setNodePath(wallaby, project);
 
-        if (typeof settingsCallback === 'function') settingsCallback(wallaby, settings);
+        if (typeof options?.settingsCallback === 'function') options?.settingsCallback(wallaby, settings);
         return settings.settings;
     };
 }

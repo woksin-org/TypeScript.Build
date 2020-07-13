@@ -1,6 +1,7 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 import toUnixPath from 'slash';
+import ts, { CompilerOptions } from 'typescript';
 import { Project } from '../../Project';
 import { Sources, SourceFiles } from '../../Project/Sources';
 import { WallabySetup } from './WallabySetup';
@@ -32,11 +33,20 @@ export class WallabySettings {
         private _wallaby: any,
         private _project: Project,
         private _setup: WallabySetup,
-        private  _settingsCallback?: WallabySettingsCallback
+        private  _settingsCallback?: WallabySettingsCallback,
+        private _compilerOptions?: CompilerOptions
     ) {
         this.createFiles();
         this.createTests();
         this.createCompilers();
+        this._compilerOptions = this._compilerOptions || {
+            module: ts.ModuleKind.CommonJS,
+            downlevelIteration: true,
+            allowJs: true,
+            experimentalDecorators: true,
+            esModuleInterop: true,
+            target: ts.ScriptTarget.ES2015
+        };
     }
 
     get settings() {
@@ -114,15 +124,9 @@ export class WallabySettings {
     }
 
     private createCompilers() {
+
         this._compilers = {
-            '**/*.@(js|ts)': this._wallaby.compilers.typeScript({//Should read and parse tsconfig
-                module: 'commonjs',
-                downlevelIteration: true,
-                allowJs: true,
-                experimentalDecorators: true,
-                esModuleInterop: true,
-                target: 'es6'
-            })
+            '**/*.@(js|ts)': this._wallaby.compilers.typeScript(this._compilerOptions)
         };
     }
 
