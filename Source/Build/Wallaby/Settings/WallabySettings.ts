@@ -86,16 +86,14 @@ export class WallabySettings {
         this._files.push(...this.getBaseIgnoredFiles(), ...this.getBaseInstrumentedFiles());
         if (this._project.workspaces.length > 0) {
             this._project.workspaces.forEach(_ => this._files.push(...this.getFilesFromSources(_.sources)));
-        }
-        else this._files.push(...this.getFilesFromSources(this._project.sources));
+        } else this._files.push(...this.getFilesFromSources(this._project.sources));
     }
 
     private createTests() {
         this._tests = this.getBaseIgnoredFiles();
         if (this._project.workspaces.length > 0) {
             this._project.workspaces.forEach(_ => this._tests.push(...this.getTestsFromSources(_.sources)));
-        }
-        else this._tests.push(...this.getTestsFromSources(this._project.sources));
+        } else this._tests.push(...this.getTestsFromSources(this._project.sources));
     }
 
 
@@ -155,8 +153,7 @@ export class WallabySettings {
                     });
                 }
             });
-        }
-        else {
+        } else {
             const rootPackage = this._project.rootPackage;
             if (rootPackage.usesWebpack()) {
                 SourceFiles.getWebpackSpecificExcludes(rootPackage).forEach((pattern: any) => {

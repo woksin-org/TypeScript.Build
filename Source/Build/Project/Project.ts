@@ -84,21 +84,18 @@ export class Project {
                             const workspaceSources = new Sources(workspacePackage.rootFolder, workspacePackage);
                             this._workspaces.push(new YarnWorkspace(workspacePackage, workspaceSources));
                         }
-                    }
-                    catch (error) {
+                    } catch (error) {
                         throw new InvalidYarnWorkspace(workspacePath, error);
                     }
                 });
-            }
-            else {
+            } else {
                 try {
                     if (fs.statSync(workspace).isDirectory()) {
                         const workspacePackage = new Package(workspace, this.rootPackage);
                         const workspaceSources = new Sources(workspacePackage.rootFolder, workspacePackage);
                         this._workspaces.push(new YarnWorkspace(workspacePackage, workspaceSources));
                     }
-                }
-                catch (error) {
+                } catch (error) {
                     throw new InvalidYarnWorkspace(workspace, error);
                 }
             }
