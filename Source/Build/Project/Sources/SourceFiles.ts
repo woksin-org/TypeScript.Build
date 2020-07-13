@@ -165,11 +165,12 @@ export class SourceFiles {
             excludes: []
         };
         if (this._workspaces.length > 0) {
-this._workspaces.forEach(_ => {
-            globs.includes.push(...createGlobPatterns(_.sources.sourceFiles.root, globPatterns, _.sources.sourceFiles.root === this._projectRootFolder ? '' : toUnixPath(_.sources.sourceFiles.root.replace(`${this._projectRootFolder}${path.sep}`, ''))));
-        });
-}
-        else globs.includes.push(...createGlobPatterns(this.root, globPatterns, this._underSourceFolder === true ? SourceFiles.FOLDER_NAME : undefined));
+            this._workspaces.forEach(_ => {
+                globs.includes.push(...createGlobPatterns(_.sources.sourceFiles.root, globPatterns, _.sources.sourceFiles.root === this._projectRootFolder ? '' : toUnixPath(_.sources.sourceFiles.root.replace(`${this._projectRootFolder}${path.sep}`, ''))));
+            });
+        } else {
+            globs.includes.push(...createGlobPatterns(this.root, globPatterns, this._underSourceFolder === true ? SourceFiles.FOLDER_NAME : undefined));
+        }
 
         const excludePatterns = ['node_modules/**/*', '**/node_modules/**/*', ...SourceFiles.getWebpackSpecificExcludes(this._rootPackage), ...SourceFiles.filesToIgnore];
         excludePatterns.forEach(globPattern => {

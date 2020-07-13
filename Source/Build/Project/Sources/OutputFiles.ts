@@ -79,8 +79,7 @@ export class OutputFiles {
             this._workspaces.forEach(_ => {
                 globs.includes.push(...createGlobPatterns(_.sources.outputFiles.root!, globPatterns, _.sources.outputFiles.root! === this._projectRootFolder ? '' : toUnixPath(_.sources.outputFiles.root!.replace(`${this._projectRootFolder}${path.sep}`, ''))));
             });
-        }
- else {
+        } else {
             globs.includes.push(...createGlobPatterns(this.root!, globPatterns, OutputFiles.FOLDER_NAME));
         }
         return globs;

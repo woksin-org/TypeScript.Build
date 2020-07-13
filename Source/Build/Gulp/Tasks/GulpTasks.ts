@@ -50,8 +50,7 @@ export function createTask(context: GulpContext, taskName: string, parallel: boo
         });
         task = parallel ? gulp.parallel(workspaceTasks) : gulp.series(workspaceTasks);
         task.displayName = taskName;
-    }
-    else {
+    } else {
         task = createTaskCallback();
         task.displayName = taskName;
     }
