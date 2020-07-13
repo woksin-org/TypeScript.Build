@@ -1,6 +1,6 @@
 {
   "name": "@dolittle/typescript.webpack.aurelia",
-  "version": "6.0.0-rc.15",
+  "version": "6.0.0-rc.16",
   "description": "Build tool for webpack-based aurelia applications",
   "homepage": "https://dolittle.io/",
   "author": "Dolittle",
@@ -26,12 +26,12 @@
     "lint": "eslint \"**/*.ts\""
   },
   "devDependencies": {
-    "@dolittle/typescript.build": "6.0.0-rc.15",
+    "@dolittle/typescript.build": "6.0.0-rc.16",
     "@types/webpack": "^4.41.21",
     "webpack": "^4.43.0"
   },
   "dependencies": {
-    "@dolittle/typescript.webpack": "6.0.0-rc.15",
+    "@dolittle/typescript.webpack": "6.0.0-rc.16",
     "aurelia-loader-nodejs": "^1.1.0",
     "aurelia-templating": "^1.10.4",
     "aurelia-dependency-injection": "^1.5.2",
