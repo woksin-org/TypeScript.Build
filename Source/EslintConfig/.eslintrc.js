@@ -87,7 +87,7 @@ module.exports = {
     'constructor-super': 'error',
     'curly': ['error', 'multi-line'],
     'dot-notation': 'error',
-    'eqeqeq': 'error',
+    'eqeqeq': ['error', 'smart'],
     'new-parens': 'error',
     'no-caller': 'error',
     'no-duplicate-case': 'error',
