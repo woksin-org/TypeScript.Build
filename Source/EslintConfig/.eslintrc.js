@@ -83,7 +83,7 @@ module.exports = {
     'jsdoc/check-alignment': 'error',
 
     // eslint
-    'brace-style': ['error', 'stroustrup', { allowSingleLine: true }],
+    'brace-style': ['error', '1tbs', { allowSingleLine: true }],
     'constructor-super': 'error',
     'curly': ['error', 'multi-line'],
     'dot-notation': 'error',
