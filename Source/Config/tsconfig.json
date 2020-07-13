@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
     "pretty": true,
-    "lib": ["ES2016", "DOM"],
-    "target": "ES5",
+    "target": "ES6",
     "module": "CommonJS",
     "moduleResolution": "node",
 
