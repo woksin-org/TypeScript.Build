@@ -36,9 +36,6 @@ export class WallabySettings {
         private  _settingsCallback?: WallabySettingsCallback,
         private _compilerOptions?: CompilerOptions
     ) {
-        this.createFiles();
-        this.createTests();
-        this.createCompilers();
         this._compilerOptions = this._compilerOptions || {
             module: ts.ModuleKind.CommonJS,
             downlevelIteration: true,
@@ -47,6 +44,9 @@ export class WallabySettings {
             esModuleInterop: true,
             target: ts.ScriptTarget.ES2015
         };
+        this.createFiles();
+        this.createTests();
+        this.createCompilers();
     }
 
     get settings() {
