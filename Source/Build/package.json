@@ -1,6 +1,6 @@
 {
   "name": "@dolittle/typescript.build",
-  "version": "6.0.0-rc.18",
+  "version": "6.0.0-rc.19",
   "description": "Base build pipeline for Dolittle TypeScript projects",
   "repository": {
     "type": "git",
@@ -27,8 +27,8 @@
     "lint": "eslint \"**/*.ts\""
   },
   "dependencies": {
-    "@dolittle/eslint-config-typescript": "6.0.0-rc.18",
-    "@dolittle/typescript.config": "6.0.0-rc.18",
+    "@dolittle/eslint-config-typescript": "6.0.0-rc.19",
+    "@dolittle/typescript.config": "6.0.0-rc.19",
     "@types/chai": "4.2.11",
     "@types/chai-as-promised": "7.1.3",
     "@types/mocha": "7.0.2",
