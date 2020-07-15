@@ -36,7 +36,6 @@ module.exports = {
         { selector: 'property', format: null }
     ],
 
-    '@typescript-eslint/no-inferrable-types': 'error',
     '@typescript-eslint/no-misused-new': 'error',
     '@typescript-eslint/no-this-alias': 'error',
 
