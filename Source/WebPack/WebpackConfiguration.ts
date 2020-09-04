@@ -211,7 +211,7 @@ export class WebpackConfiguration {
                 { test: /\.html$/i, loader: 'html-loader' },
                 // Source files
                 {
-                    test: /\.[tj]s$/i,
+                    test: /\.[tj]s[x]*$/i,
                     exclude: /(node_modules|bower_components)/,
                     loader: 'ts-loader'
                 },
