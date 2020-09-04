@@ -102,7 +102,7 @@ export class WebpackConfiguration {
         let resolve: Resolve = {
             symlinks: false,
             mainFields: ['main'],
-            extensions: ['.ts', '.js'],
+            extensions: ['.ts', '.js', '.tsx', '.jsx'],
             modules: [
                 path.resolve(this._featuresDir),
                 path.resolve(this._componentDir),
