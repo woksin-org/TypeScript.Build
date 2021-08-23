@@ -3,6 +3,16 @@
 
 module.exports = {
     parser: '@typescript-eslint/parser',
+    ignorePatterns: [
+        '*.d.ts',
+        '*.scss.d.ts',
+        'tsconfig.*',
+        'wallaby.js',
+        'wallaby.conf.js',
+        'dist',
+        'node_modules',
+        'wwwroot',
+    ],
     parserOptions: {
         warnOnUnsupportedTypeScriptVersion: false,
         ecmaVersion: 2020,
@@ -14,26 +24,71 @@ module.exports = {
         es6: true,
         mocha: true
     },
-    plugins: [
-        '@typescript-eslint', 'header', 'jsdoc', 'no-null', 'import'
-    ],
+    plugins: ['@typescript-eslint', 'header', 'jsdoc', 'no-null', 'import'],
     rules: {
         '@typescript-eslint/adjacent-overload-signatures': 'error',
         '@typescript-eslint/array-type': 'error',
+        '@typescript-eslint/no-this-alias': ['error', { allowedNames: ['self'] }],
+        'import/no-extraneous-dependencies': 'off',
 
-        'camelcase': 'off',
+        camelcase: 'off',
         '@typescript-eslint/naming-convention': [
             'error',
-            { selector: 'typeLike', format: ['PascalCase'], filter: { regex: '^(__String|[A-Za-z]+_[A-Za-z]+)$', match: false } },
-            { selector: 'interface', format: ['PascalCase'], custom: { regex: '^I[A-Z]', match: true }, filter: { regex: '^I(Arguments|TextWriter|O([A-Z][a-z]+[A-Za-z]*)?)$', match: true } },
-            { selector: 'variable', format: ['camelCase', 'PascalCase', 'UPPER_CASE'], leadingUnderscore: 'allow', filter: { regex: '^(_{1,2}filename|_{1,2}dirname|_+|[A-Za-z]+_[A-Za-z]+)$', match: false } },
-            { selector: 'function', format: ['camelCase', 'PascalCase'], leadingUnderscore: 'allow', filter: { regex: '^[A-Za-z]+_[A-Za-z]+$', match: false } },
-            { selector: 'parameter', format: ['camelCase'], leadingUnderscore: 'allow', filter: { regex: '^(_+|[A-Za-z]+_[A-Z][a-z]+)$', match: false } },
-            { selector: 'method', format: ['camelCase', 'PascalCase'], leadingUnderscore: 'allow', filter: { regex: '^[A-Za-z]+_[A-Za-z]+$', match: false } },
-            { selector: 'memberLike', format: ['camelCase'], leadingUnderscore: 'allow', filter: { regex: '^[A-Za-z]+_[A-Za-z]+$', match: false } },
-            { selector: 'enumMember', format: ['camelCase', 'PascalCase'], leadingUnderscore: 'allow', filter: { regex: '^[A-Za-z]+_[A-Za-z]+$', match: false } },
+            {
+                selector: 'typeLike',
+                format: ['PascalCase'],
+                filter: { regex: '^(__String|[A-Za-z]+_[A-Za-z]+)$', match: false },
+            },
+            {
+                selector: 'interface',
+                format: ['PascalCase'],
+                custom: { regex: '^I[A-Z]', match: true },
+                filter: {
+                    regex: '^I(Arguments|TextWriter|O([A-Z][a-z]+[A-Za-z]*)?)$',
+                    match: true,
+                },
+            },
+            {
+                selector: 'variable',
+                format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+                leadingUnderscore: 'allow',
+                filter: {
+                    regex: '^(_{1,2}filename|_{1,2}dirname|_+|[A-Za-z]+_[A-Za-z]+)$',
+                    match: false,
+                },
+            },
+            {
+                selector: 'function',
+                format: ['camelCase', 'PascalCase'],
+                leadingUnderscore: 'allow',
+                filter: { regex: '^[A-Za-z]+_[A-Za-z]+$', match: false },
+            },
+            {
+                selector: 'parameter',
+                format: ['camelCase'],
+                leadingUnderscore: 'allow',
+                filter: { regex: '^(_+|[A-Za-z]+_[A-Z][a-z]+)$', match: false },
+            },
+            {
+                selector: 'method',
+                format: ['camelCase', 'PascalCase'],
+                leadingUnderscore: 'allow',
+                filter: { regex: '^[A-Za-z]+_[A-Za-z]+$', match: false },
+            },
+            {
+                selector: 'memberLike',
+                format: ['camelCase'],
+                leadingUnderscore: 'allow',
+                filter: { regex: '^[A-Za-z]+_[A-Za-z]+$', match: false },
+            },
+            {
+                selector: 'enumMember',
+                format: ['camelCase', 'PascalCase'],
+                leadingUnderscore: 'allow',
+                filter: { regex: '^[A-Za-z]+_[A-Za-z]+$', match: false },
+            },
             // eslint-disable-next-line no-null/no-null
-            { selector: 'property', format: null }
+            { selector: 'property', format: null },
         ],
 
         '@typescript-eslint/no-misused-new': 'error',
@@ -46,18 +101,25 @@ module.exports = {
         '@typescript-eslint/prefer-function-type': 'error',
         '@typescript-eslint/prefer-namespace-keyword': 'error',
 
-        'quotes': 'off',
-        '@typescript-eslint/quotes': ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
+        quotes: 'off',
+        '@typescript-eslint/quotes': [
+            'error',
+            'single',
+            { avoidEscape: true, allowTemplateLiterals: true },
+        ],
 
-        'semi': 'off',
+        semi: 'off',
         '@typescript-eslint/semi': 'error',
 
         'space-before-function-paren': 'off',
-        '@typescript-eslint/space-before-function-paren': ['error', {
-            asyncArrow: 'always',
-            anonymous: 'always',
-            named: 'never'
-        }],
+        '@typescript-eslint/space-before-function-paren': [
+            'error',
+            {
+                asyncArrow: 'always',
+                anonymous: 'always',
+                named: 'never',
+            },
+        ],
 
         '@typescript-eslint/triple-slash-reference': 'error',
         '@typescript-eslint/type-annotation-spacing': 'error',
@@ -69,14 +131,9 @@ module.exports = {
             'line',
             [
                 ' Copyright (c) Dolittle. All rights reserved.',
-                ' Licensed under the MIT license. See LICENSE file in the project root for full license information.'
-            ]
+                ' Licensed under the MIT license. See LICENSE file in the project root for full license information.',
+            ],
         ],
-        // eslint-plugin-import
-        'import/no-extraneous-dependencies': ['warn', { optionalDependencies: false }],
-
-        // eslint-plugin-no-null
-        // 'no-null/no-null': 'error',
 
         // eslint-plugin-jsdoc
         'jsdoc/check-alignment': 'error',
@@ -84,9 +141,9 @@ module.exports = {
         // eslint
         'brace-style': ['error', '1tbs', { allowSingleLine: true }],
         'constructor-super': 'error',
-        'curly': ['error', 'multi-line'],
+        curly: ['error', 'multi-line'],
         'dot-notation': 'error',
-        'eqeqeq': ['error', 'smart'],
+        eqeqeq: ['error', 'smart'],
         'new-parens': 'error',
         'no-caller': 'error',
         'no-duplicate-case': 'error',
@@ -97,13 +154,14 @@ module.exports = {
         'no-fallthrough': 'error',
         'no-new-wrappers': 'error',
         'no-return-await': 'error',
-        'no-restricted-globals': ['error',
+        'no-restricted-globals': [
+            'error',
             { name: 'setTimeout' },
             { name: 'clearTimeout' },
             { name: 'setInterval' },
             { name: 'clearInterval' },
             { name: 'setImmediate' },
-            { name: 'clearImmediate' }
+            { name: 'clearImmediate' },
         ],
         'no-sparse-arrays': 'error',
         'no-template-curly-in-string': 'error',
@@ -119,7 +177,7 @@ module.exports = {
         'quote-props': ['error', 'consistent-as-needed'],
         'space-in-parens': 'error',
         'unicode-bom': ['error', 'never'],
-        'use-isnan': 'error'
+        'use-isnan': 'error',
     },
     overrides: [
         {
@@ -139,6 +197,12 @@ module.exports = {
             rules: {
                 'import/no-extraneous-dependencies': 'off'
             }
-        }
+        },
+        {
+            files: ['**/for_*/**'],
+            rules: {
+                'no-restricted-globals': 'off'
+            }
+        },
     ]
 };
