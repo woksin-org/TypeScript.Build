@@ -1,0 +1,63 @@
+name: Typescript.Build CI/CD
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    types: [closed]
+
+jobs:
+  build:
+    name: Continuous Integration
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node v12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+          registry-url: "https://registry.npmjs.org"
+      - run: yarn
+      - run: yarn ci
+
+      - name: Establish context
+        id: context
+        uses: dolittle/establish-context-action@v2
+
+      - name: Increment version
+        id: increment-version
+        if: ${{ steps.context.outputs.should-publish == 'true' }}
+        uses: dolittle/increment-version-action@v2
+        with:
+          version: ${{ steps.context.outputs.current-version }}
+          release-type: ${{ steps.context.outputs.release-type }}
+
+      - name: Prepend to Changelog
+        if: ${{ steps.context.outputs.should-publish == 'true' && steps.context.outputs.release-type != 'prerelease' }}
+        uses: dolittle/add-to-changelog-action@v2
+        with:
+          version: ${{ steps.increment-version.outputs.next-version }}
+          body: ${{ steps.context.outputs.pr-body }}
+          pr-url: ${{ steps.context.outputs.pr-url }}
+          changelog-path: CHANGELOG.md
+          user-email: build@dolittle.com
+          user-name: dolittle-build
+
+      - name: Create GitHub Release
+        if: ${{ steps.context.outputs.should-publish == 'true' }}
+        uses: dolittle/github-release-action@v2
+        with:
+          token: ${{  secrets.BUILD_PAT  }}
+          version: ${{ steps.increment-version.outputs.next-version }}
+          body: ${{ steps.context.outputs.pr-body }}
+
+      - name: Release JavaScript
+        if: ${{ steps.context.outputs.should-publish == 'true' }}
+        uses: dolittle/release-typescript-lib-action@v1
+        with:
+          version: ${{ steps.increment-version.outputs.next-version }}
+          root: "."
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
