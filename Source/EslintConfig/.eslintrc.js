@@ -10,6 +10,7 @@ module.exports = {
         'wallaby.js',
         'wallaby.conf.js',
         'dist',
+        'Distribution',
         'node_modules',
         'wwwroot',
     ],
@@ -31,7 +32,7 @@ module.exports = {
         '@typescript-eslint/no-this-alias': ['error', { allowedNames: ['self'] }],
         'import/no-extraneous-dependencies': 'off',
 
-        camelcase: 'off',
+        'camelcase': 'off',
         '@typescript-eslint/naming-convention': [
             'error',
             {
@@ -101,14 +102,14 @@ module.exports = {
         '@typescript-eslint/prefer-function-type': 'error',
         '@typescript-eslint/prefer-namespace-keyword': 'error',
 
-        quotes: 'off',
+        'quotes': 'off',
         '@typescript-eslint/quotes': [
             'error',
             'single',
             { avoidEscape: true, allowTemplateLiterals: true },
         ],
 
-        semi: 'off',
+        'semi': 'off',
         '@typescript-eslint/semi': 'error',
 
         'space-before-function-paren': 'off',
@@ -141,9 +142,9 @@ module.exports = {
         // eslint
         'brace-style': ['error', '1tbs', { allowSingleLine: true }],
         'constructor-super': 'error',
-        curly: ['error', 'multi-line'],
+        'curly': ['error', 'multi-line'],
         'dot-notation': 'error',
-        eqeqeq: ['error', 'smart'],
+        'eqeqeq': ['error', 'smart'],
         'new-parens': 'error',
         'no-caller': 'error',
         'no-duplicate-case': 'error',

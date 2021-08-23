@@ -16,9 +16,6 @@
         "tsconfig.json"
     ],
     "scripts": {
-        "build": "echo nop",
-        "clean": "echo nop",
-        "lint:fix": "echo nop",
-        "lint": "echo nop"
+        "ci": "echo nop"
     }
 }
