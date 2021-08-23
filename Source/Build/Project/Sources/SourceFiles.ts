@@ -3,7 +3,9 @@
 import fs from 'fs';
 import path from 'path';
 import toUnixPath from 'slash';
-import { YarnWorkspace, Globs, toPatternsThatIgnoreNodeModules, asPossibleFileExtensionsPattern, createGlobPatterns, globAsAbsoluteGlob, StaticFiles, Package } from '../../index';
+import { Package, YarnWorkspace } from '../';
+import { asPossibleFileExtensionsPattern, createGlobPatterns, globAsAbsoluteGlob, Globs, toPatternsThatIgnoreNodeModules } from './Globs';
+import { StaticFiles } from './StaticFiles';
 
 
 /**

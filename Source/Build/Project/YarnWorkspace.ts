@@ -2,7 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 import fs from 'fs';
 import path from 'path';
-import { Package, Sources } from '../index';
+import { Package } from './Package';
+import { Sources } from './Sources/index';
 
 /**
  * Represents a yarn workspace

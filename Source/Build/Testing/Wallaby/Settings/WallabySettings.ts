@@ -1,8 +1,9 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 import toUnixPath from 'slash';
-import { Project, Sources, SourceFiles } from '@dolittle/typescript.build';
-import { WallabySetup } from '../../index';
+import { Project } from '../../../Project';
+import { SourceFiles, Sources } from '../../../Project/Sources';
+import { WallabySetup } from './WallabySetup';
 
 type WallabyFilePattern = string | {
     pattern: string,

@@ -1,7 +1,9 @@
 // Copyright (c) Dolittle. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
+import { Package, YarnWorkspace } from '../';
 import path from 'path';
-import { YarnWorkspace, SourceFiles, OutputFiles, Package } from '../../index';
+import { SourceFiles } from './SourceFiles';
+import { OutputFiles } from './OutputFiles';
 
 /**
  * Represents a project's sources

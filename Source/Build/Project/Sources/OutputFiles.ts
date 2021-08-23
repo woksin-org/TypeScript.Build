@@ -2,7 +2,9 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 import path from 'path';
 import toUnixPath from 'slash';
-import { YarnWorkspace, Globs, StaticFiles, createGlobPatterns } from '../../index';
+import { YarnWorkspace } from '../';
+import { createGlobPatterns, Globs } from './Globs';
+import { StaticFiles } from './StaticFiles';
 
 /**
  * Represents the files that are outputted

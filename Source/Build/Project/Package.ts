@@ -3,7 +3,8 @@
 import fs from 'fs';
 import path from 'path';
 import isValidPath from 'is-valid-path';
-import { NoPackageJson, PathIsNotDirectory } from '../index';
+import { PathIsNotDirectory } from './PathIsNotDirectory';
+import { NoPackageJson } from './NoPackageJson';
 
 export type PackageObject = {
     /**
@@ -46,7 +47,9 @@ export class Package {
         if (!isValidPath(rootFolder) || !fs.statSync(rootFolder).isDirectory()) {throw new PathIsNotDirectory(rootFolder);}
         this.rootFolder = path.resolve(rootFolder);
         this.path = path.join(rootFolder, Package.packageName);
-        if (!fs.existsSync(this.path)) {throw new NoPackageJson(this.path);}
+        if (!fs.existsSync(this.path)) {
+            throw new NoPackageJson(this.path);
+        }
 
         this.packageObject = JSON.parse(fs.readFileSync(this.path) as any);
 

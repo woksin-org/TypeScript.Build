@@ -4,7 +4,10 @@ import path from 'path';
 import glob from 'glob';
 import isGlob from 'is-glob';
 import fs from 'fs';
-import { Package, Sources, YarnWorkspace, InvalidYarnWorkspace } from '../index';
+import { YarnWorkspace } from './YarnWorkspace';
+import { Package } from './Package';
+import { Sources } from './Sources/index';
+import { InvalidYarnWorkspace } from './InvalidYarnWorkspace';
 
 /**
  * Represents a project
