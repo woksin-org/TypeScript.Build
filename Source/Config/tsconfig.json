@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "pretty": true,
+        "target": "ES2015",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "downlevelIteration": true,
+        "allowSyntheticDefaultImports": true,
+        "stripInternal": true,
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
+        "composite": true,
+        "incremental": true,
+        "watch": true,
+        "noEmitOnError": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "assumeChangesOnlyAffectDirectDependencies": true,
+        "experimentalDecorators": true,
+        "resolveJsonModule": true,
+        "emitDecoratorMetadata": true,
+        "strict": true,
+        "alwaysStrict": true,
+        "preserveConstEnums": true,
+        "newLine": "lf"
+    }
+}
