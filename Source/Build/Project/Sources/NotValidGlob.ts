@@ -1,14 +1,5 @@
-/*---------------------------------------------------------------------------------------------
-*  Copyright (c) Dolittle. All rights reserved.
-*  Licensed under the MIT License. See LICENSE in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
-/**
- * The exception that gets thrown when a glob pattern is not valid
- *
- * @export
- * @class NotValidGlob
- * @extends {Exception}
- */
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 export class NotValidGlob extends Error {
     /**
      * Instantiates an instance of {NotValidGlob}.

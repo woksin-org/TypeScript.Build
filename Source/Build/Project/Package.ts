@@ -1,11 +1,9 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 import fs from 'fs';
 import path from 'path';
 import isValidPath from 'is-valid-path';
-import { NoPackageJson, PathIsNotDirectory } from '../internal';
+import { NoPackageJson, PathIsNotDirectory } from '../index';
 
 export type PackageObject = {
     /**
@@ -36,8 +34,8 @@ export type PackageObject = {
  */
 export class Package {
 
-    static get PACKAGE_NAME() { return 'package.json'; }
-    static get WEBPACK_CONFIG_NAME() {return 'webpack.config.js'; }
+    static get packageName() { return 'package.json'; }
+    static get webpackConfigName() {return 'webpack.config.js'; }
 
     /**
      * Instantiates an instance of {Package}.
@@ -45,16 +43,14 @@ export class Package {
      * @param {Package} [_parentPackage] The parent {Package} if this {Package} is a yarn workspace
      */
     constructor(rootFolder: string, private _parentPackage?: Package) {
-        if (!isValidPath(rootFolder) || !fs.statSync(rootFolder).isDirectory())
-            throw new PathIsNotDirectory(rootFolder);
+        if (!isValidPath(rootFolder) || !fs.statSync(rootFolder).isDirectory()) {throw new PathIsNotDirectory(rootFolder);}
         this.rootFolder = path.resolve(rootFolder);
-        this.path = path.join(rootFolder, Package.PACKAGE_NAME);
-        if (!fs.existsSync(this.path))
-            throw new NoPackageJson(this.path);
+        this.path = path.join(rootFolder, Package.packageName);
+        if (!fs.existsSync(this.path)) {throw new NoPackageJson(this.path);}
 
         this.packageObject = JSON.parse(fs.readFileSync(this.path) as any);
 
-        const webpackConfigPath = path.join(this.rootFolder, Package.WEBPACK_CONFIG_NAME);
+        const webpackConfigPath = path.join(this.rootFolder, Package.webpackConfigName);
         if (fs.existsSync(webpackConfigPath)) {
             this.webpackConfigPath = webpackConfigPath;
         }

@@ -1,5 +1,5 @@
 {
-  "extends": "./TSConfig/tsconfig.base.json",
+  "extends": "@dolittle/typescript.config",
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "Distribution",

@@ -1,11 +1,9 @@
-/*---------------------------------------------------------------------------------------------
-*  Copyright (c) Dolittle. All rights reserved.
-*  Licensed under the MIT License. See LICENSE in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 import fs from 'fs';
 import path from 'path';
 import toUnixPath from 'slash';
-import { YarnWorkspace, Globs, toPatternsThatIgnoreNodeModules, asPossibleFileExtensionsPattern, createGlobPatterns, globAsAbsoluteGlob, StaticFiles, Package } from '../../internal';
+import { YarnWorkspace, Globs, toPatternsThatIgnoreNodeModules, asPossibleFileExtensionsPattern, createGlobPatterns, globAsAbsoluteGlob, StaticFiles, Package } from '../../index';
 
 
 /**
@@ -153,10 +151,11 @@ export class SourceFiles {
             includes: [],
             excludes: []
         };
-        if (this._workspaces.length > 0) this._workspaces.forEach(_ => {
+        if (this._workspaces.length > 0) {
+this._workspaces.forEach(_ => {
             globs.includes.push(...createGlobPatterns(_.sources.sourceFiles.root, globPatterns, _.sources.sourceFiles.root === this._projectRootFolder ? '' : toUnixPath(_.sources.sourceFiles.root.replace(`${this._projectRootFolder}${path.sep}`, ''))));
         });
-        else globs.includes.push(...createGlobPatterns(this.root, globPatterns, this._underSourceFolder === true ? SourceFiles.FOLDER_NAME : undefined));
+} else globs.includes.push(...createGlobPatterns(this.root, globPatterns, this._underSourceFolder === true ? SourceFiles.FOLDER_NAME : undefined));
 
         const excludePatterns = ['node_modules/**/*', '**/node_modules/**/*', ...SourceFiles.getWebpackSpecificExcludes(this._rootPackage), ...SourceFiles.filesToIgnore];
         excludePatterns.forEach(globPattern => {

@@ -1,12 +1,10 @@
-/*---------------------------------------------------------------------------------------------
-*  Copyright (c) Dolittle. All rights reserved.
-*  Licensed under the MIT License. See LICENSE in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 import path from 'path';
 import glob from 'glob';
 import isGlob from 'is-glob';
 import fs from 'fs';
-import { Package, Sources, YarnWorkspace, InvalidYarnWorkspace } from '../internal';
+import { Package, Sources, YarnWorkspace, InvalidYarnWorkspace } from '../index';
 
 /**
  * Represents a project
@@ -98,8 +96,7 @@ export class Project {
                         throw new InvalidYarnWorkspace(workspacePath, error);
                     }
                 });
-            }
-            else {
+            } else {
                 try {
                     if (fs.statSync(workspace).isDirectory()) {
                         const workspacePackage = new Package(workspace, this.rootPackage);
