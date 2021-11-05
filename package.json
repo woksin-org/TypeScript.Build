@@ -1,8 +1,8 @@
 {
-    "name": "@dolittle/typescript.build",
+    "name": "@dolittle/typescript",
     "private": "true",
     "workspaces": [
-        "Source/**"
+        "Source/*"
     ],
     "scripts": {
         "ci": "yarn workspaces run ci"
