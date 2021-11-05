@@ -7,7 +7,7 @@
         "url": "https://github.com/dolittle/TypeScript.Build.git"
     },
     "homepage": "https://dolittle.io/",
-    "license": "ISC",
+    "license": "MIT",
     "publishConfig": {
         "access": "public"
     },
@@ -17,6 +17,7 @@
     "dependencies": {
         "@dolittle/typescript.config": "6.0.1",
         "@dolittle/eslint-config": "6.0.1",
+        "eslint": "8.1.0",
         "typescript": "4.4.4"
     }
 }

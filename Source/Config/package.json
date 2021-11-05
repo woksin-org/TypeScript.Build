@@ -7,7 +7,7 @@
         "url": "https://github.com/dolittle/TypeScript.Build.git"
     },
     "homepage": "https://dolittle.io/",
-    "license": "ISC",
+    "license": "MIT",
     "publishConfig": {
         "access": "public"
     },
