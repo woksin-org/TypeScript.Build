@@ -1,3 +1,13 @@
+# [6.0.1] - 2021-11-5 [PR: #36](https://github.com/dolittle/TypeScript.Build/pull/36)
+## Summary
+
+Fixes the eslint package name
+
+### Changed
+
+- eslint coniguration package name
+
+
 # [6.0.0] - 2021-11-5 [PR: #35](https://github.com/dolittle/TypeScript.Build/pull/35)
 ## Summary
 
