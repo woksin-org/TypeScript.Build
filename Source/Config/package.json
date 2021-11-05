@@ -1,6 +1,6 @@
 {
     "name": "@dolittle/typescript.config",
-    "version": "6.0.0-rc.20",
+    "version": "6.0.1",
     "description": "Base Typescript configuration for Dolittle TypeScript projects",
     "repository": {
         "type": "git",
