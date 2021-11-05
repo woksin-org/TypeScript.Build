@@ -6,48 +6,17 @@
         "type": "git",
         "url": "https://github.com/dolittle/TypeScript.Build.git"
     },
-    "homepage": "https://dolittle.io/tooling/typescript/build",
+    "homepage": "https://dolittle.io/",
     "license": "ISC",
     "publishConfig": {
         "access": "public"
     },
-    "main": "Distribution/index.js",
-    "types": "Distribution/index.d.ts",
-    "files": [
-        "Distribution"
-    ],
     "scripts": {
-        "prebuild": "yarn clean",
-        "postbuild": "yarn lint",
-        "build": "tsc -b tsconfig.json ",
-        "clean": "tsc -b --clean ",
-        "lint:fix": "eslint \"**/*.ts\" --fix",
-        "lint": "eslint \"**/*.ts\"",
-        "ci": "yarn build"
+        "ci": "echo nop"
     },
     "dependencies": {
-        "@types/chai": "4.2.21",
-        "@types/chai-as-promised": "7.1.4",
-        "@types/mocha": "9.0.0",
-        "@types/sinon": "10.0.2",
-        "@types/sinon-chai": "3.2.5",
-        "chai": "4.3.4",
-        "chai-as-promised": "7.1.1",
-        "mocha": "9.1.0",
-        "sinon": "11.1.2",
-        "sinon-chai": "3.7.0",
-        "ts-sinon": "2.0.1",
-        "@dolittle/eslint-config-typescript": "6.0.0-rc.20",
         "@dolittle/typescript.config": "6.0.0-rc.20",
-        "glob": "7.1.7",
-        "is-glob": "4.0.1",
-        "slash": "4.0.0",
-        "typescript": "4.3.5"
-    },
-    "devDependencies": {
-        "@types/glob": "7.1.4",
-        "@types/is-glob": "4.0.2",
-        "@types/is-valid-path": "0.1.0",
-        "@types/node": "16.7.1"
+        "eslint-config-dolittle": "6.0.0-rc.20",
+        "typescript": "4.4.4"
     }
 }

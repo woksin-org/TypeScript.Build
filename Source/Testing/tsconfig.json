@@ -1,0 +1,12 @@
+{
+    "extends": "@dolittle/typescript.config",
+    "compilerOptions": {
+      "rootDir": "./",
+      "outDir": "Distribution",
+      "declarationDir": "Distribution",
+      "baseUrl": "./",
+      "sourceRoot": "./",
+    },
+    "exclude": ["node_modules", "Distribution"],
+    "include": ["**/*.ts"] 
+  }
