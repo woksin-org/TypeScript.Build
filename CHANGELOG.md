@@ -1,3 +1,9 @@
+# [6.0.2] - 2021-11-5 [PR: #37](https://github.com/dolittle/TypeScript.Build/pull/37)
+## Summary
+
+Add eslint package to build package and fix licenses
+
+
 # [6.0.1] - 2021-11-5 [PR: #36](https://github.com/dolittle/TypeScript.Build/pull/36)
 ## Summary
 
