@@ -1,3 +1,13 @@
+# [6.0.3] - 2022-12-5 [PR: #38](https://github.com/dolittle/TypeScript.Build/pull/38)
+## Summary
+
+Updates dependencies
+
+### Changed
+
+- Use latest non-breaking versions of dependencies
+
+
 # [6.0.2] - 2021-11-5 [PR: #37](https://github.com/dolittle/TypeScript.Build/pull/37)
 ## Summary
 
