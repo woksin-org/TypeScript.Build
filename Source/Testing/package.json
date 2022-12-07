@@ -1,6 +1,6 @@
 {
     "name": "@dolittle/typescript.testing",
-    "version": "6.0.4",
+    "version": "6.0.5",
     "description": "Building blocks for setting up testing in Dolittle TypeScript projects",
     "repository": {
         "type": "git",
@@ -45,5 +45,5 @@
     "devDependencies": {
         "@dolittle/typescript.build": "6.0.3"
     },
-    "devDependencies.@dolittle/typescript\\.build": "6.0.4"
+    "devDependencies.@dolittle/typescript\\.build": "6.0.5"
 }
