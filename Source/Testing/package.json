@@ -15,7 +15,8 @@
     "types": "Distribution/index.d.ts",
     "files": [
         "Distribution",
-        ".mocharc.js"
+        ".mocharc.js",
+        "**/*.ts"
     ],
     "scripts": {
         "prebuild": "yarn clean",
