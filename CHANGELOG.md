@@ -1,3 +1,9 @@
+# [6.0.5] - 2022-12-7 [PR: #40](https://github.com/dolittle/TypeScript.Build/pull/40)
+## Summary
+
+Fix Testing package.json and tsconfig
+
+
 # [6.0.4] - 2022-12-7 [PR: #39](https://github.com/dolittle/TypeScript.Build/pull/39)
 ## Summary
 
