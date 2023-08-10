@@ -1,12 +1,11 @@
 {
-    "name": "@dolittle/eslint-config",
+    "name": "@woksin/eslint-config",
     "version": "6.0.5",
-    "description": "The base eslint configuration for Dolittle TypeScript projects",
+    "description": "The base eslint configuration for TypeScript projects",
     "repository": {
         "type": "git",
-        "url": "https://github.com/dolittle/TypeScript.Build.git"
+        "url": "https://github.com/woksin-org/TypeScript.Build.git"
     },
-    "homepage": "https://dolittle.io/",
     "license": "MIT",
     "publishConfig": {
         "access": "public"

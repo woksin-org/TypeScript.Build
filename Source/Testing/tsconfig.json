@@ -1,5 +1,5 @@
 {
-    "extends": "@dolittle/typescript.config",
+    "extends": "@woksin/typescript.config",
     "compilerOptions": {
       "outDir": "Distribution",
       "sourceRoot": "../",
@@ -7,3 +7,4 @@
     "exclude": ["node_modules", "Distribution"],
     "include": ["**/*.ts"] 
   }
+  

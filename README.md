@@ -5,7 +5,7 @@ Everything that is common among any TypeScript project, be it a node or browser 
 
 The idea is that this package serves as a foundation to build specific tools for building node and browser applications.
 
-Read the documentation [here](https://dolittle.io/tooling/typescript/build)
+Read the documentation [here](./Documentation/_index.md)
 
 ## Dependencies
 
@@ -20,16 +20,11 @@ This package also provides every dependency you'd need to perform tests using th
 ## Mocking
 
 Sinon
-[To be documented]
 
 ## Assertions
 
 Chai
 Sinon Chai
 Sinon Chai in Order
-[To be documented]
 
-## Issues and Contributing
-To learn how to contribute please read our [contributing](https://dolittle.io/contributing/) guide.
-
-File issues to our [Home](https://github.com/dolittle/Home/issues) repository.
+File issues to our [Home](https://github.com/woksin-org/TypeScript.Build/issues) repository.
