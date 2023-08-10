@@ -16,7 +16,7 @@
     "dependencies": {
         "@woksin/typescript.config": "6.0.5",
         "@woksin/eslint-config": "6.0.5",
-        "eslint": "8.29.0",
-        "typescript": "4.9.3"
+        "eslint": "8.46.0",
+        "typescript": "5.1.6"
     }
 }
