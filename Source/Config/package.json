@@ -1,12 +1,11 @@
 {
-    "name": "@dolittle/typescript.config",
+    "name": "@woksin/typescript.config",
     "version": "6.0.5",
-    "description": "Base Typescript configuration for Dolittle TypeScript projects",
+    "description": "Base Typescript configuration for TypeScript projects",
     "repository": {
         "type": "git",
-        "url": "https://github.com/dolittle/TypeScript.Build.git"
+        "url": "https://github.com/woksin-org/TypeScript.Build.git"
     },
-    "homepage": "https://dolittle.io/",
     "license": "MIT",
     "publishConfig": {
         "access": "public"

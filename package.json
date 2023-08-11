@@ -1,5 +1,5 @@
 {
-    "name": "@dolittle/typescript",
+    "name": "@woksin/typescript",
     "private": "true",
     "workspaces": [
         "Source/*"
