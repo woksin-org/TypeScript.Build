@@ -1,6 +1,6 @@
 {
     "name": "@woksin/typescript.testing",
-    "version": "6.0.8",
+    "version": "6.0.9",
     "description": "Building blocks for setting up testing in TypeScript projects",
     "repository": {
         "type": "git",
@@ -45,6 +45,6 @@
         "ts-node": "10.9.1"
     },
     "devDependencies": {
-        "@woksin/typescript.build": "6.0.8"
+        "@woksin/typescript.build": "6.0.9"
     }
 }
