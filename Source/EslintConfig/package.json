@@ -1,6 +1,6 @@
 {
     "name": "@woksin/eslint-config",
-    "version": "6.0.6",
+    "version": "6.0.7",
     "description": "The base eslint configuration for TypeScript projects",
     "repository": {
         "type": "git",
@@ -12,7 +12,10 @@
     },
     "main": ".eslintrc.js",
     "files": [
-        ".eslintrc.js"
+        ".eslintrc.js",
+        "../../README.md",
+        "../../CHANGELOG.md",
+        "../../LICENSE"
     ],
     "scripts": {
         "ci": "echo nop"
