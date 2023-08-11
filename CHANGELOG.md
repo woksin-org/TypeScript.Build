@@ -1,3 +1,9 @@
+# [6.0.8] - 2023-8-11 [PR: #5](https://github.com/woksin-org/TypeScript.Build/pull/5)
+## Summary
+
+Add metadata to packages
+
+
 # [6.0.5] - 2022-12-7 [PR: #40](https://github.com/dolittle/TypeScript.Build/pull/40)
 ## Summary
 
