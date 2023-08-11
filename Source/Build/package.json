@@ -1,6 +1,6 @@
 {
     "name": "@woksin/typescript.build",
-    "version": "6.0.7",
+    "version": "6.0.8",
     "description": "Base build pipeline for TypeScript projects",
     "repository": {
         "type": "git",
@@ -23,5 +23,7 @@
         "../../README.md",
         "../../CHANGELOG.md",
         "../../LICENSE"
-    ]
+    ],
+    "dependencies.@woksin/typescript\\.config": "6.0.8",
+    "dependencies.@woksin/eslint-config": "6.0.8"
 }

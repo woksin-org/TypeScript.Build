@@ -1,6 +1,6 @@
 {
     "name": "@woksin/eslint-config",
-    "version": "6.0.7",
+    "version": "6.0.8",
     "description": "The base eslint configuration for TypeScript projects",
     "repository": {
         "type": "git",
