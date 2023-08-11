@@ -1,3 +1,9 @@
+# [6.0.10] - 2023-8-11 [PR: #7](https://github.com/woksin-org/TypeScript.Build/pull/7)
+## Summary
+
+Release again
+
+
 # [6.0.9] - 2023-8-11 [PR: #6](https://github.com/woksin-org/TypeScript.Build/pull/6)
 ## Summary
 
