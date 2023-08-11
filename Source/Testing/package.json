@@ -46,6 +46,5 @@
     },
     "devDependencies": {
         "@woksin/typescript.build": "6.0.8"
-    },
-    "devDependencies.@woksin/typescript\\.build": "6.0.8"
+    }
 }

@@ -23,7 +23,5 @@
         "../../README.md",
         "../../CHANGELOG.md",
         "../../LICENSE"
-    ],
-    "dependencies.@woksin/typescript\\.config": "6.0.8",
-    "dependencies.@woksin/eslint-config": "6.0.8"
+    ]
 }
