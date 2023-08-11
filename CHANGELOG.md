@@ -1,3 +1,9 @@
+# [6.0.9] - 2023-8-11 [PR: #6](https://github.com/woksin-org/TypeScript.Build/pull/6)
+## Summary
+
+Some issues with releasing the package was resolved
+
+
 # [6.0.8] - 2023-8-11 [PR: #5](https://github.com/woksin-org/TypeScript.Build/pull/5)
 ## Summary
 
