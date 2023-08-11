@@ -45,7 +45,6 @@
         "ts-node": "10.9.1"
     },
     "devDependencies": {
-        "@woksin/typescript.build": "6.0.7"
-    },
-    "devDependencies.@woksin/typescript\\.build": "6.0.8"
+        "@woksin/typescript.build": "6.0.8"
+    }
 }
