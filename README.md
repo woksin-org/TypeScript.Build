@@ -1,11 +1,10 @@
-This project represents a base build pipeline for TypeScript based projects.
-Everything that is common among any TypeScript project, be it a node or browser (client) based, is found here.
+## Issues
+
+File issues [here](https://github.com/woksin-org/TypeScript.Build/issues).
 
 ## Using it
 
 The idea is that this package serves as a foundation to build specific tools for building node and browser applications.
-
-Read the documentation [here](./Documentation/_index.md)
 
 ## Dependencies
 
@@ -26,5 +25,3 @@ Sinon
 Chai
 Sinon Chai
 Sinon Chai in Order
-
-File issues to our [Home](https://github.com/woksin-org/TypeScript.Build/issues) repository.

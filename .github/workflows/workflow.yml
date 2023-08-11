@@ -22,7 +22,7 @@ jobs:
       - run: yarn
         name: Install dependencies
       - run: yarn ci
-        name: Run CI
+        name: Build, Lint and Test
       - name: Establish context
         id: context
         uses: woksin-org/establish-context-action@v2
@@ -44,7 +44,7 @@ jobs:
           pr-url: ${{ steps.context.outputs.pr-url }}
           changelog-path: CHANGELOG.md
           user-email: build@woksin-org.com
-          user-name: woksin-org-build
+          user-name: woksin
 
       - name: Create GitHub Release
         if: ${{ steps.context.outputs.should-publish == 'true' }}
