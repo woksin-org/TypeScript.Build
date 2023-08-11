@@ -43,7 +43,7 @@ jobs:
           body: ${{ steps.context.outputs.pr-body }}
           pr-url: ${{ steps.context.outputs.pr-url }}
           changelog-path: CHANGELOG.md
-          user-email: woksin.sindre@gmail.com
+          user-email: sindrewilting@gmail.com
           user-name: woksin
 
       - name: Create GitHub Release
@@ -60,7 +60,7 @@ jobs:
         with:
           version: ${{ steps.increment-version.outputs.next-version }}
           root: "."
-          user-email: woksin.sindre@gmail.com
+          user-email: sindrewilting@gmail.com
           user-name: woksin
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN_NPM }}
