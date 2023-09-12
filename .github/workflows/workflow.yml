@@ -19,9 +19,13 @@ jobs:
         with:
           node-version: 16.x
           registry-url: "https://registry.npmjs.org"
-      - run: yarn
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      - run: bun install
         name: Install dependencies
-      - run: yarn ci
+      - run: bun run ci
         name: Build, Lint and Test
       - name: Establish context
         id: context

@@ -21,14 +21,14 @@
         "../../LICENSE"
     ],
     "scripts": {
-        "prebuild": "yarn clean",
-        "postbuild": "yarn lint",
+        "prebuild": "bun run clean",
+        "postbuild": "bun run lint",
         "build": "tsc -b tsconfig.json ",
         "clean": "tsc -b --clean ",
         "lint:fix": "eslint \"**/*.ts\" --fix",
         "lint": "eslint \"**/*.ts\"",
         "test": "mocha",
-        "ci": "yarn build && yarn test"
+        "ci": "bun run build && bun run test"
     },
     "dependencies": {
         "@types/chai": "4.3.5",
